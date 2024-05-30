@@ -6,12 +6,14 @@ class BaseScreen extends StatelessWidget {
   final Widget child;
   final int selectedIndex;
   final double contentWidth;
+  final Widget title;
 
   const BaseScreen({
     super.key,
     required this.child,
     required this.selectedIndex,
-    this.contentWidth = 600
+    this.contentWidth = 600,
+    required this.title
   });
 
   void _onItemTapped(BuildContext context, int index) {
@@ -35,7 +37,7 @@ class BaseScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('EventFlow'),
+        title: title,
       ),
       body: Center(
         child: Container(

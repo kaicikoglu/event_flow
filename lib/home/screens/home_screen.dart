@@ -22,6 +22,7 @@ class _HomeContentState extends State<HomeContent> {
   @override
   Widget build(BuildContext context) {
     return BaseScreen(
+      title: const Center(child: Text('Mein EventFlow')),
       selectedIndex: 0,
       child: Column(
         children: [

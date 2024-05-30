@@ -24,6 +24,7 @@ class EventScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseScreen(
+      title: Text(title),
       selectedIndex: 0,
       child: Padding(
         padding: const EdgeInsets.all(16.0),
