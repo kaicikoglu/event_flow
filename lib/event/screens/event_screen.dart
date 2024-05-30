@@ -1,4 +1,5 @@
 // lib/screens/event_detail_screen.dart
+import 'package:event_flow/forum/screens/forum_screen.dart';
 import 'package:event_flow/widgets/base_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -86,7 +87,12 @@ class EventScreen extends StatelessWidget {
                 mainAxisSpacing: 16,
                 children: [
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const ForumScreen()));
+                    },
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15.0),
