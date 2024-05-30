@@ -1,23 +1,36 @@
+// lib/screens/home_content.dart
+import 'package:event_flow/widgets/base_screen.dart';
 import 'package:flutter/material.dart';
-import 'event_card.dart'; // Make sure to create this file for the EventCard widget
+import '../widgets/event_card.dart'; // Ensure this file exists with the EventCard widget
 
-class HomeContent extends StatelessWidget {
+class HomeContent extends StatefulWidget {
   const HomeContent({super.key});
 
   @override
+  _HomeContentState createState() => _HomeContentState();
+}
+
+class _HomeContentState extends State<HomeContent> {
+  final TextEditingController _searchController = TextEditingController();
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
+    return BaseScreen(
+      selectedIndex: 0,
       child: Column(
         children: [
-          TextField(
-            decoration: InputDecoration(
-              prefixIcon: const Icon(Icons.search),
-              hintText: 'Event Suchen...',
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(30.0),
-              ),
-            ),
+          SearchBar(
+            hintText: 'Event Suchen...',
+            controller: _searchController,
+            onChanged: (value) {
+              // Handle the search input here if needed
+            },
           ),
           const SizedBox(height: 16),
           Expanded(
