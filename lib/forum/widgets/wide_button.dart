@@ -20,14 +20,12 @@ class CustomWideButton extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           padding: const EdgeInsets.symmetric(vertical: 16.0),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15.0),
-          ),
+              borderRadius: BorderRadius.circular(15.0),
+              side: const BorderSide(
+                  color: Color.fromRGBO(73, 81, 86, 100), width: 1.0)),
         ),
         child: Text(text),
       ),
-
-
     );
-
   }
 }

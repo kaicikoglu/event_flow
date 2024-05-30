@@ -1,8 +1,10 @@
-// lib/screens/event_detail_screen.dart
-import 'package:event_flow/forum/screens/forum_screen.dart';
+import 'package:event_flow/event/widgets/button_grid_view.dart';
+import 'package:event_flow/event/widgets/info_box.dart';
+import 'package:event_flow/event/widgets/theme_button.dart';
 import 'package:event_flow/widgets/base_screen.dart';
 import 'package:flutter/material.dart';
 
+import '../../forum/screens/forum_screen.dart';
 import '../widgets/wide_button.dart';
 
 class EventScreen extends StatelessWidget {
@@ -33,35 +35,26 @@ class EventScreen extends StatelessWidget {
             Card(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(15.0),
+                side: const BorderSide(
+                    color: Color.fromRGBO(73, 81, 86, 100), width: 1.0),
               ),
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      children: [
-                        const Icon(Icons.calendar_today),
-                        const SizedBox(width: 8),
-                        Text(date),
-                        const SizedBox(width: 16),
-                        const Icon(Icons.access_time),
-                        const SizedBox(width: 8),
-                        Text(time),
-                      ],
-                    ),
+                    Center(
+                        child: InfoBox(
+                            icon1: Icons.calendar_today,
+                            text1: date,
+                            icon2: Icons.access_time,
+                            text2: time)),
                     const SizedBox(height: 8),
-                    Row(
-                      children: [
-                        const Icon(Icons.location_on),
-                        const SizedBox(width: 8),
-                        Text(location),
-                        const SizedBox(width: 16),
-                        const Icon(Icons.person),
-                        const SizedBox(width: 8),
-                        Text(attendees),
-                      ],
-                    ),
+                    Center(
+                        child: InfoBox(
+                            icon1: Icons.location_on,
+                            text1: location,
+                            icon2: Icons.person,
+                            text2: attendees)),
                   ],
                 ),
               ),
@@ -69,9 +62,7 @@ class EventScreen extends StatelessWidget {
             const SizedBox(height: 16),
             CustomWideButton(
               text: 'Teilnehmerliste bearbeiten',
-              onPressed: () {
-                // Define your onPressed action here
-              },
+              onPressed: () {},
             ),
             const SizedBox(height: 8),
             CustomWideButton(
@@ -81,83 +72,26 @@ class EventScreen extends StatelessWidget {
               },
             ),
             const SizedBox(height: 16),
-            Expanded(
-              child: GridView.count(
-                crossAxisCount: 2,
-                crossAxisSpacing: 16,
-                mainAxisSpacing: 16,
-                children: [
-                  ElevatedButton(
+            ButtonGridView(
+              children: [
+                ThemeButton(
+                    icon: Icons.forum,
+                    text: "Forum",
                     onPressed: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => const ForumScreen()));
-                    },
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15.0),
-                      ),
-                    ),
-                    child: const Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.forum, size: 40),
-                        SizedBox(height: 8),
-                        Text('Forum'),
-                      ],
-                    ),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15.0),
-                      ),
-                    ),
-                    child: const Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.check_box, size: 40),
-                        SizedBox(height: 8),
-                        Text('To-Dos'),
-                      ],
-                    ),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15.0),
-                      ),
-                    ),
-                    child: const Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.how_to_vote, size: 40),
-                        SizedBox(height: 8),
-                        Text('Vote-Area'),
-                      ],
-                    ),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15.0),
-                      ),
-                    ),
-                    child: const Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.cloud, size: 40),
-                        SizedBox(height: 8),
-                        Text('Ressourcen'),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+                    }),
+                ThemeButton(
+                    icon: Icons.how_to_vote,
+                    text: "Vote-Area",
+                    onPressed: () {}),
+                ThemeButton(
+                    icon: Icons.cloud, text: "Ressourcen", onPressed: () {}),
+                ThemeButton(
+                    icon: Icons.check_box, text: "To-Dos", onPressed: () {}),
+              ],
             ),
           ],
         ),

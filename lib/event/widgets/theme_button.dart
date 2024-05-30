@@ -1,12 +1,13 @@
-// lib/widgets/custom_wide_button.dart
 import 'package:flutter/material.dart';
 
-class CustomWideButton extends StatelessWidget {
+class ThemeButton extends StatelessWidget {
+  final IconData icon;
   final String text;
   final VoidCallback onPressed;
 
-  const CustomWideButton({
+  const ThemeButton({
     super.key,
+    required this.icon,
     required this.text,
     required this.onPressed,
   });
@@ -20,11 +21,18 @@ class CustomWideButton extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           padding: const EdgeInsets.symmetric(vertical: 16.0),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15.0),
-            side: const BorderSide(color: Color.fromRGBO(73, 81, 86, 100), width: 1.0)
-          ),
+              borderRadius: BorderRadius.circular(15.0),
+              side: const BorderSide(
+                  color: Color.fromRGBO(73, 81, 86, 100), width: 1.0)),
         ),
-        child: Text(text),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, size: 40),
+            const SizedBox(height: 8),
+            Text(text),
+          ],
+        ),
       ),
     );
   }

@@ -38,7 +38,7 @@ class EventCard extends StatelessWidget {
         margin: const EdgeInsets.only(bottom: 16),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15.0),
-          side: BorderSide(color: Theme.of(context).primaryColorDark, width: 2.0), // Set the border color here
+          side: const BorderSide(color: Color.fromRGBO(73, 81, 86, 100), width: 1.0), // Set the border color here
         ),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
