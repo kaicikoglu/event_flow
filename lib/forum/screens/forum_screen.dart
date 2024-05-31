@@ -1,9 +1,9 @@
+import 'package:event_flow/forum/screens/forum_topic_screen.dart';
 import 'package:event_flow/widgets/base_screen.dart';
 import 'package:flutter/material.dart';
-
 import '../../widgets/floating_action_button.dart';
-import '../widgets/create_topic_dialog.dart';
 import '../widgets/wide_button.dart';
+import '../widgets/create_topic_dialog.dart';
 
 class ForumScreen extends StatefulWidget {
   const ForumScreen({super.key});
@@ -39,7 +39,12 @@ class _ForumScreenState extends State<ForumScreen> {
           CustomWideButton(
             text: 'Teilnehmerliste bearbeiten',
             onPressed: () {
-              // Define your onPressed action here
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const ForumTopicScreen(title: 'Teilnehmerliste bearbeiten' ),
+                ),
+              );
             },
           ),
           const SizedBox(height: 8),
