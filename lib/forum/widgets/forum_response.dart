@@ -1,27 +1,19 @@
 import 'package:flutter/material.dart';
 
-class ForumResponse {
+class ForumResponseWidget extends StatelessWidget {
   final String author;
   final String response;
 
-  ForumResponse({
-    required this.author,
-    required this.response,
-  });
-}
-
-class ForumResponseWidget extends StatelessWidget {
-  final ForumResponse response;
-
   const ForumResponseWidget({
-    Key? key,
+    super.key,
     required this.response,
-  }) : super(key: key);
+    required this.author,
+  });
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text('${response.author}: ${response.response}'),
+      title: Text('$author: $response'),
     );
   }
 }

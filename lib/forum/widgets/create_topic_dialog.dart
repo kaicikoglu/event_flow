@@ -3,15 +3,14 @@ import 'package:flutter/material.dart';
 class CreateTopicButton extends StatelessWidget {
   final VoidCallback onPressed;
 
-  CreateTopicButton({required this.onPressed});
+  const CreateTopicButton({super.key, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       title: const Text('Thema erstellen'),
       content: const TextField(
-        decoration:
-        InputDecoration(hintText: "Geben Sie hier Ihr Thema ein"),
+        decoration: InputDecoration(hintText: "Geben Sie hier Ihr Thema ein"),
         maxLength: 10, // Begrenzt die Eingabe auf 10 Zeichen
       ),
       actions: <Widget>[
@@ -25,4 +24,3 @@ class CreateTopicButton extends StatelessWidget {
     );
   }
 }
-
