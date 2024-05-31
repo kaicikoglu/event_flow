@@ -7,13 +7,18 @@ class BaseScreen extends StatelessWidget {
   final int selectedIndex;
   final double contentWidth;
   final Widget title;
+  final Widget? floatingActionButton; // Add this line
+  final FloatingActionButtonLocation? floatingActionButtonLocation; // Add this line
+
 
   const BaseScreen({
     super.key,
     required this.child,
     required this.selectedIndex,
     this.contentWidth = 600,
-    required this.title
+    required this.title,
+    this.floatingActionButton,
+    this.floatingActionButtonLocation,
   });
 
   void _onItemTapped(BuildContext context, int index) {
@@ -46,6 +51,8 @@ class BaseScreen extends StatelessWidget {
           child: child,
         ),
       ),
+      floatingActionButton: floatingActionButton, // Add this line
+      floatingActionButtonLocation: floatingActionButtonLocation, // Add this line
       bottomNavigationBar: CustomBottomNavBar(
         selectedIndex: selectedIndex,
         onItemTapped: (index) => _onItemTapped(context, index),

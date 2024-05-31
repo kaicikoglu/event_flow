@@ -5,7 +5,6 @@ import '../../widgets/floating_action_button.dart';
 import '../widgets/wide_button.dart';
 import '../widgets/create_topic_dialog.dart';
 
-
 class ForumScreen extends StatefulWidget {
   const ForumScreen({super.key});
 
