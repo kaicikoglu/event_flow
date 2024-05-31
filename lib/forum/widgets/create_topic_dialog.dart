@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class CreateTopicButton extends StatelessWidget {
   final VoidCallback onPressed;
 
-  CreateTopicButton({required this.onPressed});
+  const CreateTopicButton({super.key, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
