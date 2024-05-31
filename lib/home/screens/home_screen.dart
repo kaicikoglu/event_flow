@@ -1,4 +1,3 @@
-// lib/screens/home_content.dart
 import 'package:event_flow/widgets/floating_action_button.dart';
 import 'package:event_flow/home/widgets/search_bar.dart';
 import 'package:event_flow/widgets/base_screen.dart';
