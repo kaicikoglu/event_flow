@@ -1,6 +1,9 @@
 // lib/screens/home_content.dart
+import 'package:event_flow/widgets/floating_action_button.dart';
+import 'package:event_flow/home/widgets/search_bar.dart';
 import 'package:event_flow/widgets/base_screen.dart';
 import 'package:flutter/material.dart';
+
 import '../widgets/event_card.dart'; // Ensure this file exists with the EventCard widget
 
 class HomeContent extends StatefulWidget {
@@ -24,15 +27,18 @@ class _HomeContentState extends State<HomeContent> {
     return BaseScreen(
       title: const Center(child: Text('Mein EventFlow')),
       selectedIndex: 0,
+      floatingActionButton: CustomFAB(onPressed: () {
+        // Handle the FAB press here
+      }),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       child: Column(
         children: [
-          SearchBar(
-            hintText: 'Event Suchen...',
-            controller: _searchController,
-            onChanged: (value) {
-              // Handle the search input here if needed
-            },
-          ),
+          CustomSearchBar(
+              hintText: 'Suche nach Events',
+              controller: _searchController,
+              onChanged: (value) {
+                // Handle the search bar input here
+              }),
           const SizedBox(height: 16),
           Expanded(
             child: ListView(
