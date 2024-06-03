@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../widgets/forum_response.dart';
-import '../widgets/question_widget.dart';
+import '../widgets/question.dart';
 
 class ForumTopicScreen extends StatefulWidget {
   final String title;

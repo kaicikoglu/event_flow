@@ -5,7 +5,7 @@ import 'package:event_flow/widgets/base_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../forum/screens/forum_screen.dart';
-import '../widgets/wide_button.dart';
+import '../../widgets/wide_button.dart';
 
 class EventScreen extends StatelessWidget {
   final String title;
