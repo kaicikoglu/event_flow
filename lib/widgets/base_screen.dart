@@ -1,5 +1,6 @@
 // lib/widgets/base_screen.dart
 import 'package:flutter/material.dart';
+
 import 'navbar.dart'; // Ensure the path is correct
 
 class BaseScreen extends StatelessWidget {
@@ -8,8 +9,8 @@ class BaseScreen extends StatelessWidget {
   final double contentWidth;
   final Widget title;
   final Widget? floatingActionButton; // Add this line
-  final FloatingActionButtonLocation? floatingActionButtonLocation; // Add this line
-
+  final FloatingActionButtonLocation?
+      floatingActionButtonLocation; // Add this line
 
   const BaseScreen({
     super.key,
@@ -51,8 +52,10 @@ class BaseScreen extends StatelessWidget {
           child: child,
         ),
       ),
-      floatingActionButton: floatingActionButton, // Add this line
-      floatingActionButtonLocation: floatingActionButtonLocation, // Add this line
+      floatingActionButton: floatingActionButton,
+      // Add this line
+      floatingActionButtonLocation: floatingActionButtonLocation,
+      // Add this line
       bottomNavigationBar: CustomBottomNavBar(
         selectedIndex: selectedIndex,
         onItemTapped: (index) => _onItemTapped(context, index),

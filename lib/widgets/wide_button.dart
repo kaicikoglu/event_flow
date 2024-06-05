@@ -1,4 +1,3 @@
-// lib/widgets/custom_wide_button.dart
 import 'package:flutter/material.dart';
 
 class CustomWideButton extends StatelessWidget {
@@ -20,9 +19,10 @@ class CustomWideButton extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           padding: const EdgeInsets.symmetric(vertical: 16.0),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15.0),
-            side: const BorderSide(color: Color.fromRGBO(73, 81, 86, 100), width: 1.0)
-          ),
+              borderRadius: BorderRadius.circular(15.0),
+              side: const BorderSide(
+                  color: Color.fromRGBO(73, 81, 86, 100), width: 1.0)),
+          alignment: Alignment.bottomCenter,
         ),
         child: Text(text),
       ),
