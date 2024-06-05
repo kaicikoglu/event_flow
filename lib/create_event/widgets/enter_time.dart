@@ -3,12 +3,17 @@ import 'package:flutter/material.dart';
 class EnterTime extends StatefulWidget {
   final String argument;
   final double width;
+  final double height;
   final TextEditingController controller;
+  final String? Function(String?)? validator;
 
   const EnterTime({
     super.key,
     required this.argument,
-    required this.width, required this.controller,
+    required this.width,
+    required this.height,
+    required this.controller,
+    this.validator,
   });
 
   @override
@@ -17,6 +22,7 @@ class EnterTime extends StatefulWidget {
 
 class _EnterTimeState extends State<EnterTime> {
   TimeOfDay selectedTime = TimeOfDay.now();
+  Color color = const Color.fromRGBO(73, 81, 86, 100);
 
   Future<void> _selectTime(BuildContext context) async {
     final TimeOfDay? picked = await showTimePicker(
@@ -41,43 +47,66 @@ class _EnterTimeState extends State<EnterTime> {
             fontSize: 16,
           ),
         ),
-        const Spacer(), // Pushes the input field to the right
+        const Spacer(),
         SizedBox(
           width: widget.width,
-          child: OutlinedButton(
-            onPressed: () => _selectTime(context),
-            style: OutlinedButton.styleFrom(
-              side: const BorderSide(
-                color: Color.fromRGBO(73, 81, 86, 100),
-                width: 1.0,
-              ),
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(15.0)),
-              ),
-            ),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Row(
+          height: widget.height,
+          child: FormField<String>(
+            validator: widget.validator,
+            builder: (FormFieldState<String> state) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Added space between icon and text
-                  Text(
-                    widget.controller.text,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      color: Colors.black,
-                      fontWeight: FontWeight.w400,
+                  OutlinedButton(
+                    onPressed: () {
+                      _selectTime(context);
+                      color = Colors.black;
+                      state.didChange(widget.controller.text);
+                    },
+                    style: OutlinedButton.styleFrom(
+                      side: const BorderSide(
+                        color: Color.fromRGBO(73, 81, 86, 100),
+                        width: 1.0,
+                      ),
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                      ),
+                    ),
+                    child: Row(
+                      children: [
+                        Text(
+                          widget.controller.text.isEmpty
+                              ? 'Select Time'
+                              : widget.controller.text,
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: color,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        const Spacer(),
+                        const Icon(
+                          Icons.access_time_outlined,
+                          size: 20.0,
+                          color: Colors.black,
+                        ),
+                      ],
                     ),
                   ),
-                  const Spacer(),
-                  const Icon(
-                    Icons.access_time_outlined,
-                    size: 20.0,
-                    color: Colors.black,
-                  ),
-                  // Added clock icon here
+                  if (state.hasError)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 5.0),
+                      child: Text(
+                        state.errorText ?? '',
+                        style: const TextStyle(
+                          color: Colors.redAccent,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ),
                 ],
-              ),
-            ),
+              );
+            },
           ),
         ),
       ],

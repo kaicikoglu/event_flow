@@ -4,13 +4,17 @@ import 'package:intl/intl.dart';
 class EnterDate extends StatefulWidget {
   final String argument;
   final double width;
+  final double height;
   final TextEditingController controller;
+  final String? Function(String?)? validator;
 
   const EnterDate({
     super.key,
     required this.argument,
     required this.width,
+    required this.height,
     required this.controller,
+    this.validator,
   });
 
   @override
@@ -19,6 +23,7 @@ class EnterDate extends StatefulWidget {
 
 class _EnterDateState extends State<EnterDate> {
   DateTime selectedDate = DateTime.now();
+  Color color = const Color.fromRGBO(73, 81, 86, 100);
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -45,41 +50,66 @@ class _EnterDateState extends State<EnterDate> {
             fontSize: 16,
           ),
         ),
-        const Spacer(), // Pushes the input field to the right
+        const Spacer(),
         SizedBox(
           width: widget.width,
-          child: OutlinedButton(
-            onPressed: () => _selectDate(context),
-            style: OutlinedButton.styleFrom(
-              side: const BorderSide(
-                color: Color.fromRGBO(73, 81, 86, 100),
-                width: 1.0,
-              ),
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(15.0)),
-              ),
-            ),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Row(
+          height: widget.height,
+          child: FormField<String>(
+            validator: widget.validator,
+            builder: (FormFieldState<String> state) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    widget.controller.text,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      color: Colors.black,
-                      fontWeight: FontWeight.w400,
+                  OutlinedButton(
+                    onPressed: () {
+                      _selectDate(context);
+                      color = Colors.black;
+                      state.didChange(widget.controller.text);
+                    },
+                    style: OutlinedButton.styleFrom(
+                      side: const BorderSide(
+                        color: Color.fromRGBO(73, 81, 86, 100),
+                        width: 1.0,
+                      ),
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                      ),
+                    ),
+                    child: Row(
+                      children: [
+                        Text(
+                          widget.controller.text.isEmpty
+                              ? 'Select Date'
+                              : widget.controller.text,
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: color,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        const Spacer(),
+                        const Icon(
+                          Icons.calendar_today,
+                          size: 20.0,
+                          color: Colors.black,
+                        ),
+                      ],
                     ),
                   ),
-                  const Spacer(),
-                  const Icon(
-                    Icons.calendar_today,
-                    size: 20.0,
-                    color: Colors.black,
-                  ),
+                  if (state.hasError)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 5.0),
+                      child: Text(
+                        state.errorText ?? '',
+                        style: const TextStyle(
+                          color: Colors.redAccent,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ),
                 ],
-              ),
-            ),
+              );
+            },
           ),
         ),
       ],

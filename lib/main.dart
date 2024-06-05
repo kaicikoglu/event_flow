@@ -31,9 +31,13 @@ class MyApp extends StatelessWidget {
           '/settings': (context) => const BaseScreen(
               selectedIndex: 2,
               title: Text('Settings'),
-              child: Center(child: Text('Chat Screen'))),
-          '/profile': (context) =>
-              const Scaffold(body: Center(child: Text('Profile Screen'))),
+              child: Center(child: Text('Settings'))),
+          '/profile': (context) => const BaseScreen(
+              selectedIndex: 3,
+              title: Text('Profile'),
+              child: Center(
+                child: Text('Profile'),
+              ))
         });
   }
 }

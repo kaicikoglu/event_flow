@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-class EnterText extends StatelessWidget {
+
+class EnterLocation extends StatefulWidget {
   final String argument;
   final String hintText;
   final double width;
@@ -8,8 +9,7 @@ class EnterText extends StatelessWidget {
   final TextEditingController controller;
   final String? Function(String?)? validator;
 
-  const EnterText({
-    super.key,
+  const EnterLocation({super.key,
     required this.argument,
     required this.hintText,
     required this.width,
@@ -19,25 +19,30 @@ class EnterText extends StatelessWidget {
   });
 
   @override
+  _EnterLocationState createState() => _EnterLocationState();
+}
+
+class _EnterLocationState extends State<EnterLocation> {
+  @override
   Widget build(BuildContext context) {
     return Row(
       children: [
         Text(
-          argument,
+          widget.argument,
           style: const TextStyle(
             fontSize: 16,
           ),
         ),
         const Spacer(), // Pushes the input field to the right
         SizedBox(
-          width: width,
-          height: height,
+          width: widget.width,
+          height: widget.height,
           child: Form(
             child: TextFormField(
-              validator: validator,
-              controller: controller,
+              controller: widget.controller,
+              validator: widget.validator,
               decoration: InputDecoration(
-                hintText: hintText,
+                hintText: widget.hintText,
                 hintStyle: const TextStyle(
                   color: Color.fromRGBO(73, 81, 86, 100),
                 ),
