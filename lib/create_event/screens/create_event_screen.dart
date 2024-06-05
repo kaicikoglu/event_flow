@@ -98,25 +98,23 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
               CustomWideButton(
                 text: 'Create Event',
                 onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    String eventName = eventNameController.text;
-                    String startDate = startDateController.text;
-                    String time = timeController.text;
-                    String location = locationController.text;
+                  String eventName = eventNameController.text;
+                  String startDate = startDateController.text;
+                  String time = timeController.text;
+                  String location = locationController.text;
 
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => EventScreen(
-                          title: eventName,
-                          date: startDate,
-                          time: time,
-                          location: location,
-                          attendees: 'attendees',
-                        ),
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => EventScreen(
+                        title: eventName,
+                        date: startDate,
+                        time: time,
+                        location: location,
+                        attendees: 'attendees',
                       ),
-                    );
-                  }
+                    ),
+                  );
                 },
               ),
             ],

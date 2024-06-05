@@ -93,17 +93,6 @@ class _EnterTimeState extends State<EnterTime> {
                       ],
                     ),
                   ),
-                  if (state.hasError)
-                    Padding(
-                      padding: const EdgeInsets.only(top: 5.0),
-                      child: Text(
-                        state.errorText ?? '',
-                        style: const TextStyle(
-                          color: Colors.redAccent,
-                          fontSize: 12,
-                        ),
-                      ),
-                    ),
                 ],
               );
             },
