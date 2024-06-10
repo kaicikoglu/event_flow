@@ -5,6 +5,7 @@ import 'package:event_flow/widgets/base_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../forum/screens/forum_screen.dart';
+import '../../vote/screens/vote_screen.dart';
 import '../../widgets/wide_button.dart';
 
 class EventScreen extends StatelessWidget {
@@ -86,7 +87,12 @@ class EventScreen extends StatelessWidget {
                 ThemeButton(
                     icon: Icons.how_to_vote,
                     text: "Vote-Area",
-                    onPressed: () {}),
+                    onPressed: (){
+                      Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const VoteScreen()));
+                  }),
                 ThemeButton(
                     icon: Icons.cloud, text: "Ressourcen", onPressed: () {}),
                 ThemeButton(
