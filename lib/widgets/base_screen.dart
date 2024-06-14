@@ -1,5 +1,6 @@
 // lib/widgets/base_screen.dart
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import 'navbar.dart'; // Ensure the path is correct
 
@@ -11,6 +12,7 @@ class BaseScreen extends StatelessWidget {
   final Widget? floatingActionButton; // Add this line
   final FloatingActionButtonLocation?
       floatingActionButtonLocation; // Add this line
+  final BackButton? backButton; // Add this line
 
   const BaseScreen({
     super.key,
@@ -20,21 +22,22 @@ class BaseScreen extends StatelessWidget {
     required this.title,
     this.floatingActionButton,
     this.floatingActionButtonLocation,
+    this.backButton,
   });
 
   void _onItemTapped(BuildContext context, int index) {
     switch (index) {
       case 0:
-        Navigator.pushReplacementNamed(context, '/home');
+        context.go('/home');
         break;
       case 1:
-        Navigator.pushReplacementNamed(context, '/chat');
+        context.go('/chat');
         break;
       case 2:
-        Navigator.pushReplacementNamed(context, '/settings');
+        context.go('/settings');
         break;
       case 3:
-        Navigator.pushReplacementNamed(context, '/profile');
+        context.go('/profile');
         break;
     }
   }
@@ -43,6 +46,7 @@ class BaseScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: backButton,
         title: title,
       ),
       body: Center(

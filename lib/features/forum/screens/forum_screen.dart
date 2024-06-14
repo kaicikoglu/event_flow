@@ -1,25 +1,30 @@
-import 'package:event_flow/vote/screens/vote_topic_screen.dart';
 import 'package:event_flow/widgets/base_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
-import '../../widgets/floating_action_button.dart';
-import '../../widgets/wide_button.dart';
+import '../../../widgets/floating_action_button.dart';
+import '../../../widgets/wide_button.dart';
 import '../widgets/create_topic_dialog.dart';
 
-class VoteScreen extends StatefulWidget {
-  const VoteScreen({super.key});
+class ForumScreen extends StatefulWidget {
+  const ForumScreen({super.key});
 
   @override
-  _VoteScreenState createState() => _VoteScreenState();
+  _ForumScreenState createState() => _ForumScreenState();
 }
 
-class _VoteScreenState extends State<VoteScreen> {
+class _ForumScreenState extends State<ForumScreen> {
   get floatingActionButton => null;
 
   @override
   Widget build(BuildContext context) {
     return BaseScreen(
-      title: const Text('Vote Area'),
+      backButton: BackButton(
+        onPressed: () {
+          context.pop();
+        },
+      ),
+      title: const Text('Forum'),
       selectedIndex: 0,
       floatingActionButton: CustomFAB(onPressed: () {
         showDialog(
@@ -38,15 +43,9 @@ class _VoteScreenState extends State<VoteScreen> {
         children: [
           const SizedBox(height: 16),
           CustomWideButton(
-            text: 'Wer kommt alles ?',
+            text: 'Teilnehmerliste bearbeiten',
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const VoteTopicScreen(
-                      title: 'Wer kommt alles ?'),  // Change the title here
-                ),
-              );
+              context.push('/forum/topic');
             },
           ),
           const SizedBox(height: 8),

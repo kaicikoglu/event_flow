@@ -1,10 +1,10 @@
-import 'package:event_flow/create_event/screens/create_event_screen.dart';
-import 'package:event_flow/home/widgets/search_bar.dart';
 import 'package:event_flow/widgets/base_screen.dart';
 import 'package:event_flow/widgets/floating_action_button.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
-import '../widgets/event_card.dart'; // Ensure this file exists with the EventCard widget
+import '../widgets/event_card.dart';
+import '../widgets/search_bar.dart'; // Ensure this file exists with the EventCard widget
 
 class HomeContent extends StatefulWidget {
   const HomeContent({super.key});
@@ -28,8 +28,7 @@ class _HomeContentState extends State<HomeContent> {
       title: const Center(child: Text('Mein EventFlow')),
       selectedIndex: 0,
       floatingActionButton: CustomFAB(onPressed: () {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const CreateEventScreen()));
+        context.push('/createEvent');
       }),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       child: Column(

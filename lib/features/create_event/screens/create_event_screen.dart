@@ -1,12 +1,12 @@
-import 'package:event_flow/create_event/widgets/enter_location.dart';
-import 'package:event_flow/create_event/widgets/enter_time.dart';
-import 'package:event_flow/event/screens/event_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
-import '../../widgets/base_screen.dart';
-import '../../widgets/wide_button.dart';
+import '../../../widgets/base_screen.dart';
+import '../../../widgets/wide_button.dart';
 import '../widgets/enter_date.dart';
+import '../widgets/enter_location.dart';
 import '../widgets/enter_text.dart';
+import '../widgets/enter_time.dart';
 
 class CreateEventScreen extends StatefulWidget {
   const CreateEventScreen({super.key});
@@ -28,6 +28,11 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
   Widget build(BuildContext context) {
     return BaseScreen(
       selectedIndex: 0,
+      backButton: BackButton(
+        onPressed: () {
+          context.pop();
+        },
+      ),
       title: const Text('Create Event'),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -103,17 +108,15 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                   String time = timeController.text;
                   String location = locationController.text;
 
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => EventScreen(
-                        title: eventName,
-                        date: startDate,
-                        time: time,
-                        location: location,
-                        attendees: 'attendees',
-                      ),
-                    ),
+                  context.push(
+                    '/event',
+                    extra: {
+                      'title': eventName,
+                      'date': startDate,
+                      'time': time,
+                      'location': location,
+                      'attendees': 'attendees',
+                    },
                   );
                 },
               ),
