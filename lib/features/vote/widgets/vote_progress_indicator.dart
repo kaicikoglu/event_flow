@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class VoteProgressIndicator extends StatelessWidget {
@@ -6,6 +5,7 @@ class VoteProgressIndicator extends StatelessWidget {
   final int maxVotes;
 
   const VoteProgressIndicator({
+    super.key,
     required this.totalVotes,
     required this.maxVotes,
   });
@@ -16,11 +16,11 @@ class VoteProgressIndicator extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text('Abgestimmt $totalVotes/$maxVotes'),
-        SizedBox(height: 8),
+        const SizedBox(height: 8),
         LinearProgressIndicator(
           value: totalVotes / maxVotes,
           backgroundColor: Colors.grey.shade300,
-          valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
+          valueColor: const AlwaysStoppedAnimation<Color>(Colors.green),
         ),
       ],
     );

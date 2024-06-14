@@ -1,12 +1,11 @@
-import 'package:event_flow/event/widgets/button_grid_view.dart';
-import 'package:event_flow/event/widgets/info_box.dart';
-import 'package:event_flow/event/widgets/theme_button.dart';
 import 'package:event_flow/widgets/base_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
-import '../../forum/screens/forum_screen.dart';
-import '../../vote/screens/vote_screen.dart';
-import '../../widgets/wide_button.dart';
+import '../../../widgets/wide_button.dart';
+import '../widgets/button_grid_view.dart';
+import '../widgets/info_box.dart';
+import '../widgets/theme_button.dart';
 
 class EventScreen extends StatelessWidget {
   final String title;
@@ -27,6 +26,11 @@ class EventScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseScreen(
+      backButton: BackButton(
+        onPressed: () {
+          context.pop();
+        },
+      ),
       title: Text(title),
       selectedIndex: 0,
       child: Padding(
@@ -79,20 +83,14 @@ class EventScreen extends StatelessWidget {
                     icon: Icons.forum,
                     text: "Forum",
                     onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const ForumScreen()));
+                      context.push('/forum');
                     }),
                 ThemeButton(
                     icon: Icons.how_to_vote,
                     text: "Vote-Area",
-                    onPressed: (){
-                      Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const VoteScreen()));
-                  }),
+                    onPressed: () {
+                      context.push('/vote');
+                    }),
                 ThemeButton(
                     icon: Icons.cloud, text: "Ressourcen", onPressed: () {}),
                 ThemeButton(

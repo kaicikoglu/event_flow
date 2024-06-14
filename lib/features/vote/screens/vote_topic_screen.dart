@@ -1,13 +1,7 @@
-import 'package:event_flow/widgets/base_screen.dart';
 import 'package:flutter/material.dart';
 
-import '../../widgets/floating_action_button.dart';
-import '../../widgets/wide_button.dart';
-import '../widgets/create_topic_dialog.dart';
 import '../widgets/checkbox_wide_button.dart';
 import '../widgets/vote_progress_indicator.dart';
-
-
 
 class VoteTopicScreen extends StatefulWidget {
   final String title;
@@ -44,7 +38,7 @@ class _VoteTopicScreenState extends State<VoteTopicScreen> {
               totalVotes: totalVotes,
               maxVotes: maxVotes,
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             CheckboxWideButton(
               label: 'Zusagen',
               count: count1,
@@ -77,7 +71,6 @@ class _VoteTopicScreenState extends State<VoteTopicScreen> {
                 setState(() {
                   selectedIndex = 3;
                   count3++;
-                  totalVotes++;
                 });
               },
             ),

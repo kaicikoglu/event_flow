@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CheckboxWideButton extends StatelessWidget {
@@ -8,6 +7,7 @@ class CheckboxWideButton extends StatelessWidget {
   final VoidCallback onTap;
 
   const CheckboxWideButton({
+    super.key,
     required this.label,
     required this.count,
     required this.isSelected,
@@ -34,11 +34,11 @@ class CheckboxWideButton extends StatelessWidget {
                   isSelected ? Icons.check_box : Icons.check_box_outline_blank,
                   color: isSelected ? Colors.green : Colors.grey,
                 ),
-                SizedBox(width: 8),
-                Text(label, style: TextStyle(fontSize: 18)),
+                const SizedBox(width: 8),
+                Text(label, style: const TextStyle(fontSize: 18)),
               ],
             ),
-            Text(count.toString(), style: TextStyle(fontSize: 18)),
+            Text(count.toString(), style: const TextStyle(fontSize: 18)),
           ],
         ),
       ),

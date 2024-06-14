@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../event/screens/event_screen.dart';
+import 'package:go_router/go_router.dart';
 
 class EventCard extends StatelessWidget {
   final String title;
@@ -21,24 +21,21 @@ class EventCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => EventScreen(
-              title: title,
-              date: date,
-              time: time,
-              location: location,
-              attendees: attendees,
-            ),
-          ),
-        );
+        context.push('/event', extra: {
+          'title': title,
+          'date': date,
+          'time': time,
+          'location': location,
+          'attendees': attendees,
+        });
       },
       child: Card(
         margin: const EdgeInsets.only(bottom: 16),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15.0),
-          side: const BorderSide(color: Color.fromRGBO(73, 81, 86, 100), width: 1.0), // Set the border color here
+          side: const BorderSide(
+              color: Color.fromRGBO(73, 81, 86, 100),
+              width: 1.0), // Set the border color here
         ),
         child: Padding(
           padding: const EdgeInsets.all(16.0),

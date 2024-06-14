@@ -1,8 +1,7 @@
 // main.dart
-import 'package:event_flow/widgets/base_screen.dart';
 import 'package:flutter/material.dart';
 
-import 'home/screens/home_screen.dart';
+import 'core/app_router.dart'; // Import the new router file
 
 void main() {
   runApp(const MyApp());
@@ -13,31 +12,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        title: 'EventFlow',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(
-              seedColor: const Color.fromRGBO(73, 81, 86, 100)),
-          useMaterial3: true,
+    return MaterialApp.router(
+      title: 'EventFlow',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color.fromRGBO(73, 81, 86, 100),
         ),
-        home: const HomeContent(),
-        routes: {
-          '/home': (context) => const HomeContent(),
-          '/chat': (context) => const BaseScreen(
-                selectedIndex: 1,
-                title: Text('Chat'),
-                child: Center(child: Text('Chat Screen')),
-              ),
-          '/settings': (context) => const BaseScreen(
-              selectedIndex: 2,
-              title: Text('Settings'),
-              child: Center(child: Text('Settings'))),
-          '/profile': (context) => const BaseScreen(
-              selectedIndex: 3,
-              title: Text('Profile'),
-              child: Center(
-                child: Text('Profile'),
-              ))
-        });
+        useMaterial3: true,
+      ),
+      routerDelegate: appRouter.routerDelegate,
+      routeInformationParser: appRouter.routeInformationParser,
+      routeInformationProvider: appRouter.routeInformationProvider,
+    );
   }
 }
