@@ -59,9 +59,10 @@ class _EnterTimeState extends State<EnterTime> {
                 children: [
                   OutlinedButton(
                     onPressed: () {
-                      _selectTime(context);
+                      _selectTime(context).then((_) {
+                        state.didChange(widget.controller.text); // Update FormField state
+                      });
                       color = Colors.black;
-                      state.didChange(widget.controller.text);
                     },
                     style: OutlinedButton.styleFrom(
                       side: const BorderSide(
@@ -86,7 +87,7 @@ class _EnterTimeState extends State<EnterTime> {
                         ),
                         const Spacer(),
                         const Icon(
-                          Icons.access_time_outlined,
+                          Icons.access_time,
                           size: 20.0,
                           color: Colors.black,
                         ),

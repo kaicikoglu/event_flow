@@ -35,7 +35,7 @@ class _EnterDateState extends State<EnterDate> {
     if (picked != null && picked != selectedDate) {
       setState(() {
         selectedDate = picked;
-        widget.controller.text = DateFormat('dd.MM.yyyy').format(selectedDate);
+        widget.controller.text = DateFormat('yyyy-MM-dd').format(selectedDate);  // Use a consistent format for parsing
       });
     }
   }
@@ -62,9 +62,10 @@ class _EnterDateState extends State<EnterDate> {
                 children: [
                   OutlinedButton(
                     onPressed: () {
-                      _selectDate(context);
+                      _selectDate(context).then((_) {
+                        state.didChange(widget.controller.text); // Update FormField state
+                      });
                       color = Colors.black;
-                      state.didChange(widget.controller.text);
                     },
                     style: OutlinedButton.styleFrom(
                       side: const BorderSide(

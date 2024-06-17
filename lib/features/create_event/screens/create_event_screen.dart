@@ -1,25 +1,28 @@
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+// lib/features/create_event/screens/create_event_screen.dart
 
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import '../../../services/event_list_notifier.dart';
 import '../../../widgets/base_screen.dart';
 import '../../../widgets/wide_button.dart';
 import '../widgets/enter_date.dart';
 import '../widgets/enter_location.dart';
 import '../widgets/enter_text.dart';
 import '../widgets/enter_time.dart';
+import '../../../data_models/event_data_model.dart';
 
-class CreateEventScreen extends StatefulWidget {
+class CreateEventScreen extends ConsumerStatefulWidget {
   const CreateEventScreen({super.key});
 
   @override
   _CreateEventScreenState createState() => _CreateEventScreenState();
 }
 
-class _CreateEventScreenState extends State<CreateEventScreen> {
+class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
   final eventNameController = TextEditingController();
   final timeController = TextEditingController();
   final startDateController = TextEditingController();
-  final endDateController = TextEditingController();
   final locationController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
@@ -102,22 +105,36 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
               ),
               CustomWideButton(
                 text: 'Create Event',
-                onPressed: () {
-                  String eventName = eventNameController.text;
-                  String startDate = startDateController.text;
-                  String time = timeController.text;
-                  String location = locationController.text;
+                onPressed: () async {
+                  if (_formKey.currentState!.validate()) {
+                    String eventName = eventNameController.text;
+                    String startDate = startDateController.text;
+                    String time = timeController.text;
+                    String location = locationController.text;
 
-                  context.push(
-                    '/event',
-                    extra: {
-                      'title': eventName,
-                      'date': startDate,
-                      'time': time,
-                      'location': location,
-                      'attendees': 'attendees',
-                    },
-                  );
+                    final event = Event()
+                      ..title = eventName
+                      ..date = DateTime.parse(startDate)
+                      ..time = time
+                      ..location = location
+                      ..participants = '0/0';  // Initialize participants as needed
+
+                    final eventNotifier = ref.read(eventNotifierProvider.notifier);
+                    await eventNotifier.addEvent(event);
+
+                    if (mounted) {
+                      context.go(
+                        '/event',
+                        extra: {
+                          'title': eventName,
+                          'date': startDate,
+                          'time': time,
+                          'location': location,
+                          'attendees': 'attendees',
+                        },
+                      );
+                    }
+                  }
                 },
               ),
             ],
@@ -125,5 +142,14 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    eventNameController.dispose();
+    timeController.dispose();
+    startDateController.dispose();
+    locationController.dispose();
+    super.dispose();
   }
 }
