@@ -10,13 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../features/home/screens/home_screen.dart';
-import '../services/isar_service.dart';
 
 class AppRouter {
-  final IsarService isarService;
-
-  AppRouter(this.isarService);
-
   late final GoRouter router = GoRouter(
     routes: [
       GoRoute(
@@ -91,5 +86,3 @@ class AppRouter {
     ],
   );
 }
-
-final appRouter = AppRouter(IsarService()).router;

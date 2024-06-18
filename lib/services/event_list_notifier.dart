@@ -1,6 +1,7 @@
 // lib/services/event_notifier.dart
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../data_models/event_data_model.dart';
 import '../main.dart';
 import 'isar_service.dart';
@@ -32,7 +33,8 @@ class EventNotifier extends StateNotifier<AsyncValue<List<Event>>> {
   }
 }
 
-final eventNotifierProvider = StateNotifierProvider<EventNotifier, AsyncValue<List<Event>>>((ref) {
+final eventNotifierProvider =
+    StateNotifierProvider<EventNotifier, AsyncValue<List<Event>>>((ref) {
   final isarService = ref.watch(isarServiceProvider);
   return EventNotifier(isarService);
 });

@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'services/app_router.dart';
 import 'services/isar_service.dart';
 
@@ -23,8 +24,7 @@ final isarServiceProvider = Provider<IsarService>((ref) {
 class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isarService = ref.watch(isarServiceProvider);
-    final appRouter = AppRouter(isarService).router;
+    final appRouter = AppRouter().router;
 
     return MaterialApp.router(
       title: 'EventFlow',

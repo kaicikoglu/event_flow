@@ -5,6 +5,7 @@ import 'package:event_flow/widgets/floating_action_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+
 import '../../../services/event_list_notifier.dart';
 import '../widgets/event_card.dart';
 import '../widgets/search_bar.dart';
@@ -25,7 +26,8 @@ class HomeContent extends ConsumerWidget {
         children: [
           CustomSearchBar(
             hintText: 'Suche nach Events',
-            controller: TextEditingController(), // Use a controller for search functionality
+            controller: TextEditingController(),
+            // Use a controller for search functionality
             onChanged: (value) {
               // Handle the search bar input here
             },
@@ -50,17 +52,20 @@ class HomeContent extends ConsumerWidget {
                           key: Key(event.id.toString()),
                           direction: DismissDirection.horizontal,
                           onDismissed: (direction) async {
-                            final eventNotifier = ref.read(eventNotifierProvider.notifier);
+                            final eventNotifier =
+                                ref.read(eventNotifierProvider.notifier);
                             await eventNotifier.removeEvent(event.id);
                             ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text('${event.title} dismissed')),
+                              SnackBar(
+                                  content: Text('${event.title} dismissed')),
                             );
                           },
                           background: Container(
                             color: Colors.red,
                             alignment: Alignment.centerRight,
                             padding: const EdgeInsets.symmetric(horizontal: 20),
-                            child: const Icon(Icons.delete, color: Colors.white),
+                            child:
+                                const Icon(Icons.delete, color: Colors.white),
                           ),
                           child: EventCard(
                             title: event.title,
@@ -75,7 +80,8 @@ class HomeContent extends ConsumerWidget {
                   }
                 },
                 loading: () => const Center(child: CircularProgressIndicator()),
-                error: (error, stack) => const Center(child: Text('Error loading events')),
+                error: (error, stack) =>
+                    const Center(child: Text('Error loading events')),
               ),
             ),
           ),

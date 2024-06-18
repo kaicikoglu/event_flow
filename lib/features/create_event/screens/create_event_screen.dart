@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../../data_models/event_data_model.dart';
 import '../../../services/event_list_notifier.dart';
 import '../../../widgets/base_screen.dart';
 import '../../../widgets/wide_button.dart';
@@ -10,7 +12,6 @@ import '../widgets/enter_date.dart';
 import '../widgets/enter_location.dart';
 import '../widgets/enter_text.dart';
 import '../widgets/enter_time.dart';
-import '../../../data_models/event_data_model.dart';
 
 class CreateEventScreen extends ConsumerStatefulWidget {
   const CreateEventScreen({super.key});
@@ -117,9 +118,11 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
                       ..date = DateTime.parse(startDate)
                       ..time = time
                       ..location = location
-                      ..participants = '0/0';  // Initialize participants as needed
+                      ..participants =
+                          '0/0'; // Initialize participants as needed
 
-                    final eventNotifier = ref.read(eventNotifierProvider.notifier);
+                    final eventNotifier =
+                        ref.read(eventNotifierProvider.notifier);
                     await eventNotifier.addEvent(event);
 
                     if (mounted) {

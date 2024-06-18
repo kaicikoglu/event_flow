@@ -2,11 +2,14 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../../../data_models/event_data_model.dart';
 import '../../../main.dart';
 import '../../../services/isar_service.dart';
 
-final homeContentControllerProvider = StateNotifierProvider<HomeContentController, AsyncValue<List<Event>>>((ref) {
+final homeContentControllerProvider =
+    StateNotifierProvider<HomeContentController, AsyncValue<List<Event>>>(
+        (ref) {
   final isarService = ref.watch(isarServiceProvider);
   return HomeContentController(isarService);
 });
