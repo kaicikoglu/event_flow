@@ -26,11 +26,6 @@ class EventScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseScreen(
-      backButton: BackButton(
-        onPressed: () {
-          context.pop();
-        },
-      ),
       title: Text(title),
       selectedIndex: 0,
       child: Padding(

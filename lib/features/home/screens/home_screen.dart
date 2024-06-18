@@ -1,29 +1,20 @@
+// lib/features/home/screens/home_content.dart
+
 import 'package:event_flow/widgets/base_screen.dart';
 import 'package:event_flow/widgets/floating_action_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../services/event_list_notifier.dart';
 import '../widgets/event_card.dart';
-import '../widgets/search_bar.dart'; // Ensure this file exists with the EventCard widget
+import '../widgets/search_bar.dart';
 
-class HomeContent extends StatefulWidget {
-  const HomeContent({super.key});
-
+class HomeContent extends ConsumerWidget {
   @override
-  _HomeContentState createState() => _HomeContentState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final eventsState = ref.watch(eventNotifierProvider);
 
-class _HomeContentState extends State<HomeContent> {
-  final TextEditingController _searchController = TextEditingController();
-
-  @override
-  void dispose() {
-    _searchController.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return BaseScreen(
       title: const Center(child: Text('Mein EventFlow')),
       selectedIndex: 0,
@@ -34,37 +25,64 @@ class _HomeContentState extends State<HomeContent> {
       child: Column(
         children: [
           CustomSearchBar(
-              hintText: 'Suche nach Events',
-              controller: _searchController,
-              onChanged: (value) {
-                // Handle the search bar input here
-              }),
+            hintText: 'Suche nach Events',
+            controller: TextEditingController(),
+            // Use a controller for search functionality
+            onChanged: (value) {
+              // Handle the search bar input here
+            },
+          ),
           const SizedBox(height: 16),
           Expanded(
-            child: ListView(
-              children: const [
-                EventCard(
-                  title: 'Grillen am See',
-                  date: '01.05.2024',
-                  time: '17:00',
-                  location: 'Herosé-Park',
-                  attendees: '8/15',
-                ),
-                EventCard(
-                  title: 'Campus Festival',
-                  date: '10.05.2024',
-                  time: '11:00',
-                  location: 'Konstanz',
-                  attendees: '13/20',
-                ),
-                EventCard(
-                  title: 'Klassentreffen',
-                  date: '15.05.2024',
-                  time: '11:00',
-                  location: 'Konstanz',
-                  attendees: '13/30',
-                ),
-              ],
+            child: RefreshIndicator(
+              onRefresh: () async {
+                final eventNotifier = ref.read(eventNotifierProvider.notifier);
+                await eventNotifier.loadEvents();
+              },
+              child: eventsState.when(
+                data: (events) {
+                  if (events.isEmpty) {
+                    return const Center(child: Text('No events found'));
+                  } else {
+                    return ListView.builder(
+                      itemCount: events.length,
+                      itemBuilder: (context, index) {
+                        final event = events[index];
+                        return Dismissible(
+                          key: Key(event.id.toString()),
+                          direction: DismissDirection.horizontal,
+                          onDismissed: (direction) async {
+                            final eventNotifier =
+                                ref.read(eventNotifierProvider.notifier);
+                            await eventNotifier.removeEvent(event.id);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                  content: Text('${event.title} dismissed')),
+                            );
+                          },
+                          background: Container(
+                            color: Colors.red,
+                            alignment: Alignment.centerRight,
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child:
+                                const Icon(Icons.delete, color: Colors.white),
+                          ),
+                          child: EventCard(
+                            title: event.title,
+                            date: event.date.toIso8601String().split('T').first,
+                            time: event.time,
+                            location: event.location,
+                            attendees: event.participants,
+                          ),
+                        );
+                      },
+                    );
+                  }
+                },
+                loading: () => const Center(child: CircularProgressIndicator()),
+                error: (error, stack) =>
+                    const Center(child: Text('Error loading events')),
+              ),
             ),
           ),
         ],
