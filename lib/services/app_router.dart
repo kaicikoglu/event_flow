@@ -9,7 +9,8 @@ import 'package:event_flow/widgets/base_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../features/home/screens/home_screen.dart';
+import '../data_models/event_data_model.dart';
+import '../features/home/screens/home_content.dart';
 
 class AppRouter {
   late final GoRouter router = GoRouter(
@@ -81,8 +82,12 @@ class AppRouter {
       ),
       GoRoute(
         path: '/createEvent',
-        builder: (context, state) => const CreateEventScreen(),
+        builder: (context, state) {
+          final event = state.extra as Event?;
+          return CreateEventScreen(event: event);
+        },
       ),
+
     ],
   );
 }

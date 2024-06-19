@@ -7,6 +7,7 @@ class EnterDate extends StatefulWidget {
   final double height;
   final TextEditingController controller;
   final String? Function(String?)? validator;
+  final DateTime? updateDate;
 
   const EnterDate({
     super.key,
@@ -15,6 +16,7 @@ class EnterDate extends StatefulWidget {
     required this.height,
     required this.controller,
     this.validator,
+    this.updateDate,
   });
 
   @override
@@ -22,20 +24,25 @@ class EnterDate extends StatefulWidget {
 }
 
 class _EnterDateState extends State<EnterDate> {
-  DateTime selectedDate = DateTime.now();
-  Color color = const Color.fromRGBO(73, 81, 86, 100);
+  @override
+  void initState() {
+    super.initState();
+    if (widget.updateDate != null) {
+      widget.controller.text =
+          DateFormat('yyyy-MM-dd').format(widget.updateDate!);
+    }
+  }
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: selectedDate,
+      initialDate: widget.updateDate ?? DateTime.now(),
       firstDate: DateTime(2000),
       lastDate: DateTime(2100),
     );
-    if (picked != null && picked != selectedDate) {
+    if (picked != null) {
       setState(() {
-        selectedDate = picked;
-        widget.controller.text = DateFormat('yyyy-MM-dd').format(selectedDate);  // Use a consistent format for parsing
+        widget.controller.text = DateFormat('yyyy-MM-dd').format(picked);
       });
     }
   }
@@ -54,52 +61,29 @@ class _EnterDateState extends State<EnterDate> {
         SizedBox(
           width: widget.width,
           height: widget.height,
-          child: FormField<String>(
+          child: TextFormField(
+            controller: widget.controller,
+            readOnly: true,
+            decoration: InputDecoration(
+              hintText: 'Select Date',
+              hintStyle: const TextStyle(
+                color: Color.fromRGBO(73, 81, 86, 100),
+              ),
+              border: const OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                borderSide: BorderSide(
+                  color: Color.fromRGBO(73, 81, 86, 100),
+                  width: 1.0,
+                ),
+              ),
+              suffixIcon: IconButton(
+                icon: const Icon(Icons.calendar_today),
+                onPressed: () {
+                  _selectDate(context);
+                },
+              ),
+            ),
             validator: widget.validator,
-            builder: (FormFieldState<String> state) {
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  OutlinedButton(
-                    onPressed: () {
-                      _selectDate(context).then((_) {
-                        state.didChange(widget.controller.text); // Update FormField state
-                      });
-                      color = Colors.black;
-                    },
-                    style: OutlinedButton.styleFrom(
-                      side: const BorderSide(
-                        color: Color.fromRGBO(73, 81, 86, 100),
-                        width: 1.0,
-                      ),
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                      ),
-                    ),
-                    child: Row(
-                      children: [
-                        Text(
-                          widget.controller.text.isEmpty
-                              ? 'Select Date'
-                              : widget.controller.text,
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: color,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                        const Spacer(),
-                        const Icon(
-                          Icons.calendar_today,
-                          size: 20.0,
-                          color: Colors.black,
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              );
-            },
           ),
         ),
       ],

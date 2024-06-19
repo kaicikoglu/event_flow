@@ -1,5 +1,4 @@
-// lib/features/home/screens/home_content.dart
-
+import 'package:event_flow/features/home/widgets/dismissible_event_card.dart';
 import 'package:event_flow/widgets/base_screen.dart';
 import 'package:event_flow/widgets/floating_action_button.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +6,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../services/event_list_notifier.dart';
-import '../widgets/event_card.dart';
 import '../widgets/search_bar.dart';
 
 class HomeContent extends ConsumerWidget {
@@ -27,7 +25,6 @@ class HomeContent extends ConsumerWidget {
           CustomSearchBar(
             hintText: 'Suche nach Events',
             controller: TextEditingController(),
-            // Use a controller for search functionality
             onChanged: (value) {
               // Handle the search bar input here
             },
@@ -48,33 +45,7 @@ class HomeContent extends ConsumerWidget {
                       itemCount: events.length,
                       itemBuilder: (context, index) {
                         final event = events[index];
-                        return Dismissible(
-                          key: Key(event.id.toString()),
-                          direction: DismissDirection.horizontal,
-                          onDismissed: (direction) async {
-                            final eventNotifier =
-                                ref.read(eventNotifierProvider.notifier);
-                            await eventNotifier.removeEvent(event.id);
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                  content: Text('${event.title} dismissed')),
-                            );
-                          },
-                          background: Container(
-                            color: Colors.red,
-                            alignment: Alignment.centerRight,
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
-                            child:
-                                const Icon(Icons.delete, color: Colors.white),
-                          ),
-                          child: EventCard(
-                            title: event.title,
-                            date: event.date.toIso8601String().split('T').first,
-                            time: event.time,
-                            location: event.location,
-                            attendees: event.participants,
-                          ),
-                        );
+                        return DismissibleEventCard(event: event);
                       },
                     );
                   }

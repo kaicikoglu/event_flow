@@ -1,8 +1,8 @@
-// lib/features/create_event/screens/create_event_screen.dart
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
+import 'package:isar/isar.dart';
 
 import '../../../data_models/event_data_model.dart';
 import '../../../services/event_list_notifier.dart';
@@ -14,7 +14,9 @@ import '../widgets/enter_text.dart';
 import '../widgets/enter_time.dart';
 
 class CreateEventScreen extends ConsumerStatefulWidget {
-  const CreateEventScreen({super.key});
+  final Event? event;
+
+  const CreateEventScreen({Key? key, this.event}) : super(key: key);
 
   @override
   _CreateEventScreenState createState() => _CreateEventScreenState();
@@ -28,6 +30,33 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
 
   final _formKey = GlobalKey<FormState>();
 
+  Event? editingEvent;
+
+  @override
+  void initState() {
+    super.initState();
+    editingEvent = widget.event;
+    print(editingEvent?.time.toString());
+    if (editingEvent != null) {
+      eventNameController.text = editingEvent!.title;
+      timeController.text = editingEvent!.time;
+      startDateController.text =
+          editingEvent!.date.toIso8601String().split('T').first;
+      locationController.text = editingEvent!.location;
+    }
+  }
+
+  TimeOfDay? _parseTimeOfDay(String time) {
+    final format = DateFormat
+        .jm(); // or you can use DateFormat("hh:mm a") for a 12-hour format
+    try {
+      final dateTime = format.parse(time);
+      return TimeOfDay(hour: dateTime.hour, minute: dateTime.minute);
+    } catch (e) {
+      return null;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return BaseScreen(
@@ -37,7 +66,7 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
           context.pop();
         },
       ),
-      title: const Text('Create Event'),
+      title: Text(editingEvent != null ? 'Edit Event' : 'Create Event'),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -59,6 +88,7 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
                         }
                         return null;
                       },
+                      updateText: editingEvent?.title,
                     ),
                     const SizedBox(height: 16),
                     EnterTime(
@@ -72,6 +102,9 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
                         }
                         return null;
                       },
+                      updateTime: editingEvent != null
+                          ? _parseTimeOfDay(editingEvent!.time)
+                          : null,
                     ),
                     const SizedBox(height: 16),
                     EnterDate(
@@ -85,6 +118,7 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
                         }
                         return null;
                       },
+                      updateDate: editingEvent?.date,
                     ),
                     const SizedBox(height: 16),
                     EnterLocation(
@@ -99,13 +133,14 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
                         }
                         return null;
                       },
+                      updateLocation: editingEvent?.location,
                     ),
                     const SizedBox(height: 16),
                   ],
                 ),
               ),
               CustomWideButton(
-                text: 'Create Event',
+                text: editingEvent != null ? 'Update Event' : 'Create Event',
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
                     String eventName = eventNameController.text;
@@ -114,16 +149,23 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
                     String location = locationController.text;
 
                     final event = Event()
+                      ..id = editingEvent?.id ?? Isar.autoIncrement
                       ..title = eventName
                       ..date = DateTime.parse(startDate)
                       ..time = time
                       ..location = location
-                      ..participants =
-                          '0/0'; // Initialize participants as needed
+                      ..participants = editingEvent?.participants ??
+                          '0/0'; // Keep participants if editing
 
                     final eventNotifier =
                         ref.read(eventNotifierProvider.notifier);
-                    await eventNotifier.addEvent(event);
+
+                    if (editingEvent != null) {
+                      await eventNotifier.updateEvent(
+                          event); // Implement updateEvent in your notifier
+                    } else {
+                      await eventNotifier.addEvent(event);
+                    }
 
                     if (mounted) {
                       context.go(

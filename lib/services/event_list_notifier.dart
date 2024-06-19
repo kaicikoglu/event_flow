@@ -1,5 +1,3 @@
-// lib/services/event_notifier.dart
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../data_models/event_data_model.dart';
@@ -29,6 +27,11 @@ class EventNotifier extends StateNotifier<AsyncValue<List<Event>>> {
 
   Future<void> removeEvent(int id) async {
     await isarService.deleteEvent(id);
+    loadEvents();
+  }
+
+  Future<void> updateEvent(Event event) async {
+    await isarService.saveEvent(event);
     loadEvents();
   }
 }
