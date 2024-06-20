@@ -16,7 +16,7 @@ import '../widgets/enter_time.dart';
 class CreateEventScreen extends ConsumerStatefulWidget {
   final Event? event;
 
-  const CreateEventScreen({Key? key, this.event}) : super(key: key);
+  const CreateEventScreen({super.key, this.event});
 
   @override
   _CreateEventScreenState createState() => _CreateEventScreenState();
@@ -36,7 +36,6 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
   void initState() {
     super.initState();
     editingEvent = widget.event;
-    print(editingEvent?.time.toString());
     if (editingEvent != null) {
       eventNameController.text = editingEvent!.title;
       timeController.text = editingEvent!.time;
@@ -61,11 +60,6 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
   Widget build(BuildContext context) {
     return BaseScreen(
       selectedIndex: 0,
-      backButton: BackButton(
-        onPressed: () {
-          context.pop();
-        },
-      ),
       title: Text(editingEvent != null ? 'Edit Event' : 'Create Event'),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -147,6 +141,7 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
                     String startDate = startDateController.text;
                     String time = timeController.text;
                     String location = locationController.text;
+                    String participants = editingEvent?.participants ?? '0/0';
 
                     final event = Event()
                       ..id = editingEvent?.id ?? Isar.autoIncrement
@@ -154,8 +149,7 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
                       ..date = DateTime.parse(startDate)
                       ..time = time
                       ..location = location
-                      ..participants = editingEvent?.participants ??
-                          '0/0'; // Keep participants if editing
+                      ..participants = participants;
 
                     final eventNotifier =
                         ref.read(eventNotifierProvider.notifier);
