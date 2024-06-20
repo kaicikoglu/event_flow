@@ -8,9 +8,30 @@ import 'package:go_router/go_router.dart';
 import '../../../services/event_list_notifier.dart';
 import '../widgets/search_bar.dart';
 
-class HomeContent extends ConsumerWidget {
+class HomeContent extends ConsumerStatefulWidget {
+  const HomeContent({super.key});
+
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  _HomeContentState createState() => _HomeContentState();
+}
+
+class _HomeContentState extends ConsumerState<HomeContent> {
+  late TextEditingController _searchController;
+
+  @override
+  void initState() {
+    super.initState();
+    _searchController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final eventsState = ref.watch(eventNotifierProvider);
 
     return BaseScreen(
@@ -24,9 +45,9 @@ class HomeContent extends ConsumerWidget {
         children: [
           CustomSearchBar(
             hintText: 'Suche nach Events',
-            controller: TextEditingController(),
+            controller: _searchController,
             onChanged: (value) {
-              // Handle the search bar input here
+              ref.read(eventNotifierProvider.notifier).searchEvents(value);
             },
           ),
           const SizedBox(height: 16),
@@ -52,7 +73,7 @@ class HomeContent extends ConsumerWidget {
                 },
                 loading: () => const Center(child: CircularProgressIndicator()),
                 error: (error, stack) =>
-                    const Center(child: Text('Error loading events')),
+                const Center(child: Text('Error loading events')),
               ),
             ),
           ),
