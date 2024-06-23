@@ -1,4 +1,6 @@
 // app_router.dart
+import 'package:event_flow/features/announcement/screens/announcements_screen.dart';
+import 'package:event_flow/features/create_announcement/screens/create_announcement_screen.dart';
 import 'package:event_flow/features/create_event/screens/create_event_screen.dart';
 import 'package:event_flow/features/event/screens/event_screen.dart';
 import 'package:event_flow/features/forum/screens/forum_screen.dart';
@@ -9,26 +11,19 @@ import 'package:event_flow/widgets/base_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../features/home/screens/home_screen.dart';
+import '../data_models/event_data_model.dart';
+import '../features/home/screens/home_content.dart';
 
 class AppRouter {
   late final GoRouter router = GoRouter(
     routes: [
       GoRoute(
         path: '/',
-        builder: (context, state) => HomeContent(),
+        builder: (context, state) => const HomeContent(),
       ),
       GoRoute(
-        path: '/home',
-        builder: (context, state) => HomeContent(),
-      ),
-      GoRoute(
-        path: '/chat',
-        builder: (context, state) => const BaseScreen(
-          selectedIndex: 1,
-          title: Text('Chat'),
-          child: Center(child: Text('Chat Screen')),
-        ),
+        path: '/announcements',
+        builder: (context, state) => const AnnouncementScreen(),
       ),
       GoRoute(
         path: '/settings',
@@ -49,14 +44,8 @@ class AppRouter {
       GoRoute(
         path: '/event',
         builder: (context, state) {
-          final eventDetails = state.extra as Map<String, String>;
-          return EventScreen(
-            title: eventDetails['title']!,
-            date: eventDetails['date']!,
-            time: eventDetails['time']!,
-            location: eventDetails['location']!,
-            attendees: eventDetails['attendees']!,
-          );
+          final eventDetails = state.extra as Event?;
+          return EventScreen(event: eventDetails);
         },
       ),
       GoRoute(
@@ -81,7 +70,17 @@ class AppRouter {
       ),
       GoRoute(
         path: '/createEvent',
-        builder: (context, state) => const CreateEventScreen(),
+        builder: (context, state) {
+          final event = state.extra as Event?;
+          return CreateEventScreen(event: event);
+        },
+      ),
+      GoRoute(
+        path: '/createAnnouncement',
+        builder: (context, state) {
+          final event = state.extra as Event;
+          return CreateAnnouncement(event: event);
+        },
       ),
     ],
   );

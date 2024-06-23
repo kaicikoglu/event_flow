@@ -2,31 +2,24 @@ import 'package:event_flow/widgets/base_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../data_models/event_data_model.dart';
 import '../../../widgets/wide_button.dart';
 import '../widgets/button_grid_view.dart';
 import '../widgets/info_box.dart';
 import '../widgets/theme_button.dart';
 
 class EventScreen extends StatelessWidget {
-  final String title;
-  final String date;
-  final String time;
-  final String location;
-  final String attendees;
+  final Event? event;
 
   const EventScreen({
     super.key,
-    required this.title,
-    required this.date,
-    required this.time,
-    required this.location,
-    required this.attendees,
+    required this.event,
   });
 
   @override
   Widget build(BuildContext context) {
     return BaseScreen(
-      title: Text(title),
+      title: Text(event!.title),
       selectedIndex: 0,
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -45,16 +38,17 @@ class EventScreen extends StatelessWidget {
                     Center(
                         child: InfoBox(
                             icon1: Icons.calendar_today,
-                            text1: date,
+                            text1:
+                                event!.date.toIso8601String().split('T').first,
                             icon2: Icons.access_time,
-                            text2: time)),
+                            text2: event!.time)),
                     const SizedBox(height: 8),
                     Center(
                         child: InfoBox(
                             icon1: Icons.location_on,
-                            text1: location,
+                            text1: event!.location,
                             icon2: Icons.person,
-                            text2: attendees)),
+                            text2: event!.participants)),
                   ],
                 ),
               ),
@@ -68,7 +62,7 @@ class EventScreen extends StatelessWidget {
             CustomWideButton(
               text: 'Announcement',
               onPressed: () {
-                // Define your onPressed action here
+                context.push('/createAnnouncement', extra: event);
               },
             ),
             const SizedBox(height: 16),

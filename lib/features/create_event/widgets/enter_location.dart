@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 class EnterLocation extends StatefulWidget {
   final String argument;
   final String hintText;
@@ -8,14 +7,17 @@ class EnterLocation extends StatefulWidget {
   final double height;
   final TextEditingController controller;
   final String? Function(String?)? validator;
+  final String? updateLocation;
 
-  const EnterLocation({super.key,
+  const EnterLocation({
+    super.key,
     required this.argument,
     required this.hintText,
     required this.width,
     required this.height,
     required this.controller,
     this.validator,
+    this.updateLocation,
   });
 
   @override
@@ -23,6 +25,12 @@ class EnterLocation extends StatefulWidget {
 }
 
 class _EnterLocationState extends State<EnterLocation> {
+  @override
+  void initState() {
+    super.initState();
+    widget.controller.text = widget.updateLocation ?? '';
+  }
+
   @override
   Widget build(BuildContext context) {
     return Row(

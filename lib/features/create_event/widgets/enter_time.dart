@@ -6,6 +6,7 @@ class EnterTime extends StatefulWidget {
   final double height;
   final TextEditingController controller;
   final String? Function(String?)? validator;
+  final TimeOfDay? updateTime;
 
   const EnterTime({
     super.key,
@@ -14,6 +15,7 @@ class EnterTime extends StatefulWidget {
     required this.height,
     required this.controller,
     this.validator,
+    this.updateTime,
   });
 
   @override
@@ -21,18 +23,22 @@ class EnterTime extends StatefulWidget {
 }
 
 class _EnterTimeState extends State<EnterTime> {
-  TimeOfDay selectedTime = TimeOfDay.now();
-  Color color = const Color.fromRGBO(73, 81, 86, 100);
+  @override
+  void initState() {
+    super.initState();
+    if (widget.updateTime != null) {
+      widget.controller.text = widget.updateTime!.format(context);
+    }
+  }
 
   Future<void> _selectTime(BuildContext context) async {
     final TimeOfDay? picked = await showTimePicker(
       context: context,
-      initialTime: selectedTime,
+      initialTime: widget.updateTime ?? TimeOfDay.now(),
     );
-    if (picked != null && picked != selectedTime) {
+    if (picked != null && picked != widget.updateTime) {
       setState(() {
-        selectedTime = picked;
-        widget.controller.text = selectedTime.format(context);
+        widget.controller.text = picked.format(context);
       });
     }
   }
@@ -51,52 +57,29 @@ class _EnterTimeState extends State<EnterTime> {
         SizedBox(
           width: widget.width,
           height: widget.height,
-          child: FormField<String>(
+          child: TextFormField(
+            controller: widget.controller,
+            readOnly: true,
+            decoration: InputDecoration(
+              hintText: 'Select Time',
+              hintStyle: const TextStyle(
+                color: Color.fromRGBO(73, 81, 86, 100),
+              ),
+              border: const OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                borderSide: BorderSide(
+                  color: Color.fromRGBO(73, 81, 86, 100),
+                  width: 1.0,
+                ),
+              ),
+              suffixIcon: IconButton(
+                icon: const Icon(Icons.access_time),
+                onPressed: () {
+                  _selectTime(context);
+                },
+              ),
+            ),
             validator: widget.validator,
-            builder: (FormFieldState<String> state) {
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  OutlinedButton(
-                    onPressed: () {
-                      _selectTime(context).then((_) {
-                        state.didChange(widget.controller.text); // Update FormField state
-                      });
-                      color = Colors.black;
-                    },
-                    style: OutlinedButton.styleFrom(
-                      side: const BorderSide(
-                        color: Color.fromRGBO(73, 81, 86, 100),
-                        width: 1.0,
-                      ),
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                      ),
-                    ),
-                    child: Row(
-                      children: [
-                        Text(
-                          widget.controller.text.isEmpty
-                              ? 'Select Time'
-                              : widget.controller.text,
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: color,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                        const Spacer(),
-                        const Icon(
-                          Icons.access_time,
-                          size: 20.0,
-                          color: Colors.black,
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              );
-            },
           ),
         ),
       ],

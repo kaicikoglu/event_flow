@@ -1,33 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../data_models/event_data_model.dart';
+
 class EventCard extends StatelessWidget {
-  final String title;
-  final String date;
-  final String time;
-  final String location;
-  final String attendees;
+  final Event? event;
 
   const EventCard({
     super.key,
-    required this.title,
-    required this.date,
-    required this.time,
-    required this.location,
-    required this.attendees,
+    required this.event,
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        context.push('/event', extra: {
-          'title': title,
-          'date': date,
-          'time': time,
-          'location': location,
-          'attendees': attendees,
-        });
+        context.push('/event', extra: event);
       },
       child: Card(
         margin: const EdgeInsets.only(bottom: 16),
@@ -43,7 +31,7 @@ class EventCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                title,
+                event!.title,
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 18,
@@ -54,10 +42,12 @@ class EventCard extends StatelessWidget {
                 children: [
                   const Icon(Icons.calendar_today, size: 16),
                   const SizedBox(width: 4),
-                  Expanded(child: Text(date)),
+                  Expanded(
+                      child:
+                          Text(event!.date.toIso8601String().split('T').first)),
                   const Icon(Icons.access_time, size: 16),
                   const SizedBox(width: 4),
-                  Expanded(child: Text(time)),
+                  Expanded(child: Text(event!.time)),
                 ],
               ),
               const SizedBox(height: 8),
@@ -65,10 +55,10 @@ class EventCard extends StatelessWidget {
                 children: [
                   const Icon(Icons.location_on, size: 16),
                   const SizedBox(width: 4),
-                  Expanded(child: Text(location)),
+                  Expanded(child: Text(event!.location)),
                   const Icon(Icons.person, size: 16),
                   const SizedBox(width: 4),
-                  Expanded(child: Text(attendees)),
+                  Expanded(child: Text(event!.participants)),
                 ],
               ),
             ],

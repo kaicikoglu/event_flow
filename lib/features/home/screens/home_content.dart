@@ -1,5 +1,4 @@
-// lib/features/home/screens/home_content.dart
-
+import 'package:event_flow/features/home/widgets/dismissible_event_card.dart';
 import 'package:event_flow/widgets/base_screen.dart';
 import 'package:event_flow/widgets/floating_action_button.dart';
 import 'package:flutter/material.dart';
@@ -7,12 +6,32 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../services/event_list_notifier.dart';
-import '../widgets/event_card.dart';
 import '../widgets/search_bar.dart';
 
-class HomeContent extends ConsumerWidget {
+class HomeContent extends ConsumerStatefulWidget {
+  const HomeContent({super.key});
+
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  _HomeContentState createState() => _HomeContentState();
+}
+
+class _HomeContentState extends ConsumerState<HomeContent> {
+  late TextEditingController _searchController;
+
+  @override
+  void initState() {
+    super.initState();
+    _searchController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final eventsState = ref.watch(eventNotifierProvider);
 
     return BaseScreen(
@@ -26,10 +45,9 @@ class HomeContent extends ConsumerWidget {
         children: [
           CustomSearchBar(
             hintText: 'Suche nach Events',
-            controller: TextEditingController(),
-            // Use a controller for search functionality
+            controller: _searchController,
             onChanged: (value) {
-              // Handle the search bar input here
+              ref.read(eventNotifierProvider.notifier).searchEvents(value);
             },
           ),
           const SizedBox(height: 16),
@@ -48,40 +66,14 @@ class HomeContent extends ConsumerWidget {
                       itemCount: events.length,
                       itemBuilder: (context, index) {
                         final event = events[index];
-                        return Dismissible(
-                          key: Key(event.id.toString()),
-                          direction: DismissDirection.horizontal,
-                          onDismissed: (direction) async {
-                            final eventNotifier =
-                                ref.read(eventNotifierProvider.notifier);
-                            await eventNotifier.removeEvent(event.id);
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                  content: Text('${event.title} dismissed')),
-                            );
-                          },
-                          background: Container(
-                            color: Colors.red,
-                            alignment: Alignment.centerRight,
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
-                            child:
-                                const Icon(Icons.delete, color: Colors.white),
-                          ),
-                          child: EventCard(
-                            title: event.title,
-                            date: event.date.toIso8601String().split('T').first,
-                            time: event.time,
-                            location: event.location,
-                            attendees: event.participants,
-                          ),
-                        );
+                        return DismissibleEventCard(event: event);
                       },
                     );
                   }
                 },
                 loading: () => const Center(child: CircularProgressIndicator()),
                 error: (error, stack) =>
-                    const Center(child: Text('Error loading events')),
+                const Center(child: Text('Error loading events')),
               ),
             ),
           ),
