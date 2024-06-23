@@ -49,7 +49,14 @@ const EventSchema = CollectionSchema(
   deserializeProp: _eventDeserializeProp,
   idName: r'id',
   indexes: {},
-  links: {},
+  links: {
+    r'announcements': LinkSchema(
+      id: 8484887396497643435,
+      name: r'announcements',
+      target: r'Announcement',
+      single: false,
+    )
+  },
   embeddedSchemas: {},
   getId: _eventGetId,
   getLinks: _eventGetLinks,
@@ -126,11 +133,13 @@ Id _eventGetId(Event object) {
 }
 
 List<IsarLinkBase<dynamic>> _eventGetLinks(Event object) {
-  return [];
+  return [object.announcements];
 }
 
 void _eventAttach(IsarCollection<dynamic> col, Id id, Event object) {
   object.id = id;
+  object.announcements
+      .attach(col, col.isar.collection<Announcement>(), r'announcements', id);
 }
 
 extension EventQueryWhereSort on QueryBuilder<Event, Event, QWhere> {
@@ -833,7 +842,64 @@ extension EventQueryFilter on QueryBuilder<Event, Event, QFilterCondition> {
 
 extension EventQueryObject on QueryBuilder<Event, Event, QFilterCondition> {}
 
-extension EventQueryLinks on QueryBuilder<Event, Event, QFilterCondition> {}
+extension EventQueryLinks on QueryBuilder<Event, Event, QFilterCondition> {
+  QueryBuilder<Event, Event, QAfterFilterCondition> announcements(
+      FilterQuery<Announcement> q) {
+    return QueryBuilder.apply(this, (query) {
+      return query.link(q, r'announcements');
+    });
+  }
+
+  QueryBuilder<Event, Event, QAfterFilterCondition> announcementsLengthEqualTo(
+      int length) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'announcements', length, true, length, true);
+    });
+  }
+
+  QueryBuilder<Event, Event, QAfterFilterCondition> announcementsIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'announcements', 0, true, 0, true);
+    });
+  }
+
+  QueryBuilder<Event, Event, QAfterFilterCondition> announcementsIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'announcements', 0, false, 999999, true);
+    });
+  }
+
+  QueryBuilder<Event, Event, QAfterFilterCondition> announcementsLengthLessThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'announcements', 0, true, length, include);
+    });
+  }
+
+  QueryBuilder<Event, Event, QAfterFilterCondition>
+      announcementsLengthGreaterThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'announcements', length, include, 999999, true);
+    });
+  }
+
+  QueryBuilder<Event, Event, QAfterFilterCondition> announcementsLengthBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(
+          r'announcements', lower, includeLower, upper, includeUpper);
+    });
+  }
+}
 
 extension EventQuerySortBy on QueryBuilder<Event, Event, QSortBy> {
   QueryBuilder<Event, Event, QAfterSortBy> sortByDate() {

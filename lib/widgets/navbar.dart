@@ -26,7 +26,7 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.chat_bubble_outline),
-          label: 'Chat',
+          label: 'Announcements',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.settings),

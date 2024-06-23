@@ -46,13 +46,7 @@ class _DismissibleEventCardState extends State<DismissibleEventCard> {
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: const Icon(Icons.delete, color: Colors.white),
           ),
-          child: EventCard(
-            title: widget.event.title,
-            date: widget.event.date.toIso8601String().split('T').first,
-            time: widget.event.time,
-            location: widget.event.location,
-            attendees: widget.event.participants,
-          ),
+          child: EventCard(event: widget.event),
         );
       },
     );

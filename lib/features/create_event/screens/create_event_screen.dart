@@ -164,13 +164,7 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
                     if (mounted) {
                       context.go(
                         '/event',
-                        extra: {
-                          'title': eventName,
-                          'date': startDate,
-                          'time': time,
-                          'location': location,
-                          'attendees': 'attendees',
-                        },
+                        extra: event,
                       );
                     }
                   }

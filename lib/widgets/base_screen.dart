@@ -28,10 +28,10 @@ class BaseScreen extends StatelessWidget {
   void _onItemTapped(BuildContext context, int index) {
     switch (index) {
       case 0:
-        context.go('/home');
+        context.go('/');
         break;
       case 1:
-        context.go('/chat');
+        context.go('/announcements');
         break;
       case 2:
         context.go('/settings');
