@@ -1,3 +1,5 @@
+// path: lib/data_models/event_data_model.dart
+
 import 'package:isar/isar.dart';
 
 import 'announcement_data_model.dart';

@@ -12,14 +12,14 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../data_models/event_data_model.dart';
-import '../features/home/screens/home_content.dart';
+import '../features/home/screens/home_screen.dart';
 
 class AppRouter {
   late final GoRouter router = GoRouter(
     routes: [
       GoRoute(
         path: '/',
-        builder: (context, state) => const HomeContent(),
+        builder: (context, state) => const HomeScreen(),
       ),
       GoRoute(
         path: '/announcements',

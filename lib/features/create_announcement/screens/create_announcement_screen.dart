@@ -1,9 +1,13 @@
+// path: lib/screens/create_announcement.dart
+
+import 'package:event_flow/features/create_announcement/widgets/announcement_title.dart';
 import 'package:event_flow/widgets/base_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:isar/isar.dart';
 
 import '../../../data_models/event_data_model.dart';
+import '../services/create_announcement_controller.dart';
+import '../widgets/announcement_description.dart';
+import '../widgets/create_announcement_button.dart';
 
 class CreateAnnouncement extends StatefulWidget {
   final Event event;
@@ -16,27 +20,13 @@ class CreateAnnouncement extends StatefulWidget {
 
 class _CreateAnnouncementState extends State<CreateAnnouncement> {
   final _formKey = GlobalKey<FormState>();
-  final _descriptionController = TextEditingController();
+  final CreateAnnouncementController _announcementController =
+      CreateAnnouncementController();
 
   @override
   void dispose() {
-    _descriptionController.dispose();
+    _announcementController.dispose();
     super.dispose();
-  }
-
-  Future<void> _createAnnouncement() async {
-    if (_formKey.currentState!.validate()) {
-      final String description = _descriptionController.text;
-      final isar = Isar.getInstance();
-
-      if (isar != null) {
-        await widget.event.createAnnouncement(isar, description);
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Announcement created successfully!')),
-        );
-        context.pop();
-      }
-    }
   }
 
   @override
@@ -51,25 +41,17 @@ class _CreateAnnouncementState extends State<CreateAnnouncement> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Event Title: ${widget.event.title}'),
+              AnnouncementTitle(event: widget.event),
               const SizedBox(height: 16.0),
               Text(
                   'Date: ${DateTime.now().toLocal().toString().split(' ')[0]}'),
               const SizedBox(height: 16.0),
-              TextFormField(
-                controller: _descriptionController,
-                decoration: const InputDecoration(labelText: 'Description'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter a description';
-                  }
-                  return null;
-                },
-              ),
+              AnnouncementDescription(controller: _announcementController),
               const SizedBox(height: 16.0),
-              ElevatedButton(
-                onPressed: _createAnnouncement,
-                child: const Text('Create Announcement'),
+              CreateAnnouncementButton(
+                controller: _announcementController,
+                event: widget.event,
+                formKey: _formKey,
               ),
             ],
           ),

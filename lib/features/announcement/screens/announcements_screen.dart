@@ -1,9 +1,11 @@
+// path: lib/screens/announcement_screen.dart
+
 import 'package:event_flow/widgets/base_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:isar/isar.dart';
 
 import '../../../data_models/announcement_data_model.dart';
-import '../../../services/isar_service.dart';
+import '../services/announcements_screen_controller.dart';
+import '../widgets/announcement_widget.dart';
 
 class AnnouncementScreen extends StatefulWidget {
   const AnnouncementScreen({super.key});
@@ -14,21 +16,13 @@ class AnnouncementScreen extends StatefulWidget {
 
 class _AnnouncementScreenState extends State<AnnouncementScreen> {
   late Future<List<Announcement>> _announcementsFuture;
-  final IsarService _isarService = IsarService();
+  final AnnouncementController _announcementController =
+      AnnouncementController();
 
   @override
   void initState() {
     super.initState();
-    _isarService.initializeIsar();
-    _announcementsFuture = _fetchAnnouncements();
-  }
-
-  Future<List<Announcement>> _fetchAnnouncements() async {
-    final isar = Isar.getInstance();
-    if (isar == null) {
-      throw Exception('Isar instance is not available');
-    }
-    return isar.announcements.where().findAll();
+    _announcementsFuture = _announcementController.fetchAnnouncements();
   }
 
   @override
@@ -51,16 +45,10 @@ class _AnnouncementScreenState extends State<AnnouncementScreen> {
               itemCount: announcements.length,
               itemBuilder: (context, index) {
                 final announcement = announcements[index];
-                return Card(
-                  margin: const EdgeInsets.symmetric(
-                      vertical: 8.0, horizontal: 16.0),
-                  child: ListTile(
-                    title: Text(announcement.title),
-                    subtitle: Text(
-                      '${announcement.sentDate.toLocal().toString().split(' ')[0]} - ${announcement.description}',
-                    ),
-                  ),
-                );
+                final event = _announcementController.getEventForAnnouncement(
+                    announcement); // Implement this method to get the event for each announcement
+                return AnnouncementWidget(
+                    announcement: announcement, event: event);
               },
             );
           }
