@@ -1,13 +1,11 @@
+// lib/screens/create_event_screen.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart';
-import 'package:isar/isar.dart';
 
 import '../../../data_models/event_data_model.dart';
-import '../../../services/event_list_notifier.dart';
 import '../../../widgets/base_screen.dart';
 import '../../../widgets/wide_button.dart';
+import '../services/create_event_controller.dart';
 import '../widgets/enter_date.dart';
 import '../widgets/enter_location.dart';
 import '../widgets/enter_text.dart';
@@ -23,48 +21,23 @@ class CreateEventScreen extends ConsumerStatefulWidget {
 }
 
 class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
-  final eventNameController = TextEditingController();
-  final timeController = TextEditingController();
-  final startDateController = TextEditingController();
-  final locationController = TextEditingController();
-
-  final _formKey = GlobalKey<FormState>();
-
-  Event? editingEvent;
+  late CreateEventController _controller;
 
   @override
   void initState() {
     super.initState();
-    editingEvent = widget.event;
-    if (editingEvent != null) {
-      eventNameController.text = editingEvent!.title;
-      timeController.text = editingEvent!.time;
-      startDateController.text =
-          editingEvent!.date.toIso8601String().split('T').first;
-      locationController.text = editingEvent!.location;
-    }
-  }
-
-  TimeOfDay? _parseTimeOfDay(String time) {
-    final format = DateFormat
-        .jm(); // or you can use DateFormat("hh:mm a") for a 12-hour format
-    try {
-      final dateTime = format.parse(time);
-      return TimeOfDay(hour: dateTime.hour, minute: dateTime.minute);
-    } catch (e) {
-      return null;
-    }
+    _controller = CreateEventController(editingEvent: widget.event);
   }
 
   @override
   Widget build(BuildContext context) {
     return BaseScreen(
       selectedIndex: 0,
-      title: Text(editingEvent != null ? 'Edit Event' : 'Create Event'),
+      title: Text(widget.event != null ? 'Edit Event' : 'Create Event'),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
-          key: _formKey,
+          key: _controller.formKey,
           child: Column(
             children: [
               Expanded(
@@ -75,29 +48,29 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
                       hintText: 'Enter event name',
                       width: 250,
                       height: 60,
-                      controller: eventNameController,
+                      controller: _controller.eventNameController,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter event name';
                         }
                         return null;
                       },
-                      updateText: editingEvent?.title,
+                      updateText: widget.event?.title,
                     ),
                     const SizedBox(height: 16),
                     EnterTime(
                       argument: 'Time:',
                       width: 250,
                       height: 60,
-                      controller: timeController,
+                      controller: _controller.timeController,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter time';
                         }
                         return null;
                       },
-                      updateTime: editingEvent != null
-                          ? _parseTimeOfDay(editingEvent!.time)
+                      updateTime: widget.event != null
+                          ? _controller.parseTimeOfDay(widget.event!.time)
                           : null,
                     ),
                     const SizedBox(height: 16),
@@ -105,14 +78,14 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
                       argument: 'Date:',
                       width: 250,
                       height: 60,
-                      controller: startDateController,
+                      controller: _controller.startDateController,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter date';
                         }
                         return null;
                       },
-                      updateDate: editingEvent?.date,
+                      updateDate: widget.event?.date,
                     ),
                     const SizedBox(height: 16),
                     EnterLocation(
@@ -120,55 +93,22 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
                       hintText: 'Enter location',
                       width: 250,
                       height: 60,
-                      controller: locationController,
+                      controller: _controller.locationController,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter location';
                         }
                         return null;
                       },
-                      updateLocation: editingEvent?.location,
+                      updateLocation: widget.event?.location,
                     ),
                     const SizedBox(height: 16),
                   ],
                 ),
               ),
               CustomWideButton(
-                text: editingEvent != null ? 'Update Event' : 'Create Event',
-                onPressed: () async {
-                  if (_formKey.currentState!.validate()) {
-                    String eventName = eventNameController.text;
-                    String startDate = startDateController.text;
-                    String time = timeController.text;
-                    String location = locationController.text;
-                    String participants = editingEvent?.participants ?? '0/0';
-
-                    final event = Event()
-                      ..id = editingEvent?.id ?? Isar.autoIncrement
-                      ..title = eventName
-                      ..date = DateTime.parse(startDate)
-                      ..time = time
-                      ..location = location
-                      ..participants = participants;
-
-                    final eventNotifier =
-                        ref.read(eventNotifierProvider.notifier);
-
-                    if (editingEvent != null) {
-                      await eventNotifier.updateEvent(
-                          event); // Implement updateEvent in your notifier
-                    } else {
-                      await eventNotifier.addEvent(event);
-                    }
-
-                    if (mounted) {
-                      context.go(
-                        '/event',
-                        extra: event,
-                      );
-                    }
-                  }
-                },
+                text: widget.event != null ? 'Update Event' : 'Create Event',
+                onPressed: () => _controller.handleSubmit(context, ref),
               ),
             ],
           ),
@@ -179,10 +119,7 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
 
   @override
   void dispose() {
-    eventNameController.dispose();
-    timeController.dispose();
-    startDateController.dispose();
-    locationController.dispose();
+    _controller.dispose();
     super.dispose();
   }
 }
