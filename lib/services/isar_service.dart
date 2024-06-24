@@ -1,3 +1,5 @@
+// path: lib/services/isar_service.dart
+
 import 'package:event_flow/data_models/announcement_data_model.dart';
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
@@ -34,10 +36,7 @@ class IsarService {
   Future<void> deleteEvent(int id) async {
     await _isar.writeTxn(() async {
       // Delete all announcements related to the event
-      await _isar.announcements
-          .filter()
-          .eventIdEqualTo(id)
-          .deleteAll();
+      await _isar.announcements.filter().eventIdEqualTo(id).deleteAll();
 
       // Delete the event
       await _isar.events.delete(id);

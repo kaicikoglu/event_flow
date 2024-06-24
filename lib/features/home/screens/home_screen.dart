@@ -1,3 +1,5 @@
+// path: lib/features/home/screens/home_screen.dart
+
 import 'package:event_flow/features/home/widgets/dismissible_event_card.dart';
 import 'package:event_flow/widgets/base_screen.dart';
 import 'package:event_flow/widgets/floating_action_button.dart';
@@ -8,14 +10,14 @@ import 'package:go_router/go_router.dart';
 import '../../../services/event_list_notifier.dart';
 import '../widgets/search_bar.dart';
 
-class HomeContent extends ConsumerStatefulWidget {
-  const HomeContent({super.key});
+class HomeScreen extends ConsumerStatefulWidget {
+  const HomeScreen({super.key});
 
   @override
-  _HomeContentState createState() => _HomeContentState();
+  _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeContentState extends ConsumerState<HomeContent> {
+class _HomeScreenState extends ConsumerState<HomeScreen> {
   late TextEditingController _searchController;
 
   @override
@@ -62,6 +64,7 @@ class _HomeContentState extends ConsumerState<HomeContent> {
                   if (events.isEmpty) {
                     return const Center(child: Text('No events found'));
                   } else {
+                    events.sort((a, b) => a.date.compareTo(b.date));
                     return ListView.builder(
                       itemCount: events.length,
                       itemBuilder: (context, index) {
@@ -73,7 +76,7 @@ class _HomeContentState extends ConsumerState<HomeContent> {
                 },
                 loading: () => const Center(child: CircularProgressIndicator()),
                 error: (error, stack) =>
-                const Center(child: Text('Error loading events')),
+                    const Center(child: Text('Error loading events')),
               ),
             ),
           ),
