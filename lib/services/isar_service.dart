@@ -3,6 +3,7 @@
 import 'package:event_flow/data_models/announcement_data_model.dart';
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
+
 import '../data_models/event_data_model.dart';
 
 class IsarService {
@@ -46,5 +47,12 @@ class IsarService {
   Future<List<Event>> getAllEvents() async {
     final events = await _isar.events.where().findAll();
     return events;
+  }
+
+  Future<void> announcementHasBeenChecked(Event event) async {
+    await _isar.writeTxn(() async {
+      event.hasNewAnnouncements = false;
+      await _isar.events.put(event);
+    });
   }
 }

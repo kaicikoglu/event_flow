@@ -6,6 +6,7 @@ import '../services/isar_service.dart';
 
 class EventNotifier extends StateNotifier<AsyncValue<List<Event>>> {
   final IsarService isarService;
+  final Set<int> _eventsWithNewAnnouncements = {}; // Track events with new announcements
 
   EventNotifier(this.isarService) : super(const AsyncValue.loading()) {
     loadEvents();
@@ -40,17 +41,32 @@ class EventNotifier extends StateNotifier<AsyncValue<List<Event>>> {
       final events = await isarService.getAllEvents();
       final filteredEvents = events
           .where((event) =>
-              event.title.toLowerCase().contains(query.toLowerCase()))
+          event.title.toLowerCase().contains(query.toLowerCase()))
           .toList();
       state = AsyncValue.data(filteredEvents);
     } catch (e, st) {
       state = AsyncValue.error(e, st);
     }
   }
+
+  Future<void> checkAnnouncement(Event event) async {
+    await isarService.announcementHasBeenChecked(event);
+    _eventsWithNewAnnouncements.remove(event.id); // Mark as checked
+    loadEvents();
+  }
+
+  void markEventWithNewAnnouncement(int eventId) {
+    _eventsWithNewAnnouncements.add(eventId);
+    state = AsyncValue.data(state.value ?? []);
+  }
+
+  bool hasNewAnnouncement(int eventId) {
+    return _eventsWithNewAnnouncements.contains(eventId);
+  }
 }
 
 final eventNotifierProvider =
-    StateNotifierProvider<EventNotifier, AsyncValue<List<Event>>>((ref) {
+StateNotifierProvider<EventNotifier, AsyncValue<List<Event>>>((ref) {
   final isarService = ref.watch(isarServiceProvider);
   return EventNotifier(isarService);
 });
