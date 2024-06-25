@@ -22,23 +22,28 @@ const EventSchema = CollectionSchema(
       name: r'date',
       type: IsarType.dateTime,
     ),
-    r'location': PropertySchema(
+    r'hasNewAnnouncements': PropertySchema(
       id: 1,
+      name: r'hasNewAnnouncements',
+      type: IsarType.bool,
+    ),
+    r'location': PropertySchema(
+      id: 2,
       name: r'location',
       type: IsarType.string,
     ),
     r'participants': PropertySchema(
-      id: 2,
+      id: 3,
       name: r'participants',
       type: IsarType.string,
     ),
     r'time': PropertySchema(
-      id: 3,
+      id: 4,
       name: r'time',
       type: IsarType.string,
     ),
     r'title': PropertySchema(
-      id: 4,
+      id: 5,
       name: r'title',
       type: IsarType.string,
     )
@@ -84,10 +89,11 @@ void _eventSerialize(
   Map<Type, List<int>> allOffsets,
 ) {
   writer.writeDateTime(offsets[0], object.date);
-  writer.writeString(offsets[1], object.location);
-  writer.writeString(offsets[2], object.participants);
-  writer.writeString(offsets[3], object.time);
-  writer.writeString(offsets[4], object.title);
+  writer.writeBool(offsets[1], object.hasNewAnnouncements);
+  writer.writeString(offsets[2], object.location);
+  writer.writeString(offsets[3], object.participants);
+  writer.writeString(offsets[4], object.time);
+  writer.writeString(offsets[5], object.title);
 }
 
 Event _eventDeserialize(
@@ -98,11 +104,12 @@ Event _eventDeserialize(
 ) {
   final object = Event();
   object.date = reader.readDateTime(offsets[0]);
+  object.hasNewAnnouncements = reader.readBool(offsets[1]);
   object.id = id;
-  object.location = reader.readString(offsets[1]);
-  object.participants = reader.readString(offsets[2]);
-  object.time = reader.readString(offsets[3]);
-  object.title = reader.readString(offsets[4]);
+  object.location = reader.readString(offsets[2]);
+  object.participants = reader.readString(offsets[3]);
+  object.time = reader.readString(offsets[4]);
+  object.title = reader.readString(offsets[5]);
   return object;
 }
 
@@ -116,12 +123,14 @@ P _eventDeserializeProp<P>(
     case 0:
       return (reader.readDateTime(offset)) as P;
     case 1:
-      return (reader.readString(offset)) as P;
+      return (reader.readBool(offset)) as P;
     case 2:
       return (reader.readString(offset)) as P;
     case 3:
       return (reader.readString(offset)) as P;
     case 4:
+      return (reader.readString(offset)) as P;
+    case 5:
       return (reader.readString(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -267,6 +276,16 @@ extension EventQueryFilter on QueryBuilder<Event, Event, QFilterCondition> {
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<Event, Event, QAfterFilterCondition> hasNewAnnouncementsEqualTo(
+      bool value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'hasNewAnnouncements',
+        value: value,
       ));
     });
   }
@@ -914,6 +933,18 @@ extension EventQuerySortBy on QueryBuilder<Event, Event, QSortBy> {
     });
   }
 
+  QueryBuilder<Event, Event, QAfterSortBy> sortByHasNewAnnouncements() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'hasNewAnnouncements', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Event, Event, QAfterSortBy> sortByHasNewAnnouncementsDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'hasNewAnnouncements', Sort.desc);
+    });
+  }
+
   QueryBuilder<Event, Event, QAfterSortBy> sortByLocation() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'location', Sort.asc);
@@ -973,6 +1004,18 @@ extension EventQuerySortThenBy on QueryBuilder<Event, Event, QSortThenBy> {
   QueryBuilder<Event, Event, QAfterSortBy> thenByDateDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'date', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Event, Event, QAfterSortBy> thenByHasNewAnnouncements() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'hasNewAnnouncements', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Event, Event, QAfterSortBy> thenByHasNewAnnouncementsDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'hasNewAnnouncements', Sort.desc);
     });
   }
 
@@ -1044,6 +1087,12 @@ extension EventQueryWhereDistinct on QueryBuilder<Event, Event, QDistinct> {
     });
   }
 
+  QueryBuilder<Event, Event, QDistinct> distinctByHasNewAnnouncements() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'hasNewAnnouncements');
+    });
+  }
+
   QueryBuilder<Event, Event, QDistinct> distinctByLocation(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -1083,6 +1132,12 @@ extension EventQueryProperty on QueryBuilder<Event, Event, QQueryProperty> {
   QueryBuilder<Event, DateTime, QQueryOperations> dateProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'date');
+    });
+  }
+
+  QueryBuilder<Event, bool, QQueryOperations> hasNewAnnouncementsProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'hasNewAnnouncements');
     });
   }
 

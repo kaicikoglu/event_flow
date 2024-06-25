@@ -46,7 +46,7 @@ class _AnnouncementScreenState extends State<AnnouncementScreen> {
               itemBuilder: (context, index) {
                 final announcement = announcements[index];
                 final event = _announcementController.getEventForAnnouncement(
-                    announcement); // Implement this method to get the event for each announcement
+                    announcement);
                 return AnnouncementWidget(
                     announcement: announcement, event: event);
               },

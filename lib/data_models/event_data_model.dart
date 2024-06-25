@@ -17,6 +17,7 @@ class Event {
   late String participants;
 
   final announcements = IsarLinks<Announcement>(); // Link to announcements
+  bool hasNewAnnouncements = false;
 
   // Method to create and save an announcement
   Future<void> createAnnouncement(Isar isar, String description) async {
@@ -29,6 +30,7 @@ class Event {
     await isar.writeTxn(() async {
       await isar.announcements.put(announcement);
       announcements.add(announcement);
+      hasNewAnnouncements = true;
       await announcements.save();
     } as Future Function());
   }
