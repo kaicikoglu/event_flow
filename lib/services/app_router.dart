@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../data_models/event_data_model.dart';
+import '../data_models/forum_topic_data_model.dart';
 import '../features/home/screens/home_screen.dart';
 
 class AppRouter {
@@ -56,10 +57,11 @@ class AppRouter {
         }
       ),
       GoRoute(
-        path: '/forum/topic',
-        builder: (context, state) => const ForumTopicScreen(
-          title: 'Forum',
-        ),
+        path: '/forumTopic',
+        builder: (context, state) {
+          final topic = state.extra as ForumTopic;
+          return ForumTopicScreen(title: topic.title);
+        }
       ),
       GoRoute(
         path: '/vote',
@@ -82,7 +84,7 @@ class AppRouter {
         path: '/createAnnouncement',
         builder: (context, state) {
           final event = state.extra as Event;
-          return CreateAnnouncement(event: event);
+          return CreateAnnouncementScreen(event: event);
         },
       ),
     ],

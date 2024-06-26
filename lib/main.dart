@@ -12,7 +12,7 @@ void main() async {
 
   runApp(ProviderScope(overrides: [
     isarServiceProvider.overrideWithValue(isarService),
-  ], child: MyApp()));
+  ], child: const MyApp()));
 }
 
 final isarServiceProvider = Provider<IsarService>((ref) {
@@ -20,6 +20,8 @@ final isarServiceProvider = Provider<IsarService>((ref) {
 });
 
 class MyApp extends ConsumerWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final appRouter = AppRouter().router;
