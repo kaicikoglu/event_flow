@@ -50,7 +50,10 @@ class AppRouter {
       ),
       GoRoute(
         path: '/forum',
-        builder: (context, state) => const ForumScreen(),
+        builder: (context, state) {
+          final event = state.extra as Event;
+          return ForumScreen(event: event);
+        }
       ),
       GoRoute(
         path: '/forum/topic',
