@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../services/event_list_notifier.dart';
+import '../services/home_provider.dart';
 import '../widgets/search_bar.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
@@ -34,7 +34,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final eventsState = ref.watch(eventNotifierProvider);
+    final eventsState = ref.watch(homeProvider);
 
     return BaseScreen(
       title: const Center(child: Text('Mein EventFlow')),
@@ -49,14 +49,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             hintText: 'Suche nach Events',
             controller: _searchController,
             onChanged: (value) {
-              ref.read(eventNotifierProvider.notifier).searchEvents(value);
+              ref.read(homeProvider.notifier).searchEvents(value);
             },
           ),
           const SizedBox(height: 16),
           Expanded(
             child: RefreshIndicator(
               onRefresh: () async {
-                final eventNotifier = ref.read(eventNotifierProvider.notifier);
+                final eventNotifier = ref.read(homeProvider.notifier);
                 await eventNotifier.loadEvents();
               },
               child: eventsState.when(

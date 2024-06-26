@@ -19,7 +19,11 @@ class IsarService {
     if (Isar.instanceNames.isEmpty) {
       final dir = await getApplicationDocumentsDirectory();
       _isar = await Isar.open(
-        [EventSchema, AnnouncementSchema, ForumTopicSchema],
+        [
+          EventSchema,
+          AnnouncementSchema,
+          ForumTopicSchema,
+        ],
         directory: dir.path,
       );
     } else {

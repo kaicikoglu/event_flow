@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../data_models/event_data_model.dart';
-import '../../../services/event_list_notifier.dart';
+import '../services/home_provider.dart';
 
 class EventCard extends ConsumerWidget {
   final Event event;
@@ -15,8 +15,8 @@ class EventCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final hasNewAnnouncement =
-        ref.watch(eventNotifierProvider.notifier).hasNewAnnouncement(event.id);
-    ref.watch(eventNotifierProvider.notifier).checkAnnouncement(event);
+        ref.watch(homeProvider.notifier).hasNewAnnouncement(event.id);
+    ref.watch(homeProvider.notifier).checkAnnouncement(event);
     return GestureDetector(
       onTap: () {
         context.push('/event', extra: event);
