@@ -4,7 +4,7 @@ import 'package:event_flow/widgets/base_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../../data_models/announcement_data_model.dart';
-import '../services/announcements_screen_controller.dart';
+import '../services/announcements_controller.dart';
 import '../widgets/announcement_widget.dart';
 
 class AnnouncementScreen extends StatefulWidget {
