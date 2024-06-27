@@ -60,7 +60,7 @@ class AppRouter {
       ),
       GoRoute(
         path: '/vote',
-        builder: (context, state) => const VoteScreen(),
+        builder: (context, state) => VoteScreen(),
       ),
       GoRoute(
         path: '/vote/topic',
