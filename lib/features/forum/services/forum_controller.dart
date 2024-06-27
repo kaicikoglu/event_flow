@@ -27,6 +27,8 @@ class ForumController extends StateNotifier<List<ForumTopic>> {
   }
 }
 
-final forumControllerProvider = StateNotifierProvider.family<ForumController, List<ForumTopic>, Event>((ref, event) {
+final forumControllerProvider =
+    StateNotifierProvider.family<ForumController, List<ForumTopic>, Event>(
+        (ref, event) {
   return ForumController(event);
 });

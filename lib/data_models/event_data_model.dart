@@ -1,4 +1,6 @@
+import 'package:event_flow/data_models/voting_topic_data_model.dart';
 import 'package:isar/isar.dart';
+
 import 'announcement_data_model.dart';
 import 'forum_topic_data_model.dart';
 
@@ -16,6 +18,7 @@ class Event {
 
   final announcements = IsarLinks<Announcement>(); // Link to announcements
   final forumTopics = IsarLinks<ForumTopic>(); // Link to forum topics
+  final votingTopics = IsarLinks<VotingTopic>(); // Link to voting topics
   bool hasNewAnnouncements = false;
 
   // Method to create and save an announcement
@@ -45,6 +48,20 @@ class Event {
       await isar.forumTopics.put(forumTopic);
       forumTopics.add(forumTopic);
       await forumTopics.save();
+    } as Future Function());
+  }
+
+  // Method to create and save a voting topic
+  Future<void> createVotingTopic(Isar isar, String votingTitle) async {
+    final votingTopic = VotingTopic()
+      ..title = votingTitle
+      ..createdDate = DateTime.now()
+      ..event.value = this;
+
+    await isar.writeTxn(() async {
+      await isar.votingTopics.put(votingTopic);
+      votingTopics.add(votingTopic);
+      await votingTopics.save();
     } as Future Function());
   }
 }

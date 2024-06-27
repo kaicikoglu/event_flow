@@ -66,6 +66,12 @@ const EventSchema = CollectionSchema(
       name: r'forumTopics',
       target: r'ForumTopic',
       single: false,
+    ),
+    r'votingTopics': LinkSchema(
+      id: 6686844491100092415,
+      name: r'votingTopics',
+      target: r'VotingTopic',
+      single: false,
     )
   },
   embeddedSchemas: {},
@@ -148,7 +154,7 @@ Id _eventGetId(Event object) {
 }
 
 List<IsarLinkBase<dynamic>> _eventGetLinks(Event object) {
-  return [object.announcements, object.forumTopics];
+  return [object.announcements, object.forumTopics, object.votingTopics];
 }
 
 void _eventAttach(IsarCollection<dynamic> col, Id id, Event object) {
@@ -157,6 +163,8 @@ void _eventAttach(IsarCollection<dynamic> col, Id id, Event object) {
       .attach(col, col.isar.collection<Announcement>(), r'announcements', id);
   object.forumTopics
       .attach(col, col.isar.collection<ForumTopic>(), r'forumTopics', id);
+  object.votingTopics
+      .attach(col, col.isar.collection<VotingTopic>(), r'votingTopics', id);
 }
 
 extension EventQueryWhereSort on QueryBuilder<Event, Event, QWhere> {
@@ -981,6 +989,63 @@ extension EventQueryLinks on QueryBuilder<Event, Event, QFilterCondition> {
     return QueryBuilder.apply(this, (query) {
       return query.linkLength(
           r'forumTopics', lower, includeLower, upper, includeUpper);
+    });
+  }
+
+  QueryBuilder<Event, Event, QAfterFilterCondition> votingTopics(
+      FilterQuery<VotingTopic> q) {
+    return QueryBuilder.apply(this, (query) {
+      return query.link(q, r'votingTopics');
+    });
+  }
+
+  QueryBuilder<Event, Event, QAfterFilterCondition> votingTopicsLengthEqualTo(
+      int length) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'votingTopics', length, true, length, true);
+    });
+  }
+
+  QueryBuilder<Event, Event, QAfterFilterCondition> votingTopicsIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'votingTopics', 0, true, 0, true);
+    });
+  }
+
+  QueryBuilder<Event, Event, QAfterFilterCondition> votingTopicsIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'votingTopics', 0, false, 999999, true);
+    });
+  }
+
+  QueryBuilder<Event, Event, QAfterFilterCondition> votingTopicsLengthLessThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'votingTopics', 0, true, length, include);
+    });
+  }
+
+  QueryBuilder<Event, Event, QAfterFilterCondition>
+      votingTopicsLengthGreaterThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'votingTopics', length, include, 999999, true);
+    });
+  }
+
+  QueryBuilder<Event, Event, QAfterFilterCondition> votingTopicsLengthBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(
+          r'votingTopics', lower, includeLower, upper, includeUpper);
     });
   }
 }

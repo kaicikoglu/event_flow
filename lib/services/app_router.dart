@@ -62,11 +62,13 @@ class AppRouter {
             return ForumTopicScreen(title: topic.title);
           }),
       GoRoute(
-        path: '/vote',
-        builder: (context, state) => VoteScreen(),
-      ),
+          path: '/vote',
+          builder: (context, state) {
+            final event = state.extra as Event;
+            return VoteScreen(event: event);
+          }),
       GoRoute(
-        path: '/vote/topic',
+        path: '/voteTopic',
         builder: (context, state) => const VoteTopicScreen(
           title: 'Wer kommt alles?',
         ),

@@ -1,29 +1,34 @@
-import 'package:flutter/material.dart';
+import 'package:event_flow/data_models/event_data_model.dart';
+import 'package:event_flow/data_models/voting_topic_data_model.dart';
+import 'package:event_flow/services/isar_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../data_models/voting_data_model.dart';
-import '../../../services/vote_notifier.dart';
 
+class VotingController extends StateNotifier<List<VotingTopic>> {
+  final Event event;
 
-class VoteController {
-  final TextEditingController topicNameController = TextEditingController();
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-
-  VoteController() {
-    // Laden der Themen wird jetzt vom VoteNotifier gehandhabt
+  VotingController(this.event) : super([]) {
+    initialize();
   }
 
-  Future<void> addTopic(BuildContext context, WidgetRef ref, String topicName) async {
-    if (topicName.isNotEmpty && topicName.length <= 10) {
-      final newTopic = Vote()..name = topicName;
-      ref.read(voteNotifierProvider.notifier).addVote(newTopic);
-    }
+  Future<void> initialize() async {
+    await IsarService().initializeIsar();
+    await loadTopics();
   }
 
-  void dispose() {
-    topicNameController.dispose();
+  Future<void> loadTopics() async {
+    await event.votingTopics.load();
+    state = event.votingTopics.toList();
+  }
+
+  Future<void> addTopic(String topicTitle) async {
+    final isar = IsarService().getIsar();
+    await event.createVotingTopic(isar, topicTitle);
+    await loadTopics();
   }
 }
 
-final voteControllerProvider = Provider<VoteController>((ref) {
-  return VoteController();
+final voteControllerProvider =
+    StateNotifierProvider.family<VotingController, List<VotingTopic>, Event>(
+        (ref, event) {
+  return VotingController(event);
 });

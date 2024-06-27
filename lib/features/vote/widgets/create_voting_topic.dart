@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
-class CreateForumTopic extends StatefulWidget {
+class CreateVotingTopic extends StatefulWidget {
   final Function(String) onTopicCreated;
 
-  const CreateForumTopic({super.key, required this.onTopicCreated});
+  const CreateVotingTopic({super.key, required this.onTopicCreated});
 
   @override
-  _CreateForumTopic createState() => _CreateForumTopic();
+  _CreateVotingTopic createState() => _CreateVotingTopic();
 }
 
-class _CreateForumTopic extends State<CreateForumTopic> {
+class _CreateVotingTopic extends State<CreateVotingTopic> {
   final TextEditingController _controller = TextEditingController();
 
   @override

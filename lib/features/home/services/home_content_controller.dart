@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+
 import '../../../data_models/event_data_model.dart';
 import '../../../main.dart';
 import '../../../services/isar_service.dart';
 
 final homeContentControllerProvider =
-StateNotifierProvider<HomeContentController, AsyncValue<List<Event>>>(
+    StateNotifierProvider<HomeContentController, AsyncValue<List<Event>>>(
         (ref) {
-      final isarService = ref.watch(isarServiceProvider);
-      return HomeContentController(isarService);
-    });
+  final isarService = ref.watch(isarServiceProvider);
+  return HomeContentController(isarService);
+});
 
 class HomeContentController extends StateNotifier<AsyncValue<List<Event>>> {
   final IsarService isarService;
@@ -38,8 +39,10 @@ class HomeContentController extends StateNotifier<AsyncValue<List<Event>>> {
     }
   }
 
-  void handleDismiss(BuildContext context, WidgetRef ref, Event event, DismissDirection direction) {
+  void handleDismiss(BuildContext context, WidgetRef ref, Event event,
+      DismissDirection direction) {
     if (direction == DismissDirection.startToEnd) {
+      deleteEvent(event.id);
       context.go('/createEvent', extra: event);
     } else if (direction == DismissDirection.endToStart) {
       deleteEvent(event.id);
