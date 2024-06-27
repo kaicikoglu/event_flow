@@ -1,12 +1,13 @@
 // path: lib/controllers/create_event_controller.dart
 
-import 'package:event_flow/features/create_event/services/create_event_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:isar/isar.dart';
+
 import '../../../data_models/event_data_model.dart';
+import '../../../services/event_list_provider.dart';
 
 class CreateEventController {
   final TextEditingController eventNameController = TextEditingController();
@@ -21,7 +22,8 @@ class CreateEventController {
     if (editingEvent != null) {
       eventNameController.text = editingEvent!.title;
       timeController.text = editingEvent!.time;
-      startDateController.text = editingEvent!.date.toIso8601String().split('T').first;
+      startDateController.text =
+          editingEvent!.date.toIso8601String().split('T').first;
       locationController.text = editingEvent!.location;
     }
   }
@@ -74,7 +76,7 @@ class CreateEventController {
         ..location = location
         ..participants = participants;
 
-      final eventNotifier = ref.read(createEventProvider.notifier);
+      final eventNotifier = ref.read(eventNotifierProvider.notifier);
 
       if (editingEvent != null) {
         await eventNotifier.updateEvent(event);
