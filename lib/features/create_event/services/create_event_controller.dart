@@ -1,11 +1,13 @@
-// lib/controllers/create_event_controller.dart
+// path: lib/controllers/create_event_controller.dart
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:isar/isar.dart';
+
 import '../../../data_models/event_data_model.dart';
-import '../../../services/event_list_notifier.dart';
+import '../../../services/event_list_provider.dart';
 
 class CreateEventController {
   final TextEditingController eventNameController = TextEditingController();
@@ -20,7 +22,8 @@ class CreateEventController {
     if (editingEvent != null) {
       eventNameController.text = editingEvent!.title;
       timeController.text = editingEvent!.time;
-      startDateController.text = editingEvent!.date.toIso8601String().split('T').first;
+      startDateController.text =
+          editingEvent!.date.toIso8601String().split('T').first;
       locationController.text = editingEvent!.location;
     }
   }
@@ -32,6 +35,28 @@ class CreateEventController {
       return TimeOfDay(hour: dateTime.hour, minute: dateTime.minute);
     } catch (e) {
       return null;
+    }
+  }
+
+  Future<void> selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: editingEvent?.date ?? DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2100),
+    );
+    if (picked != null) {
+      startDateController.text = DateFormat('yyyy-MM-dd').format(picked);
+    }
+  }
+
+  Future<void> selectTime(BuildContext context) async {
+    final TimeOfDay? picked = await showTimePicker(
+      context: context,
+      initialTime: parseTimeOfDay(timeController.text) ?? TimeOfDay.now(),
+    );
+    if (picked != null) {
+      timeController.text = picked.format(context);
     }
   }
 

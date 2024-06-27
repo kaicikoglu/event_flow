@@ -3,8 +3,10 @@
 import 'package:event_flow/data_models/announcement_data_model.dart';
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
+
 import '../data_models/event_data_model.dart';
-import '../data_models/voting_data_model.dart';
+import '../data_models/forum_topic_data_model.dart';
+import '../data_models/voting_topic_data_model.dart';
 
 class IsarService {
   static final IsarService _singleton = IsarService._internal();
@@ -20,12 +22,21 @@ class IsarService {
     if (Isar.instanceNames.isEmpty) {
       final dir = await getApplicationDocumentsDirectory();
       _isar = await Isar.open(
-        [EventSchema, AnnouncementSchema,VoteSchema],
+        [
+          EventSchema,
+          AnnouncementSchema,
+          ForumTopicSchema,
+          VotingTopicSchema,
+        ],
         directory: dir.path,
       );
     } else {
       _isar = Isar.getInstance()!;
     }
+  }
+
+  Isar getIsar() {
+    return _isar;
   }
 
   Future<void> saveEvent(Event event) async {
@@ -54,23 +65,5 @@ class IsarService {
       event.hasNewAnnouncements = false;
       await _isar.events.put(event);
     });
-  }
-  Future<void> saveVote(Vote vote) async {
-    print("Fxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
-    await _isar.writeTxn(() async {
-      print("debug print save vote");
-      await _isar.votes.put(vote);
-    });
-  }
-
-  Future<void> deleteVote(int id) async {
-    await _isar.writeTxn(() async {
-      await _isar.votes.delete(id);
-    });
-  }
-
-  Future<List<Vote>> getAllVotes() async {
-    final votes = await _isar.votes.where().findAll();
-    return votes;
   }
 }

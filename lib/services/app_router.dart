@@ -4,7 +4,6 @@ import 'package:event_flow/features/create_announcement/screens/create_announcem
 import 'package:event_flow/features/create_event/screens/create_event_screen.dart';
 import 'package:event_flow/features/event/screens/event_screen.dart';
 import 'package:event_flow/features/forum/screens/forum_screen.dart';
-import 'package:event_flow/features/forum/screens/forum_topic_screen.dart';
 import 'package:event_flow/features/vote/screens/vote_screen.dart';
 import 'package:event_flow/features/vote/screens/vote_topic_screen.dart';
 import 'package:event_flow/widgets/base_screen.dart';
@@ -12,6 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../data_models/event_data_model.dart';
+import '../data_models/forum_topic_data_model.dart';
+import '../features/forum/screens/forum_topic_screen.dart';
 import '../features/home/screens/home_screen.dart';
 
 class AppRouter {
@@ -49,21 +50,25 @@ class AppRouter {
         },
       ),
       GoRoute(
-        path: '/forum',
-        builder: (context, state) => const ForumScreen(),
-      ),
+          path: '/forum',
+          builder: (context, state) {
+            final event = state.extra as Event;
+            return ForumScreen(event: event);
+          }),
       GoRoute(
-        path: '/forum/topic',
-        builder: (context, state) => const ForumTopicScreen(
-          title: 'Forum',
-        ),
-      ),
+          path: '/forumTopic',
+          builder: (context, state) {
+            final topic = state.extra as ForumTopic;
+            return ForumTopicScreen(title: topic.title);
+          }),
       GoRoute(
-        path: '/vote',
-        builder: (context, state) => VoteScreen(),
-      ),
+          path: '/vote',
+          builder: (context, state) {
+            final event = state.extra as Event;
+            return VoteScreen(event: event);
+          }),
       GoRoute(
-        path: '/vote/topic',
+        path: '/voteTopic',
         builder: (context, state) => const VoteTopicScreen(
           title: 'Wer kommt alles?',
         ),
@@ -79,7 +84,7 @@ class AppRouter {
         path: '/createAnnouncement',
         builder: (context, state) {
           final event = state.extra as Event;
-          return CreateAnnouncement(event: event);
+          return CreateAnnouncementScreen(event: event);
         },
       ),
     ],

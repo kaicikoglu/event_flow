@@ -1,4 +1,5 @@
-// lib/screens/create_event_screen.dart
+// path: lib/screens/create_event_screen.dart
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -69,9 +70,7 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
                         }
                         return null;
                       },
-                      updateTime: widget.event != null
-                          ? _controller.parseTimeOfDay(widget.event!.time)
-                          : null,
+                      eventController: _controller,
                     ),
                     const SizedBox(height: 16),
                     EnterDate(
@@ -85,7 +84,7 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
                         }
                         return null;
                       },
-                      updateDate: widget.event?.date,
+                      eventController: _controller,
                     ),
                     const SizedBox(height: 16),
                     EnterLocation(

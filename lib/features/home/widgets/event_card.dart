@@ -1,11 +1,11 @@
 // path: lib/features/home/widgets/event_card.dart
 
+import 'package:event_flow/services/event_list_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../data_models/event_data_model.dart';
-import '../../../services/event_list_notifier.dart';
 
 class EventCard extends ConsumerWidget {
   final Event event;

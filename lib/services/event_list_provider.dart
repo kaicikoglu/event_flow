@@ -4,11 +4,11 @@ import '../data_models/event_data_model.dart';
 import '../main.dart';
 import '../services/isar_service.dart';
 
-class EventNotifier extends StateNotifier<AsyncValue<List<Event>>> {
+class EventListProvider extends StateNotifier<AsyncValue<List<Event>>> {
   final IsarService isarService;
   final Set<int> _eventsWithNewAnnouncements = {}; // Track events with new announcements
 
-  EventNotifier(this.isarService) : super(const AsyncValue.loading()) {
+  EventListProvider(this.isarService) : super(const AsyncValue.loading()) {
     loadEvents();
   }
 
@@ -66,7 +66,7 @@ class EventNotifier extends StateNotifier<AsyncValue<List<Event>>> {
 }
 
 final eventNotifierProvider =
-StateNotifierProvider<EventNotifier, AsyncValue<List<Event>>>((ref) {
+StateNotifierProvider<EventListProvider, AsyncValue<List<Event>>>((ref) {
   final isarService = ref.watch(isarServiceProvider);
-  return EventNotifier(isarService);
+  return EventListProvider(isarService);
 });

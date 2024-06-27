@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../services/event_list_notifier.dart';
+import '../../../services/event_list_provider.dart';
 import '../widgets/search_bar.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {

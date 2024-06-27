@@ -1,12 +1,15 @@
-import 'package:flutter/material.dart';
+// path: lib/widgets/enter_time.dart
 
-class EnterTime extends StatefulWidget {
+import 'package:flutter/material.dart';
+import '../services/create_event_controller.dart';
+
+class EnterTime extends StatelessWidget {
   final String argument;
   final double width;
   final double height;
   final TextEditingController controller;
   final String? Function(String?)? validator;
-  final TimeOfDay? updateTime;
+  final CreateEventController eventController;
 
   const EnterTime({
     super.key,
@@ -15,50 +18,25 @@ class EnterTime extends StatefulWidget {
     required this.height,
     required this.controller,
     this.validator,
-    this.updateTime,
+    required this.eventController,
   });
-
-  @override
-  _EnterTimeState createState() => _EnterTimeState();
-}
-
-class _EnterTimeState extends State<EnterTime> {
-  @override
-  void initState() {
-    super.initState();
-    if (widget.updateTime != null) {
-      widget.controller.text = widget.updateTime!.format(context);
-    }
-  }
-
-  Future<void> _selectTime(BuildContext context) async {
-    final TimeOfDay? picked = await showTimePicker(
-      context: context,
-      initialTime: widget.updateTime ?? TimeOfDay.now(),
-    );
-    if (picked != null && picked != widget.updateTime) {
-      setState(() {
-        widget.controller.text = picked.format(context);
-      });
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
         Text(
-          widget.argument,
+          argument,
           style: const TextStyle(
             fontSize: 16,
           ),
         ),
         const Spacer(),
         SizedBox(
-          width: widget.width,
-          height: widget.height,
+          width: width,
+          height: height,
           child: TextFormField(
-            controller: widget.controller,
+            controller: controller,
             readOnly: true,
             decoration: InputDecoration(
               hintText: 'Select Time',
@@ -75,11 +53,11 @@ class _EnterTimeState extends State<EnterTime> {
               suffixIcon: IconButton(
                 icon: const Icon(Icons.access_time),
                 onPressed: () {
-                  _selectTime(context);
+                  eventController.selectTime(context);
                 },
               ),
             ),
-            validator: widget.validator,
+            validator: validator,
           ),
         ),
       ],

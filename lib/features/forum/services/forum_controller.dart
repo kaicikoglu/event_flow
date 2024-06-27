@@ -1,12 +1,12 @@
 import 'package:event_flow/data_models/event_data_model.dart';
-import 'package:event_flow/data_models/voting_topic_data_model.dart';
+import 'package:event_flow/data_models/forum_topic_data_model.dart';
 import 'package:event_flow/services/isar_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class VotingController extends StateNotifier<List<VotingTopic>> {
+class ForumController extends StateNotifier<List<ForumTopic>> {
   final Event event;
 
-  VotingController(this.event) : super([]) {
+  ForumController(this.event) : super([]) {
     initialize();
   }
 
@@ -16,19 +16,19 @@ class VotingController extends StateNotifier<List<VotingTopic>> {
   }
 
   Future<void> loadTopics() async {
-    await event.votingTopics.load();
-    state = event.votingTopics.toList();
+    await event.forumTopics.load();
+    state = event.forumTopics.toList();
   }
 
   Future<void> addTopic(String topicTitle) async {
     final isar = IsarService().getIsar();
-    await event.createVotingTopic(isar, topicTitle);
+    await event.createForumTopic(isar, topicTitle);
     await loadTopics();
   }
 }
 
-final voteControllerProvider =
-    StateNotifierProvider.family<VotingController, List<VotingTopic>, Event>(
+final forumControllerProvider =
+    StateNotifierProvider.family<ForumController, List<ForumTopic>, Event>(
         (ref, event) {
-  return VotingController(event);
+  return ForumController(event);
 });

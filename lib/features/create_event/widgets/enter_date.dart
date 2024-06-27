@@ -1,13 +1,16 @@
-import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+// path: lib/widgets/enter_date.dart
 
-class EnterDate extends StatefulWidget {
+import 'package:flutter/material.dart';
+
+import '../services/create_event_controller.dart';
+
+class EnterDate extends StatelessWidget {
   final String argument;
   final double width;
   final double height;
   final TextEditingController controller;
   final String? Function(String?)? validator;
-  final DateTime? updateDate;
+  final CreateEventController eventController;
 
   const EnterDate({
     super.key,
@@ -16,53 +19,25 @@ class EnterDate extends StatefulWidget {
     required this.height,
     required this.controller,
     this.validator,
-    this.updateDate,
+    required this.eventController,
   });
-
-  @override
-  _EnterDateState createState() => _EnterDateState();
-}
-
-class _EnterDateState extends State<EnterDate> {
-  @override
-  void initState() {
-    super.initState();
-    if (widget.updateDate != null) {
-      widget.controller.text =
-          DateFormat('yyyy-MM-dd').format(widget.updateDate!);
-    }
-  }
-
-  Future<void> _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: widget.updateDate ?? DateTime.now(),
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2100),
-    );
-    if (picked != null) {
-      setState(() {
-        widget.controller.text = DateFormat('yyyy-MM-dd').format(picked);
-      });
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
         Text(
-          widget.argument,
+          argument,
           style: const TextStyle(
             fontSize: 16,
           ),
         ),
         const Spacer(),
         SizedBox(
-          width: widget.width,
-          height: widget.height,
+          width: width,
+          height: height,
           child: TextFormField(
-            controller: widget.controller,
+            controller: controller,
             readOnly: true,
             decoration: InputDecoration(
               hintText: 'Select Date',
@@ -79,11 +54,11 @@ class _EnterDateState extends State<EnterDate> {
               suffixIcon: IconButton(
                 icon: const Icon(Icons.calendar_today),
                 onPressed: () {
-                  _selectDate(context);
+                  eventController.selectDate(context);
                 },
               ),
             ),
-            validator: widget.validator,
+            validator: validator,
           ),
         ),
       ],

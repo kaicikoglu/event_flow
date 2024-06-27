@@ -83,20 +83,20 @@ class _VoteTopicScreenState extends State<VoteTopicScreen> {
             context: context,
             builder: (context) {
               return AlertDialog(
-                title: Text('Create Topic'),
+                title: const Text('Create Topic'),
                 actions: [
                   TextButton(
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
-                    child: Text('Close'),
+                    child: const Text('Close'),
                   ),
                 ],
               );
             },
           );
         },
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     );
   }

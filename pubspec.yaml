@@ -19,6 +19,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
+  flutter: '3.22.2'
   sdk: '>=3.4.0 <4.0.0'
 
 # Dependencies specify other packages that your package needs in order to work.
@@ -58,6 +59,8 @@ dev_dependencies:
 
   isar_generator: ^3.1.0
   build_runner: any
+
+  analyzer: ^5.13.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

@@ -1,12 +1,12 @@
 // path: lib/controllers/announcement_controller.dart
 
+import 'package:event_flow/features/announcement/services/announcement_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:isar/isar.dart';
 
 import '../../../data_models/event_data_model.dart';
-import '../../../services/event_list_notifier.dart';
 
 class CreateAnnouncementController {
   final TextEditingController descriptionController = TextEditingController();
@@ -29,7 +29,7 @@ class CreateAnnouncementController {
 
         // Mark the event as having a new announcement
         ref
-            .read(eventNotifierProvider.notifier)
+            .read(announcementProvider.notifier)
             .markEventWithNewAnnouncement(event.id);
 
         context.pop();

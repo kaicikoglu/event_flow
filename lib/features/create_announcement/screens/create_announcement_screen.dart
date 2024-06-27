@@ -1,5 +1,3 @@
-// path: lib/screens/create_announcement.dart
-
 import 'package:event_flow/features/create_announcement/widgets/announcement_title.dart';
 import 'package:event_flow/widgets/base_screen.dart';
 import 'package:flutter/material.dart';
@@ -9,16 +7,16 @@ import '../services/create_announcement_controller.dart';
 import '../widgets/announcement_description.dart';
 import '../widgets/create_announcement_button.dart';
 
-class CreateAnnouncement extends StatefulWidget {
+class CreateAnnouncementScreen extends StatefulWidget {
   final Event event;
 
-  const CreateAnnouncement({super.key, required this.event});
+  const CreateAnnouncementScreen({super.key, required this.event});
 
   @override
   _CreateAnnouncementState createState() => _CreateAnnouncementState();
 }
 
-class _CreateAnnouncementState extends State<CreateAnnouncement> {
+class _CreateAnnouncementState extends State<CreateAnnouncementScreen> {
   final _formKey = GlobalKey<FormState>();
   final CreateAnnouncementController _announcementController =
       CreateAnnouncementController();
