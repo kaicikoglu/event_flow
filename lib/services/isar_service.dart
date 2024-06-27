@@ -1,3 +1,5 @@
+// path: lib/services/isar_service.dart
+
 import 'package:event_flow/data_models/announcement_data_model.dart';
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
@@ -23,6 +25,7 @@ class IsarService {
           EventSchema,
           AnnouncementSchema,
           ForumTopicSchema,
+          VoteSchema,
         ],
         directory: dir.path,
       );
@@ -61,5 +64,23 @@ class IsarService {
       event.hasNewAnnouncements = false;
       await _isar.events.put(event);
     });
+  }
+  Future<void> saveVote(Vote vote) async {
+    print("Fxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+    await _isar.writeTxn(() async {
+      print("debug print save vote");
+      await _isar.votes.put(vote);
+    });
+  }
+
+  Future<void> deleteVote(int id) async {
+    await _isar.writeTxn(() async {
+      await _isar.votes.delete(id);
+    });
+  }
+
+  Future<List<Vote>> getAllVotes() async {
+    final votes = await _isar.votes.where().findAll();
+    return votes;
   }
 }

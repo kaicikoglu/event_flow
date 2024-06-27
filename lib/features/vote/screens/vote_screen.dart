@@ -1,56 +1,45 @@
-import 'package:event_flow/widgets/base_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-
-import '../../../widgets/floating_action_button.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../services/vote_notifier.dart';
+import '../../../widgets/base_screen.dart';
 import '../../../widgets/wide_button.dart';
 import '../widgets/create_topic_dialog.dart';
 
-class VoteScreen extends StatefulWidget {
-  const VoteScreen({super.key});
-
+class VoteScreen extends ConsumerWidget {
   @override
-  _VoteScreenState createState() => _VoteScreenState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final voteNotifier = ref.watch(voteNotifierProvider);
 
-class _VoteScreenState extends State<VoteScreen> {
-  get floatingActionButton => null;
-
-  @override
-  Widget build(BuildContext context) {
     return BaseScreen(
-      title: const Text('Vote Area'),
-      selectedIndex: 0,
-      floatingActionButton: CustomFAB(onPressed: () {
-        showDialog(
-          context: context,
-          builder: (context) {
-            return CreateTopicButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            );
-          },
-        );
-      }),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      child: Column(
-        children: [
-          const SizedBox(height: 16),
-          CustomWideButton(
-            text: 'Wer kommt alles ?',
-            onPressed: () {
-              context.push('/vote/topic', extra: {'title': 'Wer kommt alles ?'});
+      selectedIndex: 1,
+      title: const Text('Voting-Area'),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          showDialog(
+            context: context,
+            builder: (context) {
+              return CreateTopicDialog();
             },
-          ),
-          const SizedBox(height: 8),
-          CustomWideButton(
-            text: 'Announcement',
-            onPressed: () {
-              // Define your onPressed action here
+          );
+        },
+        child: Icon(Icons.add),
+      ),
+      child: voteNotifier.when(
+        data: (votes) {
+          return ListView.builder(
+            itemCount: votes.length,
+            itemBuilder: (context, index) {
+              return CustomWideButton(
+                text: votes[index].name,
+                onPressed: () {
+                  ref.read(voteNotifierProvider.notifier).removeVote(votes[index].id);
+                },
+              );
             },
-          ),
-        ],
+          );
+        },
+        loading: () => CircularProgressIndicator(),
+        error: (error, stackTrace) => Text('Error: $error'),
       ),
     );
   }
