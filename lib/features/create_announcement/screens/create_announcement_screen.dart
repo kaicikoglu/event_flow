@@ -29,10 +29,7 @@ class _CreateAnnouncementState extends State<CreateAnnouncementScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BaseScreen(
-      title: const Text('Create Announcement'),
-      selectedIndex: 0,
-      child: Padding(
+    return Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
@@ -54,7 +51,6 @@ class _CreateAnnouncementState extends State<CreateAnnouncementScreen> {
             ],
           ),
         ),
-      ),
-    );
+      );
   }
 }

@@ -27,10 +27,7 @@ class _AnnouncementScreenState extends State<AnnouncementScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BaseScreen(
-      title: const Text('Announcements'),
-      selectedIndex: 1,
-      child: FutureBuilder<List<Announcement>>(
+    return FutureBuilder<List<Announcement>>(
         future: _announcementsFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -53,7 +50,6 @@ class _AnnouncementScreenState extends State<AnnouncementScreen> {
             );
           }
         },
-      ),
-    );
+      );
   }
 }

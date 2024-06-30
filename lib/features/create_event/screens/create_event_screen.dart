@@ -32,10 +32,7 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BaseScreen(
-      selectedIndex: 0,
-      title: Text(widget.event != null ? 'Edit Event' : 'Create Event'),
-      child: Padding(
+    return Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _controller.formKey,
@@ -112,8 +109,7 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
             ],
           ),
         ),
-      ),
-    );
+      );
   }
 
   @override

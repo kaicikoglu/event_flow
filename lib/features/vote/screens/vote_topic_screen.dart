@@ -26,9 +26,6 @@ class _VoteTopicScreenState extends State<VoteTopicScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(

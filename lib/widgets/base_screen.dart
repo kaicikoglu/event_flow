@@ -1,25 +1,24 @@
-// lib/widgets/base_screen.dart
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-
 import 'navbar.dart'; // Ensure the path is correct
 
 class BaseScreen extends StatelessWidget {
   final Widget child;
   final int selectedIndex;
   final double contentWidth;
-  final Widget title;
-  final Widget? floatingActionButton; // Add this line
-  final FloatingActionButtonLocation?
-      floatingActionButtonLocation; // Add this line
-  final BackButton? backButton; // Add this line
+  final Widget? title;
+  final bool centerTitle;
+  final Widget? floatingActionButton;
+  final FloatingActionButtonLocation? floatingActionButtonLocation;
+  final BackButton? backButton;
 
   const BaseScreen({
     super.key,
     required this.child,
     required this.selectedIndex,
     this.contentWidth = 600,
-    required this.title,
+    this.title,
+    this.centerTitle = false, // Default to false if not provided
     this.floatingActionButton,
     this.floatingActionButtonLocation,
     this.backButton,
@@ -48,6 +47,7 @@ class BaseScreen extends StatelessWidget {
       appBar: AppBar(
         leading: backButton,
         title: title,
+        centerTitle: centerTitle, // Center the title
       ),
       body: Center(
         child: Container(
@@ -57,9 +57,7 @@ class BaseScreen extends StatelessWidget {
         ),
       ),
       floatingActionButton: floatingActionButton,
-      // Add this line
       floatingActionButtonLocation: floatingActionButtonLocation,
-      // Add this line
       bottomNavigationBar: CustomBottomNavBar(
         selectedIndex: selectedIndex,
         onItemTapped: (index) => _onItemTapped(context, index),
