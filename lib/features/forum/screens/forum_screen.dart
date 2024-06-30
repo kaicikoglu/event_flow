@@ -39,8 +39,9 @@ class ForumScreen extends ConsumerWidget {
       ),
       floatingActionButton: CustomFAB(
         onPressed: () {
-          showBottomSheet(
+          showModalBottomSheet(
             context: context,
+            isScrollControlled: true,
             builder: (context) {
               return Padding(
                 padding: EdgeInsets.only(
