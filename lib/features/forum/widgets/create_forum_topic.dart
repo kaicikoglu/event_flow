@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class CreateForumTopic extends StatefulWidget {
   final Function(String) onTopicCreated;
@@ -32,7 +33,7 @@ class _CreateForumTopic extends State<CreateForumTopic> {
               final String topic = _controller.text;
               if (topic.isNotEmpty) {
                 widget.onTopicCreated(topic);
-                Navigator.pop(context);
+                context.pop();
               }
             },
             child: const Text('Bestätigen'),
