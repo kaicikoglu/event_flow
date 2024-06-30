@@ -16,7 +16,6 @@ class _ForumTopicScreenState extends State<ForumTopicScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(widget.title)),
       body: ListView(
         children: const [
           SizedBox(height: 16),

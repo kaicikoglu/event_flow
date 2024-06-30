@@ -1,5 +1,4 @@
 import 'package:event_flow/features/vote/widgets/create_voting_topic.dart';
-import 'package:event_flow/widgets/base_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -23,24 +22,8 @@ class VoteScreen extends ConsumerWidget {
       await voteController.addTopic(topicTitle);
     }
 
-    return BaseScreen(
-      backButton: BackButton(
-        onPressed: () {
-          context.pop();
-        },
-      ),
-      title: const Text('Voting-Area'),
-      selectedIndex: 0,
-      floatingActionButton: CustomFAB(onPressed: () {
-        showModalBottomSheet(
-          context: context,
-          builder: (context) {
-            return CreateVotingTopic(onTopicCreated: addTopic);
-          },
-        );
-      }),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      child: ListView.builder(
+    return Scaffold(
+      body: ListView.builder(
         itemCount: topics.length,
         itemBuilder: (context, index) {
           return Padding(
@@ -51,6 +34,23 @@ class VoteScreen extends ConsumerWidget {
                 context.push('/voteTopic', extra: topics[index]);
               },
             ),
+          );
+        },
+      ),
+      floatingActionButton: CustomFAB(
+        onPressed: () {
+          showBottomSheet(
+            context: context,
+            builder: (context) {
+              return Padding(
+                padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).viewInsets.bottom,
+                ),
+                child: CreateVotingTopic(
+                  onTopicCreated: addTopic,
+                ),
+              );
+            },
           );
         },
       ),

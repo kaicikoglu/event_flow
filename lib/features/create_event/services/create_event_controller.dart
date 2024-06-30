@@ -85,7 +85,7 @@ class CreateEventController {
       }
 
       if (context.mounted) {
-        context.go('/event', extra: event);
+        context.push('/event', extra: event);
       }
     }
   }
