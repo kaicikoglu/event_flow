@@ -12,4 +12,17 @@ class VotingTopic {
   late DateTime createdDate;
 
   final event = IsarLink<Event>();
+  final options = IsarLinks<VoteOption>();
+}
+
+
+@Collection()
+class VoteOption {
+  Id id = Isar.autoIncrement;
+  late String label;
+  late int count;
+  bool isSelected = false;
+  final votingTopic = IsarLink<VotingTopic>();
+
+  VoteOption({required this.label, this.count = 0});
 }

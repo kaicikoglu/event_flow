@@ -27,6 +27,7 @@ class IsarService {
           AnnouncementSchema,
           ForumTopicSchema,
           VotingTopicSchema,
+          VoteOptionSchema,
         ],
         directory: dir.path,
       );
@@ -65,5 +66,26 @@ class IsarService {
       event.hasNewAnnouncements = false;
       await _isar.events.put(event);
     });
+  }
+
+
+// Methode zum Speichern eines VotingTopic
+  Future<void> saveVotingTopic(VotingTopic votingTopic) async {
+    await _isar.writeTxn(() async {
+      await _isar.votingTopics.put(votingTopic);
+    });
+  }
+
+// Methode zum Löschen eines VotingTopic
+  Future<void> deleteVotingTopic(int id) async {
+    await _isar.writeTxn(() async {
+      await _isar.votingTopics.delete(id);
+    });
+  }
+
+// Methode zum Abrufen aller VotingTopics
+  Future<List<VotingTopic>> getAllVotingTopics() async {
+    final votingTopics = await _isar.votingTopics.where().findAll();
+    return votingTopics;
   }
 }

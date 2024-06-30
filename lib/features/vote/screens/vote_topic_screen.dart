@@ -1,103 +1,80 @@
+import 'package:event_flow/data_models/voting_topic_data_model.dart';
+import 'package:event_flow/features/vote/widgets/add_voting_option_button.dart';
+import 'package:event_flow/features/vote/widgets/checkbox_wide_button.dart';
+import 'package:event_flow/widgets/base_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
-import '../widgets/checkbox_wide_button.dart';
+import '../../../data_models/event_data_model.dart';
+import '../../../widgets/floating_action_button.dart';
+import '../services/voting_controller.dart';
 import '../widgets/vote_progress_indicator.dart';
+import '../widgets/add_voting_option_button.dart';
 
-class VoteTopicScreen extends StatefulWidget {
+
+class VoteTopicScreen extends ConsumerWidget {
+  final Event event;
   final String title;
 
+
   const VoteTopicScreen({
-    super.key,
+    Key? key,
+    required this.event,
     required this.title,
-  });
+  }): super(key: key);
 
   @override
-  _VoteTopicScreenState createState() => _VoteTopicScreenState();
-}
-
-class _VoteTopicScreenState extends State<VoteTopicScreen> {
-  int totalVotes = 13; // Total number of votes
-  int maxVotes = 20; // Maximum possible votes
-  int count1 = 7;
-  int count2 = 4;
-  int count3 = 2;
-  int selectedIndex = 0;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            VoteProgressIndicator(
-              totalVotes: totalVotes,
-              maxVotes: maxVotes,
-            ),
-            const SizedBox(height: 16),
-            CheckboxWideButton(
-              label: 'Zusagen',
-              count: count1,
-              isSelected: selectedIndex == 1,
-              onTap: () {
-                setState(() {
-                  selectedIndex = 1;
-                  count1++;
-                  totalVotes++;
-                });
-              },
-            ),
-            CheckboxWideButton(
-              label: 'Absagen',
-              count: count2,
-              isSelected: selectedIndex == 2,
-              onTap: () {
-                setState(() {
-                  selectedIndex = 2;
-                  count2++;
-                  totalVotes++;
-                });
-              },
-            ),
-            CheckboxWideButton(
-              label: 'Unsicher',
-              count: count3,
-              isSelected: selectedIndex == 3,
-              onTap: () {
-                setState(() {
-                  selectedIndex = 3;
-                  count3++;
-                });
-              },
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
+  BaseScreen build(BuildContext context, WidgetRef ref)  {
+    final voteController = ref.read(voteTopicsControllerProvider(event).notifier);
+    VotingTopic topic = voteController.getCurrentTopic(title);
+    topic.options.load();
+    final Future<List<VoteOption>> options =  voteController.getOptionsForVotingTopicAndEvent(event, topic);
+    void addOption(String optionLabel) async {
+      await voteController.addOption(optionLabel, topic);
+    }
+    return BaseScreen(
+      backButton: BackButton(
         onPressed: () {
-          showDialog(
+          context.pop();
+        },
+      ),
+      title: Text(title),
+      selectedIndex: 0,
+      floatingActionButton: CustomFAB(
+        onPressed: () {
+          showModalBottomSheet(
             context: context,
             builder: (context) {
-              return AlertDialog(
-                title: const Text('Create Topic'),
-                actions: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: const Text('Close'),
-                  ),
-                ],
-              );
+              return AddVotingOption(onOptionCreated: addOption);
             },
           );
         },
-        child: const Icon(Icons.add),
       ),
+        child: FutureBuilder<List<VoteOption>>(
+          future: options,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return CircularProgressIndicator(); // Zeigen Sie einen Ladeindikator an, während die Daten geladen werden
+            } else if (snapshot.hasError) {
+              return Text('Fehler: ${snapshot.error}'); // Zeigen Sie eine Fehlermeldung an, wenn ein Fehler auftritt
+            } else {
+              return ListView.builder(
+                itemCount: snapshot.data!.length,
+                itemBuilder: (context, index) {
+                  return CheckboxWideButton(
+                    label: snapshot.data![index].label,
+                    count: snapshot.data![index].count,
+                    isSelected: snapshot.data![index].isSelected,
+                    onTap: () {
+                      // todo hier kommt der code rein der die auswahl speichert, es muss wahrscheinlich option, votingTopic und event übergeben werden
+                    },
+                  );
+                },
+              );
+            }
+          },
+        )
     );
   }
 }

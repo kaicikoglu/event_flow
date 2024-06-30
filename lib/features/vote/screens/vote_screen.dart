@@ -16,12 +16,9 @@ class VoteScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final topics = ref.watch(voteControllerProvider(event));
-    final voteController = ref.read(voteControllerProvider(event).notifier);
-
-    void addTopic(String topicTitle) async {
-      await voteController.addTopic(topicTitle);
-    }
+    final topics = ref.watch(voteTopicsControllerProvider(event));
+    final voteController = ref.read(voteTopicsControllerProvider(event).notifier);
+    voteController.loadTopics();
 
     return BaseScreen(
       backButton: BackButton(
@@ -32,12 +29,7 @@ class VoteScreen extends ConsumerWidget {
       title: const Text('Voting-Area'),
       selectedIndex: 0,
       floatingActionButton: CustomFAB(onPressed: () {
-        showModalBottomSheet(
-          context: context,
-          builder: (context) {
-            return CreateVotingTopic(onTopicCreated: addTopic);
-          },
-        );
+            context.push('/createVotingTopic',extra:event);
       }),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       child: ListView.builder(
@@ -48,7 +40,10 @@ class VoteScreen extends ConsumerWidget {
             child: CustomWideButton(
               text: topics[index].title,
               onPressed: () {
-                context.push('/voteTopic', extra: topics[index]);
+                context.push('/voteTopic', extra: {
+                  'event': event,
+                  'voting_title': topics[index].title,
+                });
               },
             ),
           );

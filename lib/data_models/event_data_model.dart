@@ -21,6 +21,7 @@ class Event {
   final votingTopics = IsarLinks<VotingTopic>(); // Link to voting topics
   bool hasNewAnnouncements = false;
 
+
   // Method to create and save an announcement
   Future<void> createAnnouncement(Isar isar, String description) async {
     final announcement = Announcement()
@@ -51,17 +52,23 @@ class Event {
     } as Future Function());
   }
 
-  // Method to create and save a voting topic
-  Future<void> createVotingTopic(Isar isar, String votingTitle) async {
+  Future<void> createVotingTopic(Isar isar, String topicTitle, List<VoteOption> options) async {
     final votingTopic = VotingTopic()
-      ..title = votingTitle
+      ..title = topicTitle
       ..createdDate = DateTime.now()
       ..event.value = this;
 
     await isar.writeTxn(() async {
+      for (var option in options) {
+        final voteOption = VoteOption(label: option.label, count: option.count)
+          ..votingTopic.value = votingTopic;
+        await isar.voteOptions.put(voteOption);
+        votingTopic.options.add(voteOption);
+      }
       await isar.votingTopics.put(votingTopic);
       votingTopics.add(votingTopic);
       await votingTopics.save();
     } as Future Function());
   }
+
 }
