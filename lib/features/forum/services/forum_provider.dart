@@ -1,5 +1,5 @@
-import 'package:event_flow/data_models/event_data_model.dart';
-import 'package:event_flow/data_models/forum_topic_data_model.dart';
+import 'package:event_flow/data_models/event/event_data_model.dart';
+import 'package:event_flow/data_models/forum/forum_topic_data_model.dart';
 import 'package:event_flow/services/isar_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
