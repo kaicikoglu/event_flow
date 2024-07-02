@@ -1,10 +1,20 @@
+import 'package:event_flow/features/forum/services/forum_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../../data_models/event/event_data_model.dart';
 
 class CreateForumTopic extends StatefulWidget {
   final Function(String) onTopicCreated;
+  final Event event;
+  final WidgetRef ref;
 
-  const CreateForumTopic({super.key, required this.onTopicCreated});
+  const CreateForumTopic(
+      {super.key,
+      required this.onTopicCreated,
+      required this.event,
+      required this.ref});
 
   @override
   _CreateForumTopic createState() => _CreateForumTopic();
@@ -12,6 +22,7 @@ class CreateForumTopic extends StatefulWidget {
 
 class _CreateForumTopic extends State<CreateForumTopic> {
   final TextEditingController _controller = TextEditingController();
+  final ForumController _forumController = ForumController();
 
   @override
   Widget build(BuildContext context) {
@@ -33,10 +44,12 @@ class _CreateForumTopic extends State<CreateForumTopic> {
             ),
             const SizedBox(height: 16.0),
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 final String topic = _controller.text;
                 if (topic.isNotEmpty) {
                   widget.onTopicCreated(topic);
+                  await _forumController.createAnnouncement(
+                      context, widget.ref, widget.event);
                   context.pop();
                 }
               },

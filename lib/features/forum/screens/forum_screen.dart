@@ -48,6 +48,8 @@ class ForumScreen extends ConsumerWidget {
                   bottom: MediaQuery.of(context).viewInsets.bottom,
                 ),
                 child: CreateForumTopic(
+                  event: event,
+                  ref: ref,
                   onTopicCreated: addTopic,
                 ),
               );
