@@ -1,7 +1,7 @@
 import 'package:event_flow/features/create_announcement/widgets/announcement_title.dart';
 import 'package:flutter/material.dart';
 
-import '../../../data_models/event_data_model.dart';
+import '../../../data_models/event/event_data_model.dart';
 import '../services/create_announcement_controller.dart';
 import '../widgets/announcement_description.dart';
 import '../widgets/create_announcement_button.dart';

@@ -6,7 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:isar/isar.dart';
 
-import '../../../data_models/event_data_model.dart';
+import '../../../data_models/event/event_data_model.dart';
 import '../../../services/event_list_provider.dart';
 
 class CreateEventController {
@@ -85,7 +85,7 @@ class CreateEventController {
       }
 
       if (context.mounted) {
-        context.push('/event', extra: event);
+        context.replace('/event', extra: event);
       }
     }
   }

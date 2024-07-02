@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../data_models/event_data_model.dart';
+import '../../../data_models/event/event_data_model.dart';
 import '../../../widgets/floating_action_button.dart';
 import '../../../widgets/wide_button.dart';
-import '../services/forum_controller.dart';
+import '../services/forum_provider.dart';
 
 class ForumScreen extends ConsumerWidget {
   final Event event;
@@ -39,14 +39,17 @@ class ForumScreen extends ConsumerWidget {
       ),
       floatingActionButton: CustomFAB(
         onPressed: () {
-          showBottomSheet(
+          showModalBottomSheet(
             context: context,
+            isScrollControlled: true,
             builder: (context) {
               return Padding(
                 padding: EdgeInsets.only(
                   bottom: MediaQuery.of(context).viewInsets.bottom,
                 ),
                 child: CreateForumTopic(
+                  event: event,
+                  ref: ref,
                   onTopicCreated: addTopic,
                 ),
               );

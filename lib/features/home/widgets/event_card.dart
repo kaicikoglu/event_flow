@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../data_models/event_data_model.dart';
+import '../../../data_models/event/event_data_model.dart';
 
 class EventCard extends ConsumerWidget {
   final Event event;

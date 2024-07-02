@@ -1,6 +1,6 @@
 import 'package:isar/isar.dart';
 
-import 'event_data_model.dart';
+import '../event/event_data_model.dart';
 
 part 'voting_topic_data_model.g.dart';
 

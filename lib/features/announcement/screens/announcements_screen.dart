@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../data_models/announcement_data_model.dart';
+import '../../../data_models/announcement/announcement_data_model.dart';
 import '../services/announcements_controller.dart';
 import '../widgets/announcement_widget.dart';
 

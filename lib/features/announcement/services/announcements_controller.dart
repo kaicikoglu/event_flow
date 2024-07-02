@@ -2,8 +2,8 @@
 
 import 'package:isar/isar.dart';
 
-import '../../../data_models/announcement_data_model.dart';
-import '../../../data_models/event_data_model.dart';
+import '../../../data_models/announcement/announcement_data_model.dart';
+import '../../../data_models/event/event_data_model.dart';
 import '../../../services/isar_service.dart';
 
 class AnnouncementController {
