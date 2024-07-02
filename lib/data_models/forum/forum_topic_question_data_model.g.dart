@@ -36,6 +36,12 @@ const ForumTopicQuestionSchema = CollectionSchema(
       name: r'forumTopic',
       target: r'ForumTopic',
       single: true,
+    ),
+    r'answers': LinkSchema(
+      id: -1356378803028329665,
+      name: r'answers',
+      target: r'ForumTopicAnswer',
+      single: false,
     )
   },
   embeddedSchemas: {},
@@ -96,7 +102,7 @@ Id _forumTopicQuestionGetId(ForumTopicQuestion object) {
 
 List<IsarLinkBase<dynamic>> _forumTopicQuestionGetLinks(
     ForumTopicQuestion object) {
-  return [object.forumTopic];
+  return [object.forumTopic, object.answers];
 }
 
 void _forumTopicQuestionAttach(
@@ -104,6 +110,8 @@ void _forumTopicQuestionAttach(
   object.id = id;
   object.forumTopic
       .attach(col, col.isar.collection<ForumTopic>(), r'forumTopic', id);
+  object.answers
+      .attach(col, col.isar.collection<ForumTopicAnswer>(), r'answers', id);
 }
 
 extension ForumTopicQuestionQueryWhereSort
@@ -397,6 +405,67 @@ extension ForumTopicQuestionQueryLinks
       forumTopicIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.linkLength(r'forumTopic', 0, true, 0, true);
+    });
+  }
+
+  QueryBuilder<ForumTopicQuestion, ForumTopicQuestion, QAfterFilterCondition>
+      answers(FilterQuery<ForumTopicAnswer> q) {
+    return QueryBuilder.apply(this, (query) {
+      return query.link(q, r'answers');
+    });
+  }
+
+  QueryBuilder<ForumTopicQuestion, ForumTopicQuestion, QAfterFilterCondition>
+      answersLengthEqualTo(int length) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'answers', length, true, length, true);
+    });
+  }
+
+  QueryBuilder<ForumTopicQuestion, ForumTopicQuestion, QAfterFilterCondition>
+      answersIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'answers', 0, true, 0, true);
+    });
+  }
+
+  QueryBuilder<ForumTopicQuestion, ForumTopicQuestion, QAfterFilterCondition>
+      answersIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'answers', 0, false, 999999, true);
+    });
+  }
+
+  QueryBuilder<ForumTopicQuestion, ForumTopicQuestion, QAfterFilterCondition>
+      answersLengthLessThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'answers', 0, true, length, include);
+    });
+  }
+
+  QueryBuilder<ForumTopicQuestion, ForumTopicQuestion, QAfterFilterCondition>
+      answersLengthGreaterThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'answers', length, include, 999999, true);
+    });
+  }
+
+  QueryBuilder<ForumTopicQuestion, ForumTopicQuestion, QAfterFilterCondition>
+      answersLengthBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(
+          r'answers', lower, includeLower, upper, includeUpper);
     });
   }
 }
