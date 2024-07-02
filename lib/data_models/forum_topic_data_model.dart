@@ -1,4 +1,5 @@
 import 'package:isar/isar.dart';
+
 import 'event_data_model.dart';
 import 'forum_topic_question_data_model.dart';
 
@@ -12,7 +13,8 @@ class ForumTopic {
   late DateTime createdDate;
 
   final event = IsarLink<Event>(); // Link to the parent Event
-  final questions = IsarLinks<ForumTopicQuestion>(); // Link to ForumTopicQuestion
+  final questions =
+      IsarLinks<ForumTopicQuestion>(); // Link to ForumTopicQuestion
 
   // Method to create and save a forum topic question
   Future<void> createForumTopicQuestion(Isar isar, String questionText) async {
@@ -24,6 +26,6 @@ class ForumTopic {
       await isar.forumTopicQuestions.put(question);
       questions.add(question);
       await questions.save();
-    } as Future Function());
+    });
   }
 }
