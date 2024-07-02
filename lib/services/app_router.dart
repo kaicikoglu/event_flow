@@ -11,7 +11,7 @@ import 'package:go_router/go_router.dart';
 
 import '../data_models/event_data_model.dart';
 import '../data_models/forum_topic_data_model.dart';
-import '../features/forum/screens/forum_topic_screen.dart';
+import '../features/forum_topic/screen/forum_topic_screen.dart';
 import '../features/home/screens/home_screen.dart';
 import 'navigation_helpers.dart';
 
@@ -71,8 +71,8 @@ class AppRouter {
           GoRoute(
             path: '/forumTopic',
             builder: (context, state) {
-              final topic = state.extra as ForumTopic;
-              return ForumTopicScreen(title: topic.title);
+              final forumTopic = state.extra as ForumTopic;
+              return ForumTopicScreen(forumTopicId: forumTopic.id);
             },
           ),
           GoRoute(

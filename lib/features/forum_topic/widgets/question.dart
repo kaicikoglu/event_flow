@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'forum_response.dart';
 
 class QuestionWidget extends StatelessWidget {
-  final String author;
   final String question;
 
   // final bool isExpanded;
@@ -12,7 +11,6 @@ class QuestionWidget extends StatelessWidget {
 
   const QuestionWidget({
     super.key,
-    required this.author,
     required this.question,
     // required this.isExpanded,
     // required this.onTap,
@@ -22,9 +20,9 @@ class QuestionWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ExpansionTile(
-      title: Text('$author: $question'),
+      title: const Text('author'),
       children: responses
-          .map((response) => ForumResponseWidget(response: question, author: author,))
+          .map((response) => ForumResponseWidget(response: question, author: '',))
           .toList(),
     );
   }

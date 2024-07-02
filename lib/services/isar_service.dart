@@ -1,6 +1,7 @@
 // path: lib/services/isar_service.dart
 
 import 'package:event_flow/data_models/announcement_data_model.dart';
+import 'package:event_flow/data_models/forum_topic_question_data_model.dart';
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -27,6 +28,7 @@ class IsarService {
           AnnouncementSchema,
           ForumTopicSchema,
           VotingTopicSchema,
+          ForumTopicQuestionSchema,
         ],
         directory: dir.path,
       );
