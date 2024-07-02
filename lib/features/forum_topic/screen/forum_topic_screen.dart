@@ -1,9 +1,10 @@
-// path: lib/features/forum_topic/screen/forum_topic_screen.dart
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../widgets/floating_action_button.dart';
+import '../services/forum_topic_controller.dart';
 import '../services/forum_topic_provider.dart';
+import '../widgets/question_list_widget.dart';
 
 class ForumTopicScreen extends ConsumerStatefulWidget {
   final int forumTopicId;
@@ -15,18 +16,25 @@ class ForumTopicScreen extends ConsumerStatefulWidget {
 }
 
 class _ForumTopicScreenState extends ConsumerState<ForumTopicScreen> {
+  late ForumTopicController _controller;
+  bool _isTileExpanded = false;
+
   @override
   void initState() {
     super.initState();
-    ref
-        .read(forumTopicQuestionProvider.notifier)
-        .loadQuestions(widget.forumTopicId);
+    _controller = ForumTopicController(ref);
+    _controller.loadQuestions(widget.forumTopicId);
+  }
+
+  void _handleExpansionChanged(bool isExpanded) {
+    setState(() {
+      _isTileExpanded = isExpanded;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     final questionsAsyncValue = ref.watch(forumTopicQuestionProvider);
-    final textController = TextEditingController();
 
     return Scaffold(
       body: SafeArea(
@@ -34,54 +42,23 @@ class _ForumTopicScreenState extends ConsumerState<ForumTopicScreen> {
           children: [
             Expanded(
               child: questionsAsyncValue.when(
-                data: (questions) => ListView.builder(
-                  itemCount: questions.length,
-                  itemBuilder: (context, index) {
-                    final question = questions[index];
-                    return ListTile(
-                      title: Text(question.question),
-                    );
-                  },
+                data: (questions) => QuestionList(
+                  questions: questions,
+                  onExpansionChanged: _handleExpansionChanged,
                 ),
                 loading: () => const Center(child: CircularProgressIndicator()),
                 error: (error, stack) => Center(child: Text('Error: $error')),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      controller: textController,
-                      decoration: InputDecoration(
-                        hintText: 'Enter your question',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.0),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 8.0),
-                  ElevatedButton(
-                    onPressed: () {
-                      final questionText = textController.text;
-                      if (questionText.isNotEmpty) {
-                        ref
-                            .read(forumTopicQuestionProvider.notifier)
-                            .addQuestion(widget.forumTopicId, questionText);
-                        textController
-                            .clear(); // Clear the text field after sending
-                      }
-                    },
-                    child: const Text('Send'),
-                  ),
-                ],
-              ),
-            ),
           ],
         ),
       ),
+      floatingActionButton: _isTileExpanded
+          ? null
+          : CustomFAB(
+              onPressed: () => _controller.showAddQuestionModal(
+                  context, widget.forumTopicId),
+            ),
     );
   }
 }
