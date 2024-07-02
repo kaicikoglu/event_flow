@@ -3,8 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../data_models/announcement_data_model.dart';
-import '../../../data_models/event_data_model.dart';
+import '../../../data_models/announcement/announcement_data_model.dart';
+import '../../../data_models/event/event_data_model.dart';
 
 class AnnouncementWidget extends StatelessWidget {
   final Announcement announcement;

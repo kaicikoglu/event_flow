@@ -9,8 +9,8 @@ import 'package:event_flow/widgets/base_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../data_models/event_data_model.dart';
-import '../data_models/forum_topic_data_model.dart';
+import '../data_models/event/event_data_model.dart';
+import '../data_models/forum/forum_topic_data_model.dart';
 import '../features/forum_topic/screen/forum_topic_screen.dart';
 import '../features/home/screens/home_screen.dart';
 import 'navigation_helpers.dart';

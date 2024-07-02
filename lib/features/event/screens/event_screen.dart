@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../data_models/event_data_model.dart';
+import '../../../data_models/event/event_data_model.dart';
 import '../../../widgets/wide_button.dart';
 import '../widgets/button_grid_view.dart';
 import '../widgets/info_box.dart';
