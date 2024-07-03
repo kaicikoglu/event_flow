@@ -6,12 +6,10 @@ import 'package:event_flow/features/event/screens/event_screen.dart';
 import 'package:event_flow/features/forum/screens/forum_screen.dart';
 import 'package:event_flow/features/vote/screens/vote_screen.dart';
 import 'package:event_flow/features/vote/screens/vote_topic_screen.dart';
-import 'package:event_flow/features/vote/widgets/create_voting_topic.dart';
 import 'package:event_flow/widgets/base_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../data_models/voting_topic_data_model.dart';
 import '../data_models/event/event_data_model.dart';
 import '../data_models/forum/forum_topic_data_model.dart';
 import '../features/forum_topic/screen/forum_topic_screen.dart';
@@ -94,7 +92,7 @@ class AppRouter {
             },
           ),
           GoRoute(
-            path: '/voteTopic',
+            path: '/vote_topic_screen',
             builder: (context, state) {
               final extras = state.extra as Map<String, dynamic>;
               final event = extras['event'] as Event;

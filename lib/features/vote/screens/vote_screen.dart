@@ -1,5 +1,3 @@
-import 'package:event_flow/features/vote/widgets/create_voting_topic.dart';
-import 'package:event_flow/widgets/base_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -20,19 +18,8 @@ class VoteScreen extends ConsumerWidget {
     final voteController = ref.read(voteTopicsControllerProvider(event).notifier);
     voteController.loadTopics();
 
-    return BaseScreen(
-      backButton: BackButton(
-        onPressed: () {
-          context.pop();
-        },
-      ),
-      title: const Text('Voting-Area'),
-      selectedIndex: 0,
-      floatingActionButton: CustomFAB(onPressed: () {
-            context.push('/createVotingTopic',extra:event);
-      }),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      child: ListView.builder(
+    return Scaffold(
+      body: ListView.builder(
         itemCount: topics.length,
         itemBuilder: (context, index) {
           return Padding(
@@ -49,6 +36,10 @@ class VoteScreen extends ConsumerWidget {
           );
         },
       ),
+      floatingActionButton: CustomFAB(onPressed: () {
+        context.push('/createVotingTopic',extra:event);
+      }),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }

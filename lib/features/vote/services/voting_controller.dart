@@ -3,11 +3,7 @@ import 'package:event_flow/services/isar_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-
-import '../../../services/event_list_provider.dart';
 import '../../../services/voting_topic_list_provider.dart';
-import '../../create_event/widgets/enter_text.dart';
-
 import '../../../data_models/vote/voting_topic_data_model.dart';
 
 class VotingController extends StateNotifier<List<VotingTopic>> {
@@ -58,6 +54,7 @@ class VotingController extends StateNotifier<List<VotingTopic>> {
 
       printOptionData(await getOptionsForVotingTopicAndEvent(event, votingTopic));
       if (context.  mounted) {
+        print("test print");
         context.go('/vote_topic_screen', extra: {
           'event': event,
           'voting_title': topicName,
