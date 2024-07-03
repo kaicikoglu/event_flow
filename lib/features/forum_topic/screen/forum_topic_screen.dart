@@ -42,10 +42,17 @@ class _ForumTopicScreenState extends ConsumerState<ForumTopicScreen> {
           children: [
             Expanded(
               child: questionsAsyncValue.when(
-                data: (questions) => QuestionList(
-                  questions: questions,
-                  onExpansionChanged: _handleExpansionChanged,
-                ),
+                data: (questions) {
+                  if (questions.isEmpty) {
+                    return const Center(
+                      child: Text('No questions yet!'),
+                    );
+                  }
+                  return QuestionList(
+                    questions: questions,
+                    onExpansionChanged: _handleExpansionChanged,
+                  );
+                },
                 loading: () => const Center(child: CircularProgressIndicator()),
                 error: (error, stack) => Center(child: Text('Error: $error')),
               ),
@@ -56,9 +63,9 @@ class _ForumTopicScreenState extends ConsumerState<ForumTopicScreen> {
       floatingActionButton: _isTileExpanded
           ? null
           : CustomFAB(
-              onPressed: () => _controller.showAddQuestionModal(
-                  context, widget.forumTopicId),
-            ),
+        onPressed: () => _controller.showAddQuestionModal(
+            context, widget.forumTopicId),
+      ),
     );
   }
 }

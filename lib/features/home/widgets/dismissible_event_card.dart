@@ -7,8 +7,13 @@ import 'event_card.dart';
 
 class DismissibleEventCard extends ConsumerStatefulWidget {
   final Event event;
+  final VoidCallback onDismissed;
 
-  const DismissibleEventCard({super.key, required this.event});
+  const DismissibleEventCard({
+    super.key,
+    required this.event,
+    required this.onDismissed,
+  });
 
   @override
   _DismissibleEventCardState createState() => _DismissibleEventCardState();
@@ -21,6 +26,7 @@ class _DismissibleEventCardState extends ConsumerState<DismissibleEventCard> {
       key: Key(widget.event.id.toString()),
       direction: DismissDirection.horizontal,
       onDismissed: (direction) {
+        widget.onDismissed();
         ref
             .read(homeContentControllerProvider.notifier)
             .handleDismiss(context, ref, widget.event, direction);

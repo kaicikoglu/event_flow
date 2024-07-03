@@ -23,20 +23,27 @@ class ForumScreen extends ConsumerWidget {
     }
 
     return Scaffold(
-      body: ListView.builder(
-        itemCount: topics.length,
-        itemBuilder: (context, index) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0),
-            child: CustomWideButton(
-              text: topics[index].title,
-              onPressed: () {
-                context.push('/forumTopic', extra: topics[index]);
+      body: topics.isEmpty
+          ? const Center(
+              child: Text(
+                'No topics yet. Be the first to create a topic!',
+                style: TextStyle(fontSize: 18, color: Colors.grey),
+              ),
+            )
+          : ListView.builder(
+              itemCount: topics.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: CustomWideButton(
+                    text: topics[index].title,
+                    onPressed: () {
+                      context.push('/forumTopic', extra: topics[index]);
+                    },
+                  ),
+                );
               },
             ),
-          );
-        },
-      ),
       floatingActionButton: CustomFAB(
         onPressed: () {
           showModalBottomSheet(
