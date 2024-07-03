@@ -1,7 +1,6 @@
 import 'package:event_flow/features/forum/services/forum_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../data_models/event/event_data_model.dart';
 
@@ -50,7 +49,6 @@ class _CreateForumTopic extends State<CreateForumTopic> {
                   widget.onTopicCreated(topic);
                   await _forumController.createAnnouncement(
                       context, widget.ref, widget.event);
-                  context.pop();
                 }
               },
               child: const Text('Bestätigen'),
