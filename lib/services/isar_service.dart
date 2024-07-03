@@ -1,12 +1,14 @@
 // path: lib/services/isar_service.dart
 
-import 'package:event_flow/data_models/announcement_data_model.dart';
+import 'package:event_flow/data_models/announcement/announcement_data_model.dart';
+import 'package:event_flow/data_models/forum/forum_topic_answer_data_model.dart';
+import 'package:event_flow/data_models/forum/forum_topic_question_data_model.dart';
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
 
-import '../data_models/event_data_model.dart';
-import '../data_models/forum_topic_data_model.dart';
-import '../data_models/voting_topic_data_model.dart';
+import '../data_models/event/event_data_model.dart';
+import '../data_models/forum/forum_topic_data_model.dart';
+import '../data_models/vote/voting_topic_data_model.dart';
 
 class IsarService {
   static final IsarService _singleton = IsarService._internal();
@@ -28,6 +30,8 @@ class IsarService {
           ForumTopicSchema,
           VotingTopicSchema,
           VoteOptionSchema,
+          ForumTopicQuestionSchema,
+          ForumTopicAnswerSchema,
         ],
         directory: dir.path,
       );

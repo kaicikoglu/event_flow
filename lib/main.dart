@@ -10,9 +10,14 @@ void main() async {
   final isarService = IsarService();
   await isarService.initializeIsar();
 
-  runApp(ProviderScope(overrides: [
-    isarServiceProvider.overrideWithValue(isarService),
-  ], child: const MyApp()));
+  runApp(
+    ProviderScope(
+      overrides: [
+        isarServiceProvider.overrideWithValue(isarService),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 final isarServiceProvider = Provider<IsarService>((ref) {
@@ -20,7 +25,7 @@ final isarServiceProvider = Provider<IsarService>((ref) {
 });
 
 class MyApp extends ConsumerWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 
-import '../../../data_models/event_data_model.dart';
+import '../../../data_models/event/event_data_model.dart';
 
 class AnnouncementTitle extends StatelessWidget {
   final Event event;

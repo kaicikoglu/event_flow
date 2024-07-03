@@ -1,8 +1,8 @@
-import 'package:event_flow/data_models/voting_topic_data_model.dart';
+import 'package:event_flow/data_models/vote/voting_topic_data_model.dart';
 import 'package:isar/isar.dart';
 
-import 'announcement_data_model.dart';
-import 'forum_topic_data_model.dart';
+import '../announcement/announcement_data_model.dart';
+import '../forum/forum_topic_data_model.dart';
 
 part 'event_data_model.g.dart';
 
