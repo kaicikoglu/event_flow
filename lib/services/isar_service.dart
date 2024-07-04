@@ -1,5 +1,3 @@
-// path: lib/services/isar_service.dart
-
 import 'package:event_flow/data_models/announcement/announcement_data_model.dart';
 import 'package:event_flow/data_models/forum/forum_topic_answer_data_model.dart';
 import 'package:event_flow/data_models/forum/forum_topic_question_data_model.dart';
@@ -8,6 +6,7 @@ import 'package:path_provider/path_provider.dart';
 
 import '../data_models/event/event_data_model.dart';
 import '../data_models/forum/forum_topic_data_model.dart';
+import '../data_models/pictures/picture_data_model.dart';
 import '../data_models/vote/voting_topic_data_model.dart';
 
 class IsarService {
@@ -31,6 +30,7 @@ class IsarService {
           VotingTopicSchema,
           ForumTopicQuestionSchema,
           ForumTopicAnswerSchema,
+          PictureSchema,
         ],
         directory: dir.path,
       );
@@ -69,5 +69,22 @@ class IsarService {
       event.hasNewAnnouncements = false;
       await _isar.events.put(event);
     });
+  }
+
+  Future<void> savePicture(Event event, String imagePath) async {
+    final picture = Picture()
+      ..imagePath = imagePath
+      ..uploadDate = DateTime.now()
+      ..event.value = event;
+
+    await _isar.writeTxn(() async {
+      await _isar.pictures.put(picture);
+      event.pictures.add(picture);
+      await event.pictures.save();
+    });
+  }
+
+  Future<List<Picture>> getPicturesForEvent(Event event) async {
+    return event.pictures.filter().findAll();
   }
 }

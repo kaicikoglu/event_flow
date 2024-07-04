@@ -76,7 +76,11 @@ class EventScreen extends StatelessWidget {
                     context.push('/vote', extra: event);
                   }),
               ThemeButton(
-                  icon: Icons.cloud, text: "Ressourcen", onPressed: () {}),
+                  icon: Icons.cloud,
+                  text: "Ressourcen",
+                  onPressed: () {
+                    context.push('/resources', extra: event);
+                  }),
               ThemeButton(
                   icon: Icons.check_box, text: "To-Dos", onPressed: () {}),
             ],
