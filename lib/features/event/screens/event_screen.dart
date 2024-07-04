@@ -22,32 +22,38 @@ class EventScreen extends StatelessWidget {
       child: Column(
         children: [
           Card(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15.0),
-              side: const BorderSide(
-                  color: Color.fromRGBO(73, 81, 86, 100), width: 1.0),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                children: [
-                  Center(
-                      child: InfoBox(
-                          icon1: Icons.calendar_today,
-                          text1: event!.date.toIso8601String().split('T').first,
-                          icon2: Icons.access_time,
-                          text2: event!.time)),
-                  const SizedBox(height: 8),
-                  Center(
-                      child: InfoBox(
-                          icon1: Icons.location_on,
-                          text1: event!.location,
-                          icon2: Icons.person,
-                          text2: event!.participants)),
-                ],
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15.0),
+                side: const BorderSide(
+                    color: Color.fromRGBO(73, 81, 86, 100), width: 1.0),
               ),
-            ),
-          ),
+              child: InkWell(
+                onTap: () {
+                  context.push('/createEvent', extra: event);
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    children: [
+                      Center(
+                          child: InfoBox(
+                        icon1: Icons.calendar_today,
+                        text1: event!.date.toIso8601String().split('T').first,
+                        icon2: Icons.access_time,
+                        text2: event!.time,
+                      )),
+                      const SizedBox(height: 8),
+                      Center(
+                          child: InfoBox(
+                        icon1: Icons.location_on,
+                        text1: event!.location,
+                        icon2: Icons.person,
+                        text2: event!.participants,
+                      )),
+                    ],
+                  ),
+                ),
+              )),
           const SizedBox(height: 16),
           CustomWideButton(
             text: 'Teilnehmerliste bearbeiten',
