@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:event_flow/data_models/announcement/announcement_data_model.dart';
 import 'package:event_flow/data_models/forum/forum_topic_answer_data_model.dart';
 import 'package:event_flow/data_models/forum/forum_topic_question_data_model.dart';
@@ -86,5 +88,16 @@ class IsarService {
 
   Future<List<Picture>> getPicturesForEvent(Event event) async {
     return event.pictures.filter().findAll();
+  }
+
+  Future<void> deletePicture(Picture picture) async {
+    final file = File(picture.imagePath);
+    if (await file.exists()) {
+      await file.delete();
+    }
+
+    await _isar.writeTxn(() async {
+      await _isar.pictures.delete(picture.id);
+    });
   }
 }
