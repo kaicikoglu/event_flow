@@ -32,10 +32,11 @@ class ResourcesController {
 
       if (image != null) {
         final Directory appDir = await getApplicationDocumentsDirectory();
-        final String path = '${appDir.path}/${image.name}';
-        await image.saveTo(path);
+        final String newPath =
+            '${appDir.path}/${DateTime.now().millisecondsSinceEpoch}_${image.name}';
+        await image.saveTo(newPath);
 
-        await isarService.savePicture(event, path);
+        await isarService.savePicture(event, newPath);
 
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text('Picture uploaded successfully!'),
@@ -51,5 +52,59 @@ class ResourcesController {
         content: Text('Error picking image: $e'),
       ));
     }
+  }
+
+  Future<void> deletePicture(Picture picture) async {
+    try {
+      await isarService.deletePicture(picture);
+    } catch (e) {
+      print('Error deleting picture: $e');
+    }
+  }
+
+  void showDeleteDialog(
+      BuildContext context, Picture picture, VoidCallback onDelete) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Delete Picture'),
+          content: const Text('Are you sure you want to delete this picture?'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                onDelete();
+                Navigator.of(context).pop();
+              },
+              child: const Text('Delete'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void showEnlargedImage(BuildContext context, String imagePath) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return Dialog(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Image.file(File(imagePath)),
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: const Text('Close'),
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 }

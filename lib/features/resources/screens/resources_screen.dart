@@ -1,10 +1,10 @@
-import 'package:event_flow/features/resources/services/resources_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../data_models/event/event_data_model.dart';
 import '../../../data_models/pictures/picture_data_model.dart';
 import '../../../widgets/floating_action_button.dart';
+import '../services/resources_controller.dart';
 import '../widgets/picture_grid_widget.dart';
 
 class ResourcesScreen extends ConsumerStatefulWidget {
@@ -30,6 +30,12 @@ class _ResourcesScreen extends ConsumerState<ResourcesScreen> {
     return await controller.getPicturesForEvent(widget.event);
   }
 
+  Future<void> _refreshPictures() async {
+    setState(() {
+      _picturesFuture = _loadPictures();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final controller = ref.read(resourcesControllerProvider);
@@ -49,7 +55,10 @@ class _ResourcesScreen extends ConsumerState<ResourcesScreen> {
                   return const Center(child: Text('No pictures uploaded.'));
                 } else {
                   final pictures = snapshot.data!;
-                  return PictureGrid(pictures: pictures);
+                  return PictureGrid(
+                    pictures: pictures,
+                    onDeleteComplete: _refreshPictures,
+                  );
                 }
               },
             ),
@@ -59,10 +68,7 @@ class _ResourcesScreen extends ConsumerState<ResourcesScreen> {
       floatingActionButton: CustomFAB(
         onPressed: () async {
           await controller.pickImage(context, widget.event);
-          setState(() {
-            _picturesFuture =
-                _loadPictures(); // Reload pictures after adding a new one
-          });
+          _refreshPictures();
         },
       ),
     );
