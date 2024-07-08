@@ -2,22 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../data_models/event/event_data_model.dart';
 import '../../../widgets/wide_button.dart';
-import '../services/voting_controller.dart';
+import '../services/vote_create_topic_controller.dart';
 import '../widgets/enter_text.dart';
 
 
-class CreateVotingTopicScreen extends ConsumerStatefulWidget {
+class CreateTopicScreen extends ConsumerStatefulWidget {
   final Event event;
   // final VotingTopic? topic;
 
-  const CreateVotingTopicScreen({super.key, required this.event});
+  const CreateTopicScreen({super.key, required this.event});
 
   @override
-  _CreateVotingTopicScreenState createState() => _CreateVotingTopicScreenState();
+  _CreateTopicScreenState createState() => _CreateTopicScreenState();
 }
 
-class _CreateVotingTopicScreenState extends ConsumerState<CreateVotingTopicScreen> {
-  late VotingController _controller = VotingController(widget.event);
+class _CreateTopicScreenState extends ConsumerState<CreateTopicScreen> {
+  late CreateTopicController _controller = CreateTopicController(widget.event);
   List<Widget> textFields = [];
 
   void addTextField() {
@@ -55,7 +55,7 @@ class _CreateVotingTopicScreenState extends ConsumerState<CreateVotingTopicScree
                   children: [
                     EnterText(
                       argument: 'Question:',
-                      hintText: 'Enter event name',
+                      hintText: 'Enter topic name',
                       width: 250,
                       height: 60,
                       controller: _controller.topicNameController,

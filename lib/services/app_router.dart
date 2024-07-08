@@ -5,8 +5,6 @@ import 'package:event_flow/features/create_event/screens/create_event_screen.dar
 import 'package:event_flow/features/event/screens/event_screen.dart';
 import 'package:event_flow/features/forum/screens/forum_screen.dart';
 import 'package:event_flow/features/resources/screens/resources_screen.dart';
-import 'package:event_flow/features/vote/screens/vote_screen.dart';
-import 'package:event_flow/features/vote/screens/vote_topic_screen.dart';
 import 'package:event_flow/widgets/base_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -15,7 +13,9 @@ import '../data_models/event/event_data_model.dart';
 import '../data_models/forum/forum_topic_data_model.dart';
 import '../features/forum_topic/screen/forum_topic_screen.dart';
 import '../features/home/screens/home_screen.dart';
-import '../features/vote/screens/create_voting_topic_screen.dart';
+import '../features/vote_create_topic/screens/vote_create_topic_screen.dart';
+import '../features/vote_overview/screens/vote_screen.dart';
+import '../features/voting_topic/screens/vote_topic_screen.dart';
 import 'navigation_helpers.dart';
 
 class AppRouter {
@@ -82,18 +82,18 @@ class AppRouter {
             path: '/vote',
             builder: (context, state) {
               final event = state.extra as Event;
-              return VoteScreen(event: event);
+              return VoteOverviewScreen(event: event);
             },
           ),
           GoRoute(
             path: '/createVotingTopic',
             builder: (context, state) {
               final event = state.extra as Event;
-              return CreateVotingTopicScreen(event: event);
+              return CreateTopicScreen(event: event);
             },
           ),
           GoRoute(
-            path: '/vote_topic_screen',
+            path: '/votingTopic',
             builder: (context, state) {
               final extras = state.extra as Map<String, dynamic>;
               final event = extras['event'] as Event;
