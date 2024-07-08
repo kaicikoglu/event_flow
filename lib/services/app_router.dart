@@ -4,6 +4,7 @@ import 'package:event_flow/features/create_announcement/screens/create_announcem
 import 'package:event_flow/features/create_event/screens/create_event_screen.dart';
 import 'package:event_flow/features/event/screens/event_screen.dart';
 import 'package:event_flow/features/forum/screens/forum_screen.dart';
+import 'package:event_flow/features/resources/screens/resources_screen.dart';
 import 'package:event_flow/features/vote/screens/vote_screen.dart';
 import 'package:event_flow/features/vote/screens/vote_topic_screen.dart';
 import 'package:event_flow/widgets/base_screen.dart';
@@ -112,6 +113,13 @@ class AppRouter {
             builder: (context, state) {
               final event = state.extra as Event;
               return CreateAnnouncementScreen(event: event);
+            },
+          ),
+          GoRoute(
+            path: '/resources',
+            builder: (context, state) {
+              final event = state.extra as Event;
+              return ResourcesScreen(event: event);
             },
           ),
         ],

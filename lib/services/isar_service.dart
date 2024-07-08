@@ -8,6 +8,7 @@ import 'package:path_provider/path_provider.dart';
 
 import '../data_models/event/event_data_model.dart';
 import '../data_models/forum/forum_topic_data_model.dart';
+import '../data_models/pictures/picture_data_model.dart';
 import '../data_models/vote/voting_topic_data_model.dart';
 
 class IsarService {
@@ -32,6 +33,7 @@ class IsarService {
           VoteOptionSchema,
           ForumTopicQuestionSchema,
           ForumTopicAnswerSchema,
+          PictureSchema,
         ],
         directory: dir.path,
       );
@@ -91,5 +93,33 @@ class IsarService {
   Future<List<VotingTopic>> getAllVotingTopics() async {
     final votingTopics = await _isar.votingTopics.where().findAll();
     return votingTopics;
+  }
+
+  Future<void> savePicture(Event event, String imagePath) async {
+    final picture = Picture()
+      ..imagePath = imagePath
+      ..uploadDate = DateTime.now()
+      ..event.value = event;
+
+    await _isar.writeTxn(() async {
+      await _isar.pictures.put(picture);
+      event.pictures.add(picture);
+      await event.pictures.save();
+    });
+  }
+
+  Future<List<Picture>> getPicturesForEvent(Event event) async {
+    return event.pictures.filter().findAll();
+  }
+
+  Future<void> deletePicture(Picture picture) async {
+    final file = File(picture.imagePath);
+    if (await file.exists()) {
+      await file.delete();
+    }
+
+    await _isar.writeTxn(() async {
+      await _isar.pictures.delete(picture.id);
+    });
   }
 }

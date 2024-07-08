@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../data_models/event/event_data_model.dart';
 import '../../../main.dart';
@@ -41,15 +40,10 @@ class HomeContentController extends StateNotifier<AsyncValue<List<Event>>> {
 
   void handleDismiss(BuildContext context, WidgetRef ref, Event event,
       DismissDirection direction) {
-    if (direction == DismissDirection.startToEnd) {
-      deleteEvent(event.id);
-      context.go('/createEvent', extra: event);
-    } else if (direction == DismissDirection.endToStart) {
-      deleteEvent(event.id);
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('${event.title} dismissed')),
-      );
-    }
+    deleteEvent(event.id);
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('${event.title} dismissed')),
+    );
   }
 
   @override

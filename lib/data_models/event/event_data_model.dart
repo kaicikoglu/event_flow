@@ -1,8 +1,11 @@
+import 'dart:ui';
+
 import 'package:event_flow/data_models/vote/voting_topic_data_model.dart';
 import 'package:isar/isar.dart';
 
 import '../announcement/announcement_data_model.dart';
 import '../forum/forum_topic_data_model.dart';
+import '../pictures/picture_data_model.dart';
 
 part 'event_data_model.g.dart';
 
@@ -19,8 +22,8 @@ class Event {
   final announcements = IsarLinks<Announcement>(); // Link to announcements
   final forumTopics = IsarLinks<ForumTopic>(); // Link to forum topics
   final votingTopics = IsarLinks<VotingTopic>(); // Link to voting topics
+  final pictures = IsarLinks<Picture>(); // Link to pictures
   bool hasNewAnnouncements = false;
-
 
   // Method to create and save an announcement
   Future<void> createAnnouncement(Isar isar, String description) async {
@@ -52,9 +55,10 @@ class Event {
     } as Future Function());
   }
 
-  Future<void> createVotingTopic(Isar isar, String topicTitle, List<VoteOption> options) async {
+  // Method to create and save a voting topic
+  Future<void> createVotingTopic(Isar isar, String votingTitle) async {
     final votingTopic = VotingTopic()
-      ..title = topicTitle
+      ..title = votingTitle
       ..createdDate = DateTime.now()
       ..event.value = this;
 
@@ -71,4 +75,17 @@ class Event {
     } as Future Function());
   }
 
+  // Method to create and save a picture
+  Future<void> createPicture(Isar isar, String imagePath) async {
+    final picture = Picture()
+      ..imagePath = imagePath
+      ..uploadDate = DateTime.now()
+      ..event.value = this;
+
+    await isar.writeTxn(() async {
+      await isar.pictures.put(picture);
+      pictures.add(picture);
+      await pictures.save();
+    } as Future Function());
+  }
 }

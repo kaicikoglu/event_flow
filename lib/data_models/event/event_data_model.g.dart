@@ -72,6 +72,12 @@ const EventSchema = CollectionSchema(
       name: r'votingTopics',
       target: r'VotingTopic',
       single: false,
+    ),
+    r'pictures': LinkSchema(
+      id: -8354874275892083290,
+      name: r'pictures',
+      target: r'Picture',
+      single: false,
     )
   },
   embeddedSchemas: {},
@@ -154,7 +160,12 @@ Id _eventGetId(Event object) {
 }
 
 List<IsarLinkBase<dynamic>> _eventGetLinks(Event object) {
-  return [object.announcements, object.forumTopics, object.votingTopics];
+  return [
+    object.announcements,
+    object.forumTopics,
+    object.votingTopics,
+    object.pictures
+  ];
 }
 
 void _eventAttach(IsarCollection<dynamic> col, Id id, Event object) {
@@ -165,6 +176,7 @@ void _eventAttach(IsarCollection<dynamic> col, Id id, Event object) {
       .attach(col, col.isar.collection<ForumTopic>(), r'forumTopics', id);
   object.votingTopics
       .attach(col, col.isar.collection<VotingTopic>(), r'votingTopics', id);
+  object.pictures.attach(col, col.isar.collection<Picture>(), r'pictures', id);
 }
 
 extension EventQueryWhereSort on QueryBuilder<Event, Event, QWhere> {
@@ -1046,6 +1058,62 @@ extension EventQueryLinks on QueryBuilder<Event, Event, QFilterCondition> {
     return QueryBuilder.apply(this, (query) {
       return query.linkLength(
           r'votingTopics', lower, includeLower, upper, includeUpper);
+    });
+  }
+
+  QueryBuilder<Event, Event, QAfterFilterCondition> pictures(
+      FilterQuery<Picture> q) {
+    return QueryBuilder.apply(this, (query) {
+      return query.link(q, r'pictures');
+    });
+  }
+
+  QueryBuilder<Event, Event, QAfterFilterCondition> picturesLengthEqualTo(
+      int length) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'pictures', length, true, length, true);
+    });
+  }
+
+  QueryBuilder<Event, Event, QAfterFilterCondition> picturesIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'pictures', 0, true, 0, true);
+    });
+  }
+
+  QueryBuilder<Event, Event, QAfterFilterCondition> picturesIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'pictures', 0, false, 999999, true);
+    });
+  }
+
+  QueryBuilder<Event, Event, QAfterFilterCondition> picturesLengthLessThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'pictures', 0, true, length, include);
+    });
+  }
+
+  QueryBuilder<Event, Event, QAfterFilterCondition> picturesLengthGreaterThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'pictures', length, include, 999999, true);
+    });
+  }
+
+  QueryBuilder<Event, Event, QAfterFilterCondition> picturesLengthBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(
+          r'pictures', lower, includeLower, upper, includeUpper);
     });
   }
 }

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+
 import 'navbar.dart'; // Ensure the path is correct
 
 class BaseScreen extends StatelessWidget {
   final Widget child;
   final int selectedIndex;
-  final double contentWidth;
   final Widget? title;
   final bool centerTitle;
   final Widget? floatingActionButton;
@@ -16,9 +16,8 @@ class BaseScreen extends StatelessWidget {
     super.key,
     required this.child,
     required this.selectedIndex,
-    this.contentWidth = 600,
     this.title,
-    this.centerTitle = false, // Default to false if not provided
+    this.centerTitle = false,
     this.floatingActionButton,
     this.floatingActionButtonLocation,
     this.backButton,
@@ -43,6 +42,14 @@ class BaseScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double contentWidth = screenWidth * 0.9; // Set to 90% of screen width
+    double maxContentWidth = 600; // Maximum width
+
+    if (contentWidth > maxContentWidth) {
+      contentWidth = maxContentWidth;
+    }
+
     return Scaffold(
       appBar: AppBar(
         leading: backButton,
