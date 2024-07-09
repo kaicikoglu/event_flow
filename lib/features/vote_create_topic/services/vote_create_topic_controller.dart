@@ -31,13 +31,13 @@ class CreateTopicController extends StateNotifier<List<VotingTopic>> {
       await loadTopics();
 
 
-      printOptionData(await getOptionsForVotingTopicAndEvent(event, votingTopic));
       if (context.  mounted) {
         print("test print");
         context.pop();
       }
     }
   }
+
 
 
   CreateTopicController(this.event) : super([]) {
