@@ -3,6 +3,7 @@ import 'package:isar/isar.dart';
 import '../announcement/announcement_data_model.dart';
 import '../forum/forum_topic_data_model.dart';
 import '../pictures/picture_data_model.dart';
+import '../vote/voting_topic_option_data_model.dart';
 
 part 'event_data_model.g.dart';
 
@@ -53,9 +54,9 @@ class Event {
   }
 
   // Method to create and save a voting topic
-  Future<void> createVotingTopic(Isar isar, String votingTitle, options ) async {
+  Future<void> createVotingTopic(Isar isar, String votingTitle,  List<VoteOption> options ) async {
     final votingTopic = VotingTopic()
-      ..title = votingTitle
+      ..topicTitle = votingTitle
       ..createdDate = DateTime.now()
       ..event.value = this;
 

@@ -12,6 +12,7 @@ import '../data_models/event/event_data_model.dart';
 import '../data_models/forum/forum_topic_data_model.dart';
 import '../data_models/pictures/picture_data_model.dart';
 import '../data_models/vote/voting_topic_data_model.dart';
+import '../data_models/vote/voting_topic_option_data_model.dart';
 
 class IsarService {
   static final IsarService _singleton = IsarService._internal();

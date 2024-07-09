@@ -1,12 +1,12 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../data_models/vote/voting_topic_data_model.dart';
-import '../main.dart';
-import '../services/isar_service.dart';
-class VotingTopicListProvider extends StateNotifier<AsyncValue<List<VotingTopic>>> {
+import '../../../data_models/vote/voting_topic_data_model.dart';
+import '../../../main.dart';
+import '../../../services/isar_service.dart';
+class VoteCreateTopicProvider extends StateNotifier<AsyncValue<List<VotingTopic>>> {
   final IsarService isarService;
 
-  VotingTopicListProvider(this.isarService) : super(const AsyncValue.loading()) {
+  VoteCreateTopicProvider(this.isarService) : super(const AsyncValue.loading()) {
     loadVotingTopics();
   }
 
@@ -35,8 +35,8 @@ class VotingTopicListProvider extends StateNotifier<AsyncValue<List<VotingTopic>
   }
 }
 
-final votingTopicNotifierProvider =
-StateNotifierProvider<VotingTopicListProvider, AsyncValue<List<VotingTopic>>>((ref) {
+final voteCreateTopicNotifierProvider =
+StateNotifierProvider<VoteCreateTopicProvider, AsyncValue<List<VotingTopic>>>((ref) {
   final isarService = ref.watch(isarServiceProvider);
-  return VotingTopicListProvider(isarService);
+  return VoteCreateTopicProvider(isarService);
 });

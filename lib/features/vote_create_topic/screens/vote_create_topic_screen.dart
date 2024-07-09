@@ -17,7 +17,7 @@ class CreateTopicScreen extends ConsumerStatefulWidget {
 }
 
 class _CreateTopicScreenState extends ConsumerState<CreateTopicScreen> {
-  late CreateTopicController _controller = CreateTopicController(widget.event);
+  late final CreateTopicController _controller = CreateTopicController(widget.event);
   List<Widget> textFields = [];
 
   void addTextField() {

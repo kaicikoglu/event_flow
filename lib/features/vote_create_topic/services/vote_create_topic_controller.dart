@@ -3,8 +3,13 @@ import 'package:event_flow/services/isar_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import '../../../services/voting_topic_list_provider.dart';
 import '../../../data_models/vote/voting_topic_data_model.dart';
+import '../../../data_models/vote/voting_topic_option_data_model.dart';
+
+final createTopicControllerProvider = StateNotifierProvider.family<CreateTopicController, List<VotingTopic>, Event>((ref, event) {
+  return CreateTopicController(event);
+});
+
 
 class CreateTopicController extends StateNotifier<List<VotingTopic>> {
   final Event event;
@@ -21,33 +26,7 @@ class CreateTopicController extends StateNotifier<List<VotingTopic>> {
       options.add(VoteOption(label: optionNameController.text));
       options.add(VoteOption(label: optionNameController2.text));
 
-
-      // ToDo Liste aus screen mit weiteren optionen durch gehen und in der liste speichern
-
-
-      final votingTopic = VotingTopic()
-        ..title = topicName
-        ..createdDate = DateTime.now();
-
       final isar = IsarService().getIsar();
-
-      await isar.writeTxn(() async {
-        for (var option in options) {
-          final voteOption = VoteOption(label: option.label, count: option.count)
-            ..votingTopic.value = votingTopic;
-          await isar.voteOptions.put(voteOption);
-          votingTopic.options.add(voteOption);
-        }
-        await isar.votingTopics.put(votingTopic);
-      });
-
-      // Fügen Sie das VotingTopic zum Event hinzu
-      event.votingTopics.add(votingTopic);
-
-      // Speichern Sie das Event
-      final topicNotifier = ref.read(votingTopicNotifierProvider.notifier);
-      await topicNotifier.addVotingTopic(votingTopic);
-
       await event.createVotingTopic(isar, topicName, options);
       await loadTopics();
 
@@ -55,7 +34,7 @@ class CreateTopicController extends StateNotifier<List<VotingTopic>> {
       printOptionData(await getOptionsForVotingTopicAndEvent(event, votingTopic));
       if (context.  mounted) {
         print("test print");
-        context.go('/vote', extra: event);
+        context.pop();
       }
     }
   }

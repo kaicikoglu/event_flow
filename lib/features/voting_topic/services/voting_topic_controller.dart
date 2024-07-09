@@ -1,85 +1,11 @@
-import 'package:event_flow/data_models/event/event_data_model.dart';
+import 'package:event_flow/features/voting_topic/services/voting_topic_provider.dart';
 import 'package:event_flow/services/isar_service.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
-import '../../../services/voting_topic_list_provider.dart';
 import '../../../data_models/vote/voting_topic_data_model.dart';
+import '../../../data_models/vote/voting_topic_option_data_model.dart';
 
-class VotingController extends StateNotifier<List<VotingTopic>> {
-  final Event event;
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  final TextEditingController topicNameController = TextEditingController();
-  final TextEditingController optionNameController = TextEditingController();
-  final TextEditingController optionNameController2 = TextEditingController();
-  final TextEditingController textFields = TextEditingController();
-
-  Future<void> handleSubmit(BuildContext context, WidgetRef ref) async {
-    if (formKey.currentState!.validate()) {
-      List<VoteOption> options = [];
-      String topicName = topicNameController.text;
-      options.add(VoteOption(label: optionNameController.text));
-      options.add(VoteOption(label: optionNameController2.text));
-
-
-      // ToDo Liste aus screen mit weiteren optionen durch gehen und in der liste speichern
-
-
-      final votingTopic = VotingTopic()
-        ..title = topicName
-        ..createdDate = DateTime.now();
-
-      final isar = IsarService().getIsar();
-
-      await isar.writeTxn(() async {
-        for (var option in options) {
-          final voteOption = VoteOption(label: option.label, count: option.count)
-            ..votingTopic.value = votingTopic;
-          await isar.voteOptions.put(voteOption);
-          votingTopic.options.add(voteOption);
-        }
-        await isar.votingTopics.put(votingTopic);
-      });
-
-      // Fügen Sie das VotingTopic zum Event hinzu
-      event.votingTopics.add(votingTopic);
-
-      // Speichern Sie das Event
-      final topicNotifier = ref.read(votingTopicNotifierProvider.notifier);
-      await topicNotifier.addVotingTopic(votingTopic);
-
-      await event.createVotingTopic(isar, topicName, options);
-      await loadTopics();
-
-
-      printOptionData(await getOptionsForVotingTopicAndEvent(event, votingTopic));
-      if (context.  mounted) {
-        print("test print");
-        context.go('/vote_topic_screen', extra: {
-          'event': event,
-          'voting_title': topicName,
-        });
-      }
-    }
-  }
-
-
-  VotingController(this.event) : super([]) {
-    initialize();
-  }
-
-  Future<void> initialize() async {
-    await IsarService().initializeIsar();
-    await loadTopics();
-  }
-
-  Future<void> loadTopics() async {
-    await event.votingTopics.load();
-    state = event.votingTopics.toList();
-  }
-  Future<List<VoteOption>> getOptionsForVotingTopicAndEvent(Event event, VotingTopic votingTopic) async {
-    // Laden Sie die VotingTopics des Events
-    await event.votingTopics.load();
+class VotingTopicController {
+  final WidgetRef ref;
 
     // Überprüfen Sie, ob das gegebene VotingTopic zu den VotingTopics des Events gehört
     if (event.votingTopics.contains(votingTopic)) {

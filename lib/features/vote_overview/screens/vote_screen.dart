@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../../../data_models/event/event_data_model.dart';
 import '../../../widgets/floating_action_button.dart';
 import '../../../widgets/wide_button.dart';
+import '../../vote_create_topic/services/vote_create_topic_controller.dart';
 import '../services/vote_overview_provider.dart';
 
 class VoteOverviewScreen extends ConsumerWidget {
@@ -13,7 +14,7 @@ class VoteOverviewScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final topics = ref.watch(voteOverviewControllerProvider(event));
+    final topics = ref.watch(createTopicControllerProvider(event));
 
     return Scaffold(
       body: topics.isEmpty
@@ -29,12 +30,9 @@ class VoteOverviewScreen extends ConsumerWidget {
                 return Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: CustomWideButton(
-                    text: topics[index].title,
+                    text: topics[index].topicTitle,
                     onPressed: () {
-                      context.push('/voteTopic', extra: {
-                        'event': event,
-                        'voting_title': topics[index].title,
-                      });
+                      context.push('/votingTopic',  extra: topics[index]);
                     },
                   ),
                 );

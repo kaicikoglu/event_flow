@@ -11,11 +11,12 @@ import 'package:go_router/go_router.dart';
 
 import '../data_models/event/event_data_model.dart';
 import '../data_models/forum/forum_topic_data_model.dart';
+import '../data_models/vote/voting_topic_data_model.dart';
 import '../features/forum_topic/screen/forum_topic_screen.dart';
 import '../features/home/screens/home_screen.dart';
 import '../features/vote_create_topic/screens/vote_create_topic_screen.dart';
 import '../features/vote_overview/screens/vote_screen.dart';
-import '../features/voting_topic/screens/vote_topic_screen.dart';
+import '../features/voting_topic/screens/voting_topic_screen.dart';
 import 'navigation_helpers.dart';
 
 class AppRouter {
@@ -95,10 +96,8 @@ class AppRouter {
           GoRoute(
             path: '/votingTopic',
             builder: (context, state) {
-              final extras = state.extra as Map<String, dynamic>;
-              final event = extras['event'] as Event;
-              final votingTitle = extras['voting_title'] as String;
-              return VoteTopicScreen(event: event, title: votingTitle);
+              final votingTopic = state.extra as VotingTopic;
+              return VoteTopicScreen(votingTopicId: votingTopic.id);
             },
           ),
           GoRoute(
