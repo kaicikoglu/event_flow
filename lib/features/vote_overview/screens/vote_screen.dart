@@ -5,7 +5,6 @@ import '../../../data_models/event/event_data_model.dart';
 import '../../../widgets/floating_action_button.dart';
 import '../../../widgets/wide_button.dart';
 import '../../vote_create_topic/services/vote_create_topic_controller.dart';
-import '../services/vote_overview_provider.dart';
 
 class VoteOverviewScreen extends ConsumerWidget {
   final Event event;

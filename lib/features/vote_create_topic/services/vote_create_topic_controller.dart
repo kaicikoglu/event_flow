@@ -69,22 +69,7 @@ class CreateTopicController extends StateNotifier<List<VotingTopic>> {
       throw Exception('Das gegebene VotingTopic gehört nicht zu den VotingTopics des Events');
     }
   }
-  Future<void> addOption(String optionLabel, VotingTopic topic) async {
-    final isar = IsarService().getIsar();
-    await isar.writeTxn(() async {
-      // Erstellen Sie ein neues VoteOption-Objekt
-      final option = VoteOption(label: optionLabel);
 
-      // Fügen Sie das neue VoteOption-Objekt zur Liste der Optionen in dem VotingTopic hinzu
-      topic.options.add(option);
-
-      // Aktualisieren Sie das VotingTopic in der Datenbank
-      await isar.votingTopics.put(topic);
-    });
-
-    // Laden Sie die Themen erneut, um den Zustand zu aktualisieren
-    await loadTopics();
-  }
 
   void printOptionData(List<VoteOption> options) {
     for (var option in options) {
@@ -95,14 +80,6 @@ class CreateTopicController extends StateNotifier<List<VotingTopic>> {
       print('-------------------------');
     }
   }
-  VotingTopic getCurrentTopic(String title){
-    return state.firstWhere((element) => element.title == title);
-  }
-}
 
-final voteTopicsControllerProvider =
-    StateNotifierProvider.family<CreateTopicController, List<VotingTopic>, Event>(
-        (ref, event) {
-  return CreateTopicController(event);
-});
+}
 
