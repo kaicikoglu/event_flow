@@ -1,3 +1,5 @@
+// path: lib/services/isar_service.dart
+
 import 'dart:io';
 
 import 'package:event_flow/data_models/announcement/announcement_data_model.dart';
@@ -10,6 +12,7 @@ import '../data_models/event/event_data_model.dart';
 import '../data_models/forum/forum_topic_data_model.dart';
 import '../data_models/pictures/picture_data_model.dart';
 import '../data_models/vote/voting_topic_data_model.dart';
+import '../data_models/vote/voting_topic_option_data_model.dart';
 
 class IsarService {
   static final IsarService _singleton = IsarService._internal();
@@ -30,6 +33,7 @@ class IsarService {
           AnnouncementSchema,
           ForumTopicSchema,
           VotingTopicSchema,
+          VoteOptionSchema,
           ForumTopicQuestionSchema,
           ForumTopicAnswerSchema,
           PictureSchema,
@@ -71,6 +75,27 @@ class IsarService {
       event.hasNewAnnouncements = false;
       await _isar.events.put(event);
     });
+  }
+
+
+// Methode zum Speichern eines VotingTopic
+  Future<void> saveVotingTopic(VotingTopic votingTopic) async {
+    await _isar.writeTxn(() async {
+      await _isar.votingTopics.put(votingTopic);
+    });
+  }
+
+// Methode zum Löschen eines VotingTopic
+  Future<void> deleteVotingTopic(int id) async {
+    await _isar.writeTxn(() async {
+      await _isar.votingTopics.delete(id);
+    });
+  }
+
+// Methode zum Abrufen aller VotingTopics
+  Future<List<VotingTopic>> getAllVotingTopics() async {
+    final votingTopics = await _isar.votingTopics.where().findAll();
+    return votingTopics;
   }
 
   Future<void> savePicture(Event event, String imagePath) async {
