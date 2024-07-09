@@ -53,6 +53,7 @@ class CreateTopicController extends StateNotifier<List<VotingTopic>> {
     await event.votingTopics.load();
     state = event.votingTopics.toList();
   }
+
   Future<List<VoteOption>> getOptionsForVotingTopicAndEvent(Event event, VotingTopic votingTopic) async {
     // Laden Sie die VotingTopics des Events
     await event.votingTopics.load();
