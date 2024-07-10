@@ -32,12 +32,15 @@ class ToDoScreen extends ConsumerWidget {
           : ListView.builder(
         itemCount: topics.length,
         itemBuilder: (context, index) {
+          final topic = topics[index];
+          final isSelected = ref.watch(todoControllerProvider(event).notifier).isSelected(topic.id);
           return Padding(
             padding: const EdgeInsets.symmetric(vertical: 8.0),
             child: CheckboxWideButtonTodo(
-              label: topics[index].title,
-              isSelected: false,
+              label: topic.title,
+              isSelected: isSelected,
               onTap: () {
+                todoController.toggleSelection(topic.id);
               },
             ),
           );

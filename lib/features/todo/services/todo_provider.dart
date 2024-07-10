@@ -7,6 +7,7 @@ import 'package:isar/isar.dart';
 
 class TodoProvider extends StateNotifier<List<TodoTopic>> {
   final Event event;
+  Set<int> selectedTopics = {};
 
   TodoProvider(this.event) : super([]) {
     initialize();
@@ -25,7 +26,6 @@ class TodoProvider extends StateNotifier<List<TodoTopic>> {
   Future<void> addTopic(BuildContext context, String topicTitle) async {
     final isar = IsarService().getIsar();
 
-    // Check if a forum topic with the same title already exists
     final existingTopic = await isar.todoTopics
         .filter()
         .titleEqualTo(topicTitle)
@@ -54,6 +54,20 @@ class TodoProvider extends StateNotifier<List<TodoTopic>> {
 
     await event.createTodoTopic(isar, topicTitle);
     await loadTopics();
+  }
+
+  void toggleSelection(int topicId) {
+    if (selectedTopics.contains(topicId)) {
+      selectedTopics.remove(topicId);
+    } else {
+      selectedTopics.add(topicId);
+    }
+    // Force state update to refresh UI
+    state = List.from(state);
+  }
+
+  bool isSelected(int topicId) {
+    return selectedTopics.contains(topicId);
   }
 }
 

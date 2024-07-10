@@ -1,7 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../data_models/vote/voting_topic_data_model.dart';
-import '../../../main.dart';
 import '../../../services/isar_service.dart';
 
 class VoteCreateTopicProvider
@@ -37,9 +36,3 @@ class VoteCreateTopicProvider
     loadVotingTopics();
   }
 }
-
-final voteCreateTopicNotifierProvider = StateNotifierProvider<
-    VoteCreateTopicProvider, AsyncValue<List<VotingTopic>>>((ref) {
-  final isarService = ref.watch(isarServiceProvider);
-  return VoteCreateTopicProvider(isarService);
-});
