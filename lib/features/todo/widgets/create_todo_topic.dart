@@ -9,7 +9,7 @@ class CreateTodoTopic extends StatefulWidget {
   final Event event;
   final WidgetRef ref;
 
-  const CreateTodoTopic.CreateTodoTopic(
+  const CreateTodoTopic(
       {super.key,
         required this.onTopicCreated,
         required this.event,
