@@ -3,6 +3,7 @@ import 'package:isar/isar.dart';
 import '../announcement/announcement_data_model.dart';
 import '../forum/forum_topic_data_model.dart';
 import '../pictures/picture_data_model.dart';
+import '../todo/todo_data_model.dart';
 import '../vote/voting_topic_option_data_model.dart';
 
 part 'event_data_model.g.dart';
@@ -20,6 +21,7 @@ class Event {
   final announcements = IsarLinks<Announcement>(); // Link to announcements
   final forumTopics = IsarLinks<ForumTopic>(); // Link to forum topics
   final votingTopics = IsarLinks<VotingTopic>(); // Link to voting topics
+  final todoTopics = IsarLinks<TodoTopic>(); // Link to todo topics
   final pictures = IsarLinks<Picture>(); // Link to pictures
   bool hasNewAnnouncements = false;
 
