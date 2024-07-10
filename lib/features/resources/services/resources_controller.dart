@@ -36,7 +36,7 @@ class ResourcesController {
             '${appDir.path}/${DateTime.now().millisecondsSinceEpoch}_${image.name}';
         await image.saveTo(newPath);
 
-        await isarService.savePicture(event, newPath);
+        await event.createPicture(isarService.getIsar(), newPath);
 
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text('Picture uploaded successfully!'),
@@ -92,16 +92,24 @@ class ResourcesController {
     showDialog(
       context: context,
       builder: (context) {
+        double screenHeight = MediaQuery.of(context).size.height;
+        double dialogHeight = screenHeight * 0.6;
+
         return Dialog(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Image.file(File(imagePath)),
-              TextButton(
-                onPressed: () => Navigator.of(context).pop(),
-                child: const Text('Close'),
-              ),
-            ],
+          child: SizedBox(
+            height: dialogHeight,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Expanded(
+                  child: Image.file(File(imagePath)),
+                ),
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: const Text('Close'),
+                ),
+              ],
+            ),
           ),
         );
       },

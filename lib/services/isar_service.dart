@@ -109,19 +109,6 @@ class IsarService {
     return votingTopics;
   }
 
-  Future<void> savePicture(Event event, String imagePath) async {
-    final picture = Picture()
-      ..imagePath = imagePath
-      ..uploadDate = DateTime.now()
-      ..event.value = event;
-
-    await _isar.writeTxn(() async {
-      await _isar.pictures.put(picture);
-      event.pictures.add(picture);
-      await event.pictures.save();
-    });
-  }
-
   Future<List<Picture>> getPicturesForEvent(Event event) async {
     return event.pictures.filter().findAll();
   }
