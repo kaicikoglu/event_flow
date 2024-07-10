@@ -1,3 +1,4 @@
+import 'package:event_flow/data_models/forum/forum_topic_data_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -7,9 +8,9 @@ import '../services/forum_topic_provider.dart';
 import '../widgets/question_list_widget.dart';
 
 class ForumTopicScreen extends ConsumerStatefulWidget {
-  final int forumTopicId;
+  final ForumTopic forumTopic;
 
-  const ForumTopicScreen({super.key, required this.forumTopicId});
+  const ForumTopicScreen({super.key, required this.forumTopic});
 
   @override
   _ForumTopicScreenState createState() => _ForumTopicScreenState();
@@ -23,7 +24,7 @@ class _ForumTopicScreenState extends ConsumerState<ForumTopicScreen> {
   void initState() {
     super.initState();
     _controller = ForumTopicController(ref);
-    _controller.loadQuestions(widget.forumTopicId);
+    _controller.loadQuestions(widget.forumTopic.id);
   }
 
   void _handleExpansionChanged(bool isExpanded) {
@@ -64,7 +65,7 @@ class _ForumTopicScreenState extends ConsumerState<ForumTopicScreen> {
           ? null
           : CustomFAB(
               onPressed: () => _controller.showAddQuestionModal(
-                  context, widget.forumTopicId),
+                  context, widget.forumTopic.id, widget.forumTopic.eventId),
             ),
     );
   }

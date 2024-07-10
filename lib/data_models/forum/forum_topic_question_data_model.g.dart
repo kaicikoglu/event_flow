@@ -18,8 +18,13 @@ const ForumTopicQuestionSchema = CollectionSchema(
   name: r'ForumTopicQuestion',
   id: 6867348753425773018,
   properties: {
-    r'question': PropertySchema(
+    r'eventId': PropertySchema(
       id: 0,
+      name: r'eventId',
+      type: IsarType.long,
+    ),
+    r'question': PropertySchema(
+      id: 1,
       name: r'question',
       type: IsarType.string,
     )
@@ -67,7 +72,8 @@ void _forumTopicQuestionSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeString(offsets[0], object.question);
+  writer.writeLong(offsets[0], object.eventId);
+  writer.writeString(offsets[1], object.question);
 }
 
 ForumTopicQuestion _forumTopicQuestionDeserialize(
@@ -77,8 +83,9 @@ ForumTopicQuestion _forumTopicQuestionDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = ForumTopicQuestion();
+  object.eventId = reader.readLong(offsets[0]);
   object.id = id;
-  object.question = reader.readString(offsets[0]);
+  object.question = reader.readString(offsets[1]);
   return object;
 }
 
@@ -90,6 +97,8 @@ P _forumTopicQuestionDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
+      return (reader.readLong(offset)) as P;
+    case 1:
       return (reader.readString(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -196,6 +205,62 @@ extension ForumTopicQuestionQueryWhere
 
 extension ForumTopicQuestionQueryFilter
     on QueryBuilder<ForumTopicQuestion, ForumTopicQuestion, QFilterCondition> {
+  QueryBuilder<ForumTopicQuestion, ForumTopicQuestion, QAfterFilterCondition>
+      eventIdEqualTo(int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'eventId',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<ForumTopicQuestion, ForumTopicQuestion, QAfterFilterCondition>
+      eventIdGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'eventId',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<ForumTopicQuestion, ForumTopicQuestion, QAfterFilterCondition>
+      eventIdLessThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'eventId',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<ForumTopicQuestion, ForumTopicQuestion, QAfterFilterCondition>
+      eventIdBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'eventId',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
   QueryBuilder<ForumTopicQuestion, ForumTopicQuestion, QAfterFilterCondition>
       idEqualTo(Id value) {
     return QueryBuilder.apply(this, (query) {
@@ -473,6 +538,20 @@ extension ForumTopicQuestionQueryLinks
 extension ForumTopicQuestionQuerySortBy
     on QueryBuilder<ForumTopicQuestion, ForumTopicQuestion, QSortBy> {
   QueryBuilder<ForumTopicQuestion, ForumTopicQuestion, QAfterSortBy>
+      sortByEventId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'eventId', Sort.asc);
+    });
+  }
+
+  QueryBuilder<ForumTopicQuestion, ForumTopicQuestion, QAfterSortBy>
+      sortByEventIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'eventId', Sort.desc);
+    });
+  }
+
+  QueryBuilder<ForumTopicQuestion, ForumTopicQuestion, QAfterSortBy>
       sortByQuestion() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'question', Sort.asc);
@@ -489,6 +568,20 @@ extension ForumTopicQuestionQuerySortBy
 
 extension ForumTopicQuestionQuerySortThenBy
     on QueryBuilder<ForumTopicQuestion, ForumTopicQuestion, QSortThenBy> {
+  QueryBuilder<ForumTopicQuestion, ForumTopicQuestion, QAfterSortBy>
+      thenByEventId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'eventId', Sort.asc);
+    });
+  }
+
+  QueryBuilder<ForumTopicQuestion, ForumTopicQuestion, QAfterSortBy>
+      thenByEventIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'eventId', Sort.desc);
+    });
+  }
+
   QueryBuilder<ForumTopicQuestion, ForumTopicQuestion, QAfterSortBy>
       thenById() {
     return QueryBuilder.apply(this, (query) {
@@ -521,6 +614,13 @@ extension ForumTopicQuestionQuerySortThenBy
 extension ForumTopicQuestionQueryWhereDistinct
     on QueryBuilder<ForumTopicQuestion, ForumTopicQuestion, QDistinct> {
   QueryBuilder<ForumTopicQuestion, ForumTopicQuestion, QDistinct>
+      distinctByEventId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'eventId');
+    });
+  }
+
+  QueryBuilder<ForumTopicQuestion, ForumTopicQuestion, QDistinct>
       distinctByQuestion({bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'question', caseSensitive: caseSensitive);
@@ -533,6 +633,12 @@ extension ForumTopicQuestionQueryProperty
   QueryBuilder<ForumTopicQuestion, int, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'id');
+    });
+  }
+
+  QueryBuilder<ForumTopicQuestion, int, QQueryOperations> eventIdProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'eventId');
     });
   }
 

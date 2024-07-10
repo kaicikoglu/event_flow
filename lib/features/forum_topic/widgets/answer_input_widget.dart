@@ -1,13 +1,14 @@
-// path: lib/features/forum_topic/screen/answer_input.dart
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../services/forum_topic_provider.dart';
 
 class AnswerInput extends ConsumerWidget {
   final int questionId;
+  final int eventId;
 
-  const AnswerInput({Key? key, required this.questionId}) : super(key: key);
+  const AnswerInput(
+      {super.key, required this.questionId, required this.eventId});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -26,7 +27,9 @@ class AnswerInput extends ConsumerWidget {
             ),
             onSubmitted: (answerText) {
               if (answerText.isNotEmpty) {
-                ref.read(forumTopicQuestionProvider.notifier).addAnswer(questionId, answerText);
+                ref
+                    .read(forumTopicQuestionProvider.notifier)
+                    .addAnswer(questionId, answerText, eventId);
                 textEditingController.clear();
               }
             },
@@ -37,8 +40,11 @@ class AnswerInput extends ConsumerWidget {
           onPressed: () {
             final answerText = textEditingController.text;
             if (answerText.isNotEmpty) {
-              ref.read(forumTopicQuestionProvider.notifier).addAnswer(questionId, answerText);
-              textEditingController.clear(); // Clear the text field after sending
+              ref
+                  .read(forumTopicQuestionProvider.notifier)
+                  .addAnswer(questionId, answerText, eventId);
+              textEditingController
+                  .clear(); // Clear the text field after sending
             }
           },
           child: const Text('Submit'),

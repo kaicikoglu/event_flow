@@ -21,6 +21,11 @@ const ForumTopicAnswerSchema = CollectionSchema(
       id: 0,
       name: r'answer',
       type: IsarType.string,
+    ),
+    r'eventId': PropertySchema(
+      id: 1,
+      name: r'eventId',
+      type: IsarType.long,
     )
   },
   estimateSize: _forumTopicAnswerEstimateSize,
@@ -61,6 +66,7 @@ void _forumTopicAnswerSerialize(
   Map<Type, List<int>> allOffsets,
 ) {
   writer.writeString(offsets[0], object.answer);
+  writer.writeLong(offsets[1], object.eventId);
 }
 
 ForumTopicAnswer _forumTopicAnswerDeserialize(
@@ -71,6 +77,7 @@ ForumTopicAnswer _forumTopicAnswerDeserialize(
 ) {
   final object = ForumTopicAnswer();
   object.answer = reader.readString(offsets[0]);
+  object.eventId = reader.readLong(offsets[1]);
   object.id = id;
   return object;
 }
@@ -84,6 +91,8 @@ P _forumTopicAnswerDeserializeProp<P>(
   switch (propertyId) {
     case 0:
       return (reader.readString(offset)) as P;
+    case 1:
+      return (reader.readLong(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
@@ -322,6 +331,62 @@ extension ForumTopicAnswerQueryFilter
   }
 
   QueryBuilder<ForumTopicAnswer, ForumTopicAnswer, QAfterFilterCondition>
+      eventIdEqualTo(int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'eventId',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<ForumTopicAnswer, ForumTopicAnswer, QAfterFilterCondition>
+      eventIdGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'eventId',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<ForumTopicAnswer, ForumTopicAnswer, QAfterFilterCondition>
+      eventIdLessThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'eventId',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<ForumTopicAnswer, ForumTopicAnswer, QAfterFilterCondition>
+      eventIdBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'eventId',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<ForumTopicAnswer, ForumTopicAnswer, QAfterFilterCondition>
       idEqualTo(Id value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -413,6 +478,20 @@ extension ForumTopicAnswerQuerySortBy
       return query.addSortBy(r'answer', Sort.desc);
     });
   }
+
+  QueryBuilder<ForumTopicAnswer, ForumTopicAnswer, QAfterSortBy>
+      sortByEventId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'eventId', Sort.asc);
+    });
+  }
+
+  QueryBuilder<ForumTopicAnswer, ForumTopicAnswer, QAfterSortBy>
+      sortByEventIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'eventId', Sort.desc);
+    });
+  }
 }
 
 extension ForumTopicAnswerQuerySortThenBy
@@ -428,6 +507,20 @@ extension ForumTopicAnswerQuerySortThenBy
       thenByAnswerDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'answer', Sort.desc);
+    });
+  }
+
+  QueryBuilder<ForumTopicAnswer, ForumTopicAnswer, QAfterSortBy>
+      thenByEventId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'eventId', Sort.asc);
+    });
+  }
+
+  QueryBuilder<ForumTopicAnswer, ForumTopicAnswer, QAfterSortBy>
+      thenByEventIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'eventId', Sort.desc);
     });
   }
 
@@ -453,6 +546,13 @@ extension ForumTopicAnswerQueryWhereDistinct
       return query.addDistinctBy(r'answer', caseSensitive: caseSensitive);
     });
   }
+
+  QueryBuilder<ForumTopicAnswer, ForumTopicAnswer, QDistinct>
+      distinctByEventId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'eventId');
+    });
+  }
 }
 
 extension ForumTopicAnswerQueryProperty
@@ -466,6 +566,12 @@ extension ForumTopicAnswerQueryProperty
   QueryBuilder<ForumTopicAnswer, String, QQueryOperations> answerProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'answer');
+    });
+  }
+
+  QueryBuilder<ForumTopicAnswer, int, QQueryOperations> eventIdProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'eventId');
     });
   }
 }

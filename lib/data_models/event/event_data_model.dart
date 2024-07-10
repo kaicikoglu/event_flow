@@ -42,6 +42,7 @@ class Event {
   // Method to create and save a forum topic
   Future<void> createForumTopic(Isar isar, String topicTitle) async {
     final forumTopic = ForumTopic()
+      ..eventId = id
       ..title = topicTitle
       ..createdDate = DateTime.now()
       ..event.value = this;

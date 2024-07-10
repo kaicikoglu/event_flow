@@ -22,8 +22,13 @@ const ForumTopicSchema = CollectionSchema(
       name: r'createdDate',
       type: IsarType.dateTime,
     ),
-    r'title': PropertySchema(
+    r'eventId': PropertySchema(
       id: 1,
+      name: r'eventId',
+      type: IsarType.long,
+    ),
+    r'title': PropertySchema(
+      id: 2,
       name: r'title',
       type: IsarType.string,
     )
@@ -72,7 +77,8 @@ void _forumTopicSerialize(
   Map<Type, List<int>> allOffsets,
 ) {
   writer.writeDateTime(offsets[0], object.createdDate);
-  writer.writeString(offsets[1], object.title);
+  writer.writeLong(offsets[1], object.eventId);
+  writer.writeString(offsets[2], object.title);
 }
 
 ForumTopic _forumTopicDeserialize(
@@ -83,8 +89,9 @@ ForumTopic _forumTopicDeserialize(
 ) {
   final object = ForumTopic();
   object.createdDate = reader.readDateTime(offsets[0]);
+  object.eventId = reader.readLong(offsets[1]);
   object.id = id;
-  object.title = reader.readString(offsets[1]);
+  object.title = reader.readString(offsets[2]);
   return object;
 }
 
@@ -98,6 +105,8 @@ P _forumTopicDeserializeProp<P>(
     case 0:
       return (reader.readDateTime(offset)) as P;
     case 1:
+      return (reader.readLong(offset)) as P;
+    case 2:
       return (reader.readString(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -246,6 +255,60 @@ extension ForumTopicQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
         property: r'createdDate',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<ForumTopic, ForumTopic, QAfterFilterCondition> eventIdEqualTo(
+      int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'eventId',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<ForumTopic, ForumTopic, QAfterFilterCondition>
+      eventIdGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'eventId',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<ForumTopic, ForumTopic, QAfterFilterCondition> eventIdLessThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'eventId',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<ForumTopic, ForumTopic, QAfterFilterCondition> eventIdBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'eventId',
         lower: lower,
         includeLower: includeLower,
         upper: upper,
@@ -533,6 +596,18 @@ extension ForumTopicQuerySortBy
     });
   }
 
+  QueryBuilder<ForumTopic, ForumTopic, QAfterSortBy> sortByEventId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'eventId', Sort.asc);
+    });
+  }
+
+  QueryBuilder<ForumTopic, ForumTopic, QAfterSortBy> sortByEventIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'eventId', Sort.desc);
+    });
+  }
+
   QueryBuilder<ForumTopic, ForumTopic, QAfterSortBy> sortByTitle() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'title', Sort.asc);
@@ -557,6 +632,18 @@ extension ForumTopicQuerySortThenBy
   QueryBuilder<ForumTopic, ForumTopic, QAfterSortBy> thenByCreatedDateDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'createdDate', Sort.desc);
+    });
+  }
+
+  QueryBuilder<ForumTopic, ForumTopic, QAfterSortBy> thenByEventId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'eventId', Sort.asc);
+    });
+  }
+
+  QueryBuilder<ForumTopic, ForumTopic, QAfterSortBy> thenByEventIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'eventId', Sort.desc);
     });
   }
 
@@ -593,6 +680,12 @@ extension ForumTopicQueryWhereDistinct
     });
   }
 
+  QueryBuilder<ForumTopic, ForumTopic, QDistinct> distinctByEventId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'eventId');
+    });
+  }
+
   QueryBuilder<ForumTopic, ForumTopic, QDistinct> distinctByTitle(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -612,6 +705,12 @@ extension ForumTopicQueryProperty
   QueryBuilder<ForumTopic, DateTime, QQueryOperations> createdDateProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'createdDate');
+    });
+  }
+
+  QueryBuilder<ForumTopic, int, QQueryOperations> eventIdProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'eventId');
     });
   }
 

@@ -76,7 +76,7 @@ class AppRouter {
             path: '/forumTopic',
             builder: (context, state) {
               final forumTopic = state.extra as ForumTopic;
-              return ForumTopicScreen(forumTopicId: forumTopic.id);
+              return ForumTopicScreen(forumTopic: forumTopic);
             },
           ),
           GoRoute(

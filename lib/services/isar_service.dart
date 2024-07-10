@@ -60,6 +60,12 @@ class IsarService {
       // Delete all announcements related to the event
       await _isar.announcements.filter().eventIdEqualTo(id).deleteAll();
 
+      await _isar.forumTopicAnswers.filter().eventIdEqualTo(id).deleteAll();
+
+      await _isar.forumTopicQuestions.filter().eventIdEqualTo(id).deleteAll();
+
+      await _isar.forumTopics.filter().eventIdEqualTo(id).deleteAll();
+
       // Delete the event
       await _isar.events.delete(id);
     });
@@ -76,7 +82,6 @@ class IsarService {
       await _isar.events.put(event);
     });
   }
-
 
 // Methode zum Speichern eines VotingTopic
   Future<void> saveVotingTopic(VotingTopic votingTopic) async {
