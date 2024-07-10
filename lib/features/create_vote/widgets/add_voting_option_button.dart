@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 class AddVotingOption extends StatefulWidget {
   final Function(String) onOptionCreated;
 
@@ -20,7 +19,8 @@ class _AddVotingOption extends State<AddVotingOption> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Text('Antwortmöglichkeit hinzufügen', style: TextStyle(fontSize: 20.0)),
+          const Text('Antwortmöglichkeit hinzufügen',
+              style: TextStyle(fontSize: 20.0)),
           TextField(
             controller: _controller,
             decoration: const InputDecoration(

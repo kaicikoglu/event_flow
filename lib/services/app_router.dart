@@ -12,11 +12,11 @@ import 'package:go_router/go_router.dart';
 import '../data_models/event/event_data_model.dart';
 import '../data_models/forum/forum_topic_data_model.dart';
 import '../data_models/vote/voting_topic_data_model.dart';
+import '../features/create_vote/screens/create_vote_screen.dart';
 import '../features/forum_topic/screen/forum_topic_screen.dart';
 import '../features/home/screens/home_screen.dart';
-import '../features/vote_create_topic/screens/vote_create_topic_screen.dart';
-import '../features/vote_overview/screens/vote_screen.dart';
-import '../features/voting_topic/screens/voting_topic_screen.dart';
+import '../features/vote/screens/vote_screen.dart';
+import '../features/vote_topic/screens/voting_topic_screen.dart';
 import 'navigation_helpers.dart';
 
 class AppRouter {
@@ -76,21 +76,21 @@ class AppRouter {
             path: '/forumTopic',
             builder: (context, state) {
               final forumTopic = state.extra as ForumTopic;
-              return ForumTopicScreen(forumTopicId: forumTopic.id);
+              return ForumTopicScreen(forumTopic: forumTopic);
             },
           ),
           GoRoute(
             path: '/vote',
             builder: (context, state) {
               final event = state.extra as Event;
-              return VoteOverviewScreen(event: event);
+              return VoteScreen(event: event);
             },
           ),
           GoRoute(
             path: '/createVotingTopic',
             builder: (context, state) {
               final event = state.extra as Event;
-              return CreateTopicScreen(event: event);
+              return CreateVoteScreen(event: event);
             },
           ),
           GoRoute(

@@ -44,7 +44,14 @@ const AnnouncementSchema = CollectionSchema(
   deserializeProp: _announcementDeserializeProp,
   idName: r'id',
   indexes: {},
-  links: {},
+  links: {
+    r'event': LinkSchema(
+      id: 2923910258455639848,
+      name: r'event',
+      target: r'Event',
+      single: true,
+    )
+  },
   embeddedSchemas: {},
   getId: _announcementGetId,
   getLinks: _announcementGetLinks,
@@ -115,12 +122,13 @@ Id _announcementGetId(Announcement object) {
 }
 
 List<IsarLinkBase<dynamic>> _announcementGetLinks(Announcement object) {
-  return [];
+  return [object.event];
 }
 
 void _announcementAttach(
     IsarCollection<dynamic> col, Id id, Announcement object) {
   object.id = id;
+  object.event.attach(col, col.isar.collection<Event>(), r'event', id);
 }
 
 extension AnnouncementQueryWhereSort
@@ -644,7 +652,21 @@ extension AnnouncementQueryObject
     on QueryBuilder<Announcement, Announcement, QFilterCondition> {}
 
 extension AnnouncementQueryLinks
-    on QueryBuilder<Announcement, Announcement, QFilterCondition> {}
+    on QueryBuilder<Announcement, Announcement, QFilterCondition> {
+  QueryBuilder<Announcement, Announcement, QAfterFilterCondition> event(
+      FilterQuery<Event> q) {
+    return QueryBuilder.apply(this, (query) {
+      return query.link(q, r'event');
+    });
+  }
+
+  QueryBuilder<Announcement, Announcement, QAfterFilterCondition>
+      eventIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'event', 0, true, 0, true);
+    });
+  }
+}
 
 extension AnnouncementQuerySortBy
     on QueryBuilder<Announcement, Announcement, QSortBy> {

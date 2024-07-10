@@ -9,6 +9,7 @@ part 'forum_topic_question_data_model.g.dart';
 class ForumTopicQuestion {
   Id id = Isar.autoIncrement; // Auto increment primary key
 
+  late int eventId; // Reference to the event
   late String question;
 
   final forumTopic = IsarLink<ForumTopic>(); // Link to the parent ForumTopic

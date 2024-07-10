@@ -17,13 +17,18 @@ const PictureSchema = CollectionSchema(
   name: r'Picture',
   id: 985668904418580614,
   properties: {
-    r'imagePath': PropertySchema(
+    r'eventId': PropertySchema(
       id: 0,
+      name: r'eventId',
+      type: IsarType.long,
+    ),
+    r'imagePath': PropertySchema(
+      id: 1,
       name: r'imagePath',
       type: IsarType.string,
     ),
     r'uploadDate': PropertySchema(
-      id: 1,
+      id: 2,
       name: r'uploadDate',
       type: IsarType.dateTime,
     )
@@ -65,8 +70,9 @@ void _pictureSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeString(offsets[0], object.imagePath);
-  writer.writeDateTime(offsets[1], object.uploadDate);
+  writer.writeLong(offsets[0], object.eventId);
+  writer.writeString(offsets[1], object.imagePath);
+  writer.writeDateTime(offsets[2], object.uploadDate);
 }
 
 Picture _pictureDeserialize(
@@ -76,9 +82,10 @@ Picture _pictureDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = Picture();
+  object.eventId = reader.readLong(offsets[0]);
   object.id = id;
-  object.imagePath = reader.readString(offsets[0]);
-  object.uploadDate = reader.readDateTime(offsets[1]);
+  object.imagePath = reader.readString(offsets[1]);
+  object.uploadDate = reader.readDateTime(offsets[2]);
   return object;
 }
 
@@ -90,8 +97,10 @@ P _pictureDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readString(offset)) as P;
+      return (reader.readLong(offset)) as P;
     case 1:
+      return (reader.readString(offset)) as P;
+    case 2:
       return (reader.readDateTime(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -188,6 +197,59 @@ extension PictureQueryWhere on QueryBuilder<Picture, Picture, QWhereClause> {
 
 extension PictureQueryFilter
     on QueryBuilder<Picture, Picture, QFilterCondition> {
+  QueryBuilder<Picture, Picture, QAfterFilterCondition> eventIdEqualTo(
+      int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'eventId',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Picture, Picture, QAfterFilterCondition> eventIdGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'eventId',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Picture, Picture, QAfterFilterCondition> eventIdLessThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'eventId',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Picture, Picture, QAfterFilterCondition> eventIdBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'eventId',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
   QueryBuilder<Picture, Picture, QAfterFilterCondition> idEqualTo(Id value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -444,6 +506,18 @@ extension PictureQueryLinks
 }
 
 extension PictureQuerySortBy on QueryBuilder<Picture, Picture, QSortBy> {
+  QueryBuilder<Picture, Picture, QAfterSortBy> sortByEventId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'eventId', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Picture, Picture, QAfterSortBy> sortByEventIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'eventId', Sort.desc);
+    });
+  }
+
   QueryBuilder<Picture, Picture, QAfterSortBy> sortByImagePath() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'imagePath', Sort.asc);
@@ -471,6 +545,18 @@ extension PictureQuerySortBy on QueryBuilder<Picture, Picture, QSortBy> {
 
 extension PictureQuerySortThenBy
     on QueryBuilder<Picture, Picture, QSortThenBy> {
+  QueryBuilder<Picture, Picture, QAfterSortBy> thenByEventId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'eventId', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Picture, Picture, QAfterSortBy> thenByEventIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'eventId', Sort.desc);
+    });
+  }
+
   QueryBuilder<Picture, Picture, QAfterSortBy> thenById() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.asc);
@@ -510,6 +596,12 @@ extension PictureQuerySortThenBy
 
 extension PictureQueryWhereDistinct
     on QueryBuilder<Picture, Picture, QDistinct> {
+  QueryBuilder<Picture, Picture, QDistinct> distinctByEventId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'eventId');
+    });
+  }
+
   QueryBuilder<Picture, Picture, QDistinct> distinctByImagePath(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -529,6 +621,12 @@ extension PictureQueryProperty
   QueryBuilder<Picture, int, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'id');
+    });
+  }
+
+  QueryBuilder<Picture, int, QQueryOperations> eventIdProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'eventId');
     });
   }
 

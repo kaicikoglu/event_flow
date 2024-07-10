@@ -8,6 +8,7 @@ part 'forum_topic_answer_data_model.g.dart';
 class ForumTopicAnswer {
   Id id = Isar.autoIncrement; // Auto increment primary key
 
+  late int eventId;            // Reference to the event
   late String answer;
 
   final forumTopicQuestion =

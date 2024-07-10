@@ -1,5 +1,6 @@
 import 'package:event_flow/data_models/vote/voting_topic_data_model.dart';
 import 'package:isar/isar.dart';
+
 import '../announcement/announcement_data_model.dart';
 import '../forum/forum_topic_data_model.dart';
 import '../pictures/picture_data_model.dart';
@@ -42,6 +43,7 @@ class Event {
   // Method to create and save a forum topic
   Future<void> createForumTopic(Isar isar, String topicTitle) async {
     final forumTopic = ForumTopic()
+      ..eventId = id
       ..title = topicTitle
       ..createdDate = DateTime.now()
       ..event.value = this;
@@ -54,15 +56,19 @@ class Event {
   }
 
   // Method to create and save a voting topic
-  Future<void> createVotingTopic(Isar isar, String votingTitle,  List<VoteOption> options ) async {
+  Future<void> createVotingTopic(
+      Isar isar, String votingTitle, List<VoteOption> options) async {
     final votingTopic = VotingTopic()
       ..topicTitle = votingTitle
       ..createdDate = DateTime.now()
-      ..event.value = this;
+      ..eventId = id;
 
     await isar.writeTxn(() async {
       for (var option in options) {
-        final voteOption = VoteOption(label: option.label, count: option.count)
+        final voteOption = VoteOption()
+          ..eventId = id
+          ..label = option.label
+          ..count = option.count
           ..votingTopic.value = votingTopic;
         await isar.voteOptions.put(voteOption);
         votingTopic.options.add(voteOption);

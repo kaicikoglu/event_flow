@@ -8,6 +8,7 @@ part 'picture_data_model.g.dart';
 class Picture {
   Id id = Isar.autoIncrement; // Auto increment primary key
 
+  late int eventId;
   late String imagePath; // Path to the image file
   late DateTime uploadDate;
 
