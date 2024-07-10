@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'voting_topic_data_model.dart';
+part of 'voting_topic_option_data_model.dart';
 
 // **************************************************************************
 // IsarCollectionGenerator
@@ -9,18 +9,18 @@ part of 'voting_topic_data_model.dart';
 // coverage:ignore-file
 // ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
 
-extension GetVotingTopicCollection on Isar {
-  IsarCollection<VotingTopic> get votingTopics => this.collection();
+extension GetVoteOptionCollection on Isar {
+  IsarCollection<VoteOption> get voteOptions => this.collection();
 }
 
-const VotingTopicSchema = CollectionSchema(
-  name: r'VotingTopic',
-  id: -1604314939566518728,
+const VoteOptionSchema = CollectionSchema(
+  name: r'VoteOption',
+  id: -5492581741971363279,
   properties: {
-    r'createdDate': PropertySchema(
+    r'count': PropertySchema(
       id: 0,
-      name: r'createdDate',
-      type: IsarType.dateTime,
+      name: r'count',
+      type: IsarType.long,
     ),
     r'eventId': PropertySchema(
       id: 1,
@@ -32,76 +32,71 @@ const VotingTopicSchema = CollectionSchema(
       name: r'isSelected',
       type: IsarType.bool,
     ),
-    r'topicTitle': PropertySchema(
+    r'label': PropertySchema(
       id: 3,
-      name: r'topicTitle',
+      name: r'label',
       type: IsarType.string,
     )
   },
-  estimateSize: _votingTopicEstimateSize,
-  serialize: _votingTopicSerialize,
-  deserialize: _votingTopicDeserialize,
-  deserializeProp: _votingTopicDeserializeProp,
+  estimateSize: _voteOptionEstimateSize,
+  serialize: _voteOptionSerialize,
+  deserialize: _voteOptionDeserialize,
+  deserializeProp: _voteOptionDeserializeProp,
   idName: r'id',
   indexes: {},
   links: {
-    r'event': LinkSchema(
-      id: -4632711996499431852,
-      name: r'event',
-      target: r'Event',
+    r'votingTopic': LinkSchema(
+      id: -4886336372549114147,
+      name: r'votingTopic',
+      target: r'VotingTopic',
       single: true,
-    ),
-    r'options': LinkSchema(
-      id: 1967809603987702637,
-      name: r'options',
-      target: r'VoteOption',
-      single: false,
     )
   },
   embeddedSchemas: {},
-  getId: _votingTopicGetId,
-  getLinks: _votingTopicGetLinks,
-  attach: _votingTopicAttach,
+  getId: _voteOptionGetId,
+  getLinks: _voteOptionGetLinks,
+  attach: _voteOptionAttach,
   version: '3.1.0+1',
 );
 
-int _votingTopicEstimateSize(
-  VotingTopic object,
+int _voteOptionEstimateSize(
+  VoteOption object,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
-  bytesCount += 3 + object.topicTitle.length * 3;
+  bytesCount += 3 + object.label.length * 3;
   return bytesCount;
 }
 
-void _votingTopicSerialize(
-  VotingTopic object,
+void _voteOptionSerialize(
+  VoteOption object,
   IsarWriter writer,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeDateTime(offsets[0], object.createdDate);
+  writer.writeLong(offsets[0], object.count);
   writer.writeLong(offsets[1], object.eventId);
   writer.writeBool(offsets[2], object.isSelected);
-  writer.writeString(offsets[3], object.topicTitle);
+  writer.writeString(offsets[3], object.label);
 }
 
-VotingTopic _votingTopicDeserialize(
+VoteOption _voteOptionDeserialize(
   Id id,
   IsarReader reader,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  final object = VotingTopic();
-  object.createdDate = reader.readDateTime(offsets[0]);
+  final object = VoteOption();
+  object.count = reader.readLong(offsets[0]);
   object.eventId = reader.readLong(offsets[1]);
   object.id = id;
-  object.topicTitle = reader.readString(offsets[3]);
+  object.isSelected = reader.readBool(offsets[2]);
+  object.label = reader.readString(offsets[3]);
   return object;
 }
 
-P _votingTopicDeserializeProp<P>(
+P _voteOptionDeserializeProp<P>(
   IsarReader reader,
   int propertyId,
   int offset,
@@ -109,7 +104,7 @@ P _votingTopicDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readDateTime(offset)) as P;
+      return (reader.readLong(offset)) as P;
     case 1:
       return (reader.readLong(offset)) as P;
     case 2:
@@ -121,33 +116,32 @@ P _votingTopicDeserializeProp<P>(
   }
 }
 
-Id _votingTopicGetId(VotingTopic object) {
+Id _voteOptionGetId(VoteOption object) {
   return object.id;
 }
 
-List<IsarLinkBase<dynamic>> _votingTopicGetLinks(VotingTopic object) {
-  return [object.event, object.options];
+List<IsarLinkBase<dynamic>> _voteOptionGetLinks(VoteOption object) {
+  return [object.votingTopic];
 }
 
-void _votingTopicAttach(
-    IsarCollection<dynamic> col, Id id, VotingTopic object) {
+void _voteOptionAttach(IsarCollection<dynamic> col, Id id, VoteOption object) {
   object.id = id;
-  object.event.attach(col, col.isar.collection<Event>(), r'event', id);
-  object.options.attach(col, col.isar.collection<VoteOption>(), r'options', id);
+  object.votingTopic
+      .attach(col, col.isar.collection<VotingTopic>(), r'votingTopic', id);
 }
 
-extension VotingTopicQueryWhereSort
-    on QueryBuilder<VotingTopic, VotingTopic, QWhere> {
-  QueryBuilder<VotingTopic, VotingTopic, QAfterWhere> anyId() {
+extension VoteOptionQueryWhereSort
+    on QueryBuilder<VoteOption, VoteOption, QWhere> {
+  QueryBuilder<VoteOption, VoteOption, QAfterWhere> anyId() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(const IdWhereClause.any());
     });
   }
 }
 
-extension VotingTopicQueryWhere
-    on QueryBuilder<VotingTopic, VotingTopic, QWhereClause> {
-  QueryBuilder<VotingTopic, VotingTopic, QAfterWhereClause> idEqualTo(Id id) {
+extension VoteOptionQueryWhere
+    on QueryBuilder<VoteOption, VoteOption, QWhereClause> {
+  QueryBuilder<VoteOption, VoteOption, QAfterWhereClause> idEqualTo(Id id) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IdWhereClause.between(
         lower: id,
@@ -156,8 +150,7 @@ extension VotingTopicQueryWhere
     });
   }
 
-  QueryBuilder<VotingTopic, VotingTopic, QAfterWhereClause> idNotEqualTo(
-      Id id) {
+  QueryBuilder<VoteOption, VoteOption, QAfterWhereClause> idNotEqualTo(Id id) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
@@ -179,7 +172,7 @@ extension VotingTopicQueryWhere
     });
   }
 
-  QueryBuilder<VotingTopic, VotingTopic, QAfterWhereClause> idGreaterThan(Id id,
+  QueryBuilder<VoteOption, VoteOption, QAfterWhereClause> idGreaterThan(Id id,
       {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
@@ -188,7 +181,7 @@ extension VotingTopicQueryWhere
     });
   }
 
-  QueryBuilder<VotingTopic, VotingTopic, QAfterWhereClause> idLessThan(Id id,
+  QueryBuilder<VoteOption, VoteOption, QAfterWhereClause> idLessThan(Id id,
       {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
@@ -197,7 +190,7 @@ extension VotingTopicQueryWhere
     });
   }
 
-  QueryBuilder<VotingTopic, VotingTopic, QAfterWhereClause> idBetween(
+  QueryBuilder<VoteOption, VoteOption, QAfterWhereClause> idBetween(
     Id lowerId,
     Id upperId, {
     bool includeLower = true,
@@ -214,56 +207,53 @@ extension VotingTopicQueryWhere
   }
 }
 
-extension VotingTopicQueryFilter
-    on QueryBuilder<VotingTopic, VotingTopic, QFilterCondition> {
-  QueryBuilder<VotingTopic, VotingTopic, QAfterFilterCondition>
-      createdDateEqualTo(DateTime value) {
+extension VoteOptionQueryFilter
+    on QueryBuilder<VoteOption, VoteOption, QFilterCondition> {
+  QueryBuilder<VoteOption, VoteOption, QAfterFilterCondition> countEqualTo(
+      int value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'createdDate',
+        property: r'count',
         value: value,
       ));
     });
   }
 
-  QueryBuilder<VotingTopic, VotingTopic, QAfterFilterCondition>
-      createdDateGreaterThan(
-    DateTime value, {
+  QueryBuilder<VoteOption, VoteOption, QAfterFilterCondition> countGreaterThan(
+    int value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
-        property: r'createdDate',
+        property: r'count',
         value: value,
       ));
     });
   }
 
-  QueryBuilder<VotingTopic, VotingTopic, QAfterFilterCondition>
-      createdDateLessThan(
-    DateTime value, {
+  QueryBuilder<VoteOption, VoteOption, QAfterFilterCondition> countLessThan(
+    int value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
-        property: r'createdDate',
+        property: r'count',
         value: value,
       ));
     });
   }
 
-  QueryBuilder<VotingTopic, VotingTopic, QAfterFilterCondition>
-      createdDateBetween(
-    DateTime lower,
-    DateTime upper, {
+  QueryBuilder<VoteOption, VoteOption, QAfterFilterCondition> countBetween(
+    int lower,
+    int upper, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
-        property: r'createdDate',
+        property: r'count',
         lower: lower,
         includeLower: includeLower,
         upper: upper,
@@ -272,7 +262,7 @@ extension VotingTopicQueryFilter
     });
   }
 
-  QueryBuilder<VotingTopic, VotingTopic, QAfterFilterCondition> eventIdEqualTo(
+  QueryBuilder<VoteOption, VoteOption, QAfterFilterCondition> eventIdEqualTo(
       int value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -282,7 +272,7 @@ extension VotingTopicQueryFilter
     });
   }
 
-  QueryBuilder<VotingTopic, VotingTopic, QAfterFilterCondition>
+  QueryBuilder<VoteOption, VoteOption, QAfterFilterCondition>
       eventIdGreaterThan(
     int value, {
     bool include = false,
@@ -296,7 +286,7 @@ extension VotingTopicQueryFilter
     });
   }
 
-  QueryBuilder<VotingTopic, VotingTopic, QAfterFilterCondition> eventIdLessThan(
+  QueryBuilder<VoteOption, VoteOption, QAfterFilterCondition> eventIdLessThan(
     int value, {
     bool include = false,
   }) {
@@ -309,7 +299,7 @@ extension VotingTopicQueryFilter
     });
   }
 
-  QueryBuilder<VotingTopic, VotingTopic, QAfterFilterCondition> eventIdBetween(
+  QueryBuilder<VoteOption, VoteOption, QAfterFilterCondition> eventIdBetween(
     int lower,
     int upper, {
     bool includeLower = true,
@@ -326,7 +316,7 @@ extension VotingTopicQueryFilter
     });
   }
 
-  QueryBuilder<VotingTopic, VotingTopic, QAfterFilterCondition> idEqualTo(
+  QueryBuilder<VoteOption, VoteOption, QAfterFilterCondition> idEqualTo(
       Id value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -336,7 +326,7 @@ extension VotingTopicQueryFilter
     });
   }
 
-  QueryBuilder<VotingTopic, VotingTopic, QAfterFilterCondition> idGreaterThan(
+  QueryBuilder<VoteOption, VoteOption, QAfterFilterCondition> idGreaterThan(
     Id value, {
     bool include = false,
   }) {
@@ -349,7 +339,7 @@ extension VotingTopicQueryFilter
     });
   }
 
-  QueryBuilder<VotingTopic, VotingTopic, QAfterFilterCondition> idLessThan(
+  QueryBuilder<VoteOption, VoteOption, QAfterFilterCondition> idLessThan(
     Id value, {
     bool include = false,
   }) {
@@ -362,7 +352,7 @@ extension VotingTopicQueryFilter
     });
   }
 
-  QueryBuilder<VotingTopic, VotingTopic, QAfterFilterCondition> idBetween(
+  QueryBuilder<VoteOption, VoteOption, QAfterFilterCondition> idBetween(
     Id lower,
     Id upper, {
     bool includeLower = true,
@@ -379,8 +369,8 @@ extension VotingTopicQueryFilter
     });
   }
 
-  QueryBuilder<VotingTopic, VotingTopic, QAfterFilterCondition>
-      isSelectedEqualTo(bool value) {
+  QueryBuilder<VoteOption, VoteOption, QAfterFilterCondition> isSelectedEqualTo(
+      bool value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'isSelected',
@@ -389,22 +379,20 @@ extension VotingTopicQueryFilter
     });
   }
 
-  QueryBuilder<VotingTopic, VotingTopic, QAfterFilterCondition>
-      topicTitleEqualTo(
+  QueryBuilder<VoteOption, VoteOption, QAfterFilterCondition> labelEqualTo(
     String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'topicTitle',
+        property: r'label',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<VotingTopic, VotingTopic, QAfterFilterCondition>
-      topicTitleGreaterThan(
+  QueryBuilder<VoteOption, VoteOption, QAfterFilterCondition> labelGreaterThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -412,15 +400,14 @@ extension VotingTopicQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
-        property: r'topicTitle',
+        property: r'label',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<VotingTopic, VotingTopic, QAfterFilterCondition>
-      topicTitleLessThan(
+  QueryBuilder<VoteOption, VoteOption, QAfterFilterCondition> labelLessThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -428,15 +415,14 @@ extension VotingTopicQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
-        property: r'topicTitle',
+        property: r'label',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<VotingTopic, VotingTopic, QAfterFilterCondition>
-      topicTitleBetween(
+  QueryBuilder<VoteOption, VoteOption, QAfterFilterCondition> labelBetween(
     String lower,
     String upper, {
     bool includeLower = true,
@@ -445,7 +431,7 @@ extension VotingTopicQueryFilter
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
-        property: r'topicTitle',
+        property: r'label',
         lower: lower,
         includeLower: includeLower,
         upper: upper,
@@ -455,328 +441,267 @@ extension VotingTopicQueryFilter
     });
   }
 
-  QueryBuilder<VotingTopic, VotingTopic, QAfterFilterCondition>
-      topicTitleStartsWith(
+  QueryBuilder<VoteOption, VoteOption, QAfterFilterCondition> labelStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'topicTitle',
+        property: r'label',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<VotingTopic, VotingTopic, QAfterFilterCondition>
-      topicTitleEndsWith(
+  QueryBuilder<VoteOption, VoteOption, QAfterFilterCondition> labelEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'topicTitle',
+        property: r'label',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<VotingTopic, VotingTopic, QAfterFilterCondition>
-      topicTitleContains(String value, {bool caseSensitive = true}) {
+  QueryBuilder<VoteOption, VoteOption, QAfterFilterCondition> labelContains(
+      String value,
+      {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.contains(
-        property: r'topicTitle',
+        property: r'label',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<VotingTopic, VotingTopic, QAfterFilterCondition>
-      topicTitleMatches(String pattern, {bool caseSensitive = true}) {
+  QueryBuilder<VoteOption, VoteOption, QAfterFilterCondition> labelMatches(
+      String pattern,
+      {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.matches(
-        property: r'topicTitle',
+        property: r'label',
         wildcard: pattern,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<VotingTopic, VotingTopic, QAfterFilterCondition>
-      topicTitleIsEmpty() {
+  QueryBuilder<VoteOption, VoteOption, QAfterFilterCondition> labelIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'topicTitle',
+        property: r'label',
         value: '',
       ));
     });
   }
 
-  QueryBuilder<VotingTopic, VotingTopic, QAfterFilterCondition>
-      topicTitleIsNotEmpty() {
+  QueryBuilder<VoteOption, VoteOption, QAfterFilterCondition>
+      labelIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'topicTitle',
+        property: r'label',
         value: '',
       ));
     });
   }
 }
 
-extension VotingTopicQueryObject
-    on QueryBuilder<VotingTopic, VotingTopic, QFilterCondition> {}
+extension VoteOptionQueryObject
+    on QueryBuilder<VoteOption, VoteOption, QFilterCondition> {}
 
-extension VotingTopicQueryLinks
-    on QueryBuilder<VotingTopic, VotingTopic, QFilterCondition> {
-  QueryBuilder<VotingTopic, VotingTopic, QAfterFilterCondition> event(
-      FilterQuery<Event> q) {
+extension VoteOptionQueryLinks
+    on QueryBuilder<VoteOption, VoteOption, QFilterCondition> {
+  QueryBuilder<VoteOption, VoteOption, QAfterFilterCondition> votingTopic(
+      FilterQuery<VotingTopic> q) {
     return QueryBuilder.apply(this, (query) {
-      return query.link(q, r'event');
+      return query.link(q, r'votingTopic');
     });
   }
 
-  QueryBuilder<VotingTopic, VotingTopic, QAfterFilterCondition> eventIsNull() {
+  QueryBuilder<VoteOption, VoteOption, QAfterFilterCondition>
+      votingTopicIsNull() {
     return QueryBuilder.apply(this, (query) {
-      return query.linkLength(r'event', 0, true, 0, true);
-    });
-  }
-
-  QueryBuilder<VotingTopic, VotingTopic, QAfterFilterCondition> options(
-      FilterQuery<VoteOption> q) {
-    return QueryBuilder.apply(this, (query) {
-      return query.link(q, r'options');
-    });
-  }
-
-  QueryBuilder<VotingTopic, VotingTopic, QAfterFilterCondition>
-      optionsLengthEqualTo(int length) {
-    return QueryBuilder.apply(this, (query) {
-      return query.linkLength(r'options', length, true, length, true);
-    });
-  }
-
-  QueryBuilder<VotingTopic, VotingTopic, QAfterFilterCondition>
-      optionsIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.linkLength(r'options', 0, true, 0, true);
-    });
-  }
-
-  QueryBuilder<VotingTopic, VotingTopic, QAfterFilterCondition>
-      optionsIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.linkLength(r'options', 0, false, 999999, true);
-    });
-  }
-
-  QueryBuilder<VotingTopic, VotingTopic, QAfterFilterCondition>
-      optionsLengthLessThan(
-    int length, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.linkLength(r'options', 0, true, length, include);
-    });
-  }
-
-  QueryBuilder<VotingTopic, VotingTopic, QAfterFilterCondition>
-      optionsLengthGreaterThan(
-    int length, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.linkLength(r'options', length, include, 999999, true);
-    });
-  }
-
-  QueryBuilder<VotingTopic, VotingTopic, QAfterFilterCondition>
-      optionsLengthBetween(
-    int lower,
-    int upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.linkLength(
-          r'options', lower, includeLower, upper, includeUpper);
+      return query.linkLength(r'votingTopic', 0, true, 0, true);
     });
   }
 }
 
-extension VotingTopicQuerySortBy
-    on QueryBuilder<VotingTopic, VotingTopic, QSortBy> {
-  QueryBuilder<VotingTopic, VotingTopic, QAfterSortBy> sortByCreatedDate() {
+extension VoteOptionQuerySortBy
+    on QueryBuilder<VoteOption, VoteOption, QSortBy> {
+  QueryBuilder<VoteOption, VoteOption, QAfterSortBy> sortByCount() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'createdDate', Sort.asc);
+      return query.addSortBy(r'count', Sort.asc);
     });
   }
 
-  QueryBuilder<VotingTopic, VotingTopic, QAfterSortBy> sortByCreatedDateDesc() {
+  QueryBuilder<VoteOption, VoteOption, QAfterSortBy> sortByCountDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'createdDate', Sort.desc);
+      return query.addSortBy(r'count', Sort.desc);
     });
   }
 
-  QueryBuilder<VotingTopic, VotingTopic, QAfterSortBy> sortByEventId() {
+  QueryBuilder<VoteOption, VoteOption, QAfterSortBy> sortByEventId() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'eventId', Sort.asc);
     });
   }
 
-  QueryBuilder<VotingTopic, VotingTopic, QAfterSortBy> sortByEventIdDesc() {
+  QueryBuilder<VoteOption, VoteOption, QAfterSortBy> sortByEventIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'eventId', Sort.desc);
     });
   }
 
-  QueryBuilder<VotingTopic, VotingTopic, QAfterSortBy> sortByIsSelected() {
+  QueryBuilder<VoteOption, VoteOption, QAfterSortBy> sortByIsSelected() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isSelected', Sort.asc);
     });
   }
 
-  QueryBuilder<VotingTopic, VotingTopic, QAfterSortBy> sortByIsSelectedDesc() {
+  QueryBuilder<VoteOption, VoteOption, QAfterSortBy> sortByIsSelectedDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isSelected', Sort.desc);
     });
   }
 
-  QueryBuilder<VotingTopic, VotingTopic, QAfterSortBy> sortByTopicTitle() {
+  QueryBuilder<VoteOption, VoteOption, QAfterSortBy> sortByLabel() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'topicTitle', Sort.asc);
+      return query.addSortBy(r'label', Sort.asc);
     });
   }
 
-  QueryBuilder<VotingTopic, VotingTopic, QAfterSortBy> sortByTopicTitleDesc() {
+  QueryBuilder<VoteOption, VoteOption, QAfterSortBy> sortByLabelDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'topicTitle', Sort.desc);
+      return query.addSortBy(r'label', Sort.desc);
     });
   }
 }
 
-extension VotingTopicQuerySortThenBy
-    on QueryBuilder<VotingTopic, VotingTopic, QSortThenBy> {
-  QueryBuilder<VotingTopic, VotingTopic, QAfterSortBy> thenByCreatedDate() {
+extension VoteOptionQuerySortThenBy
+    on QueryBuilder<VoteOption, VoteOption, QSortThenBy> {
+  QueryBuilder<VoteOption, VoteOption, QAfterSortBy> thenByCount() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'createdDate', Sort.asc);
+      return query.addSortBy(r'count', Sort.asc);
     });
   }
 
-  QueryBuilder<VotingTopic, VotingTopic, QAfterSortBy> thenByCreatedDateDesc() {
+  QueryBuilder<VoteOption, VoteOption, QAfterSortBy> thenByCountDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'createdDate', Sort.desc);
+      return query.addSortBy(r'count', Sort.desc);
     });
   }
 
-  QueryBuilder<VotingTopic, VotingTopic, QAfterSortBy> thenByEventId() {
+  QueryBuilder<VoteOption, VoteOption, QAfterSortBy> thenByEventId() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'eventId', Sort.asc);
     });
   }
 
-  QueryBuilder<VotingTopic, VotingTopic, QAfterSortBy> thenByEventIdDesc() {
+  QueryBuilder<VoteOption, VoteOption, QAfterSortBy> thenByEventIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'eventId', Sort.desc);
     });
   }
 
-  QueryBuilder<VotingTopic, VotingTopic, QAfterSortBy> thenById() {
+  QueryBuilder<VoteOption, VoteOption, QAfterSortBy> thenById() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.asc);
     });
   }
 
-  QueryBuilder<VotingTopic, VotingTopic, QAfterSortBy> thenByIdDesc() {
+  QueryBuilder<VoteOption, VoteOption, QAfterSortBy> thenByIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.desc);
     });
   }
 
-  QueryBuilder<VotingTopic, VotingTopic, QAfterSortBy> thenByIsSelected() {
+  QueryBuilder<VoteOption, VoteOption, QAfterSortBy> thenByIsSelected() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isSelected', Sort.asc);
     });
   }
 
-  QueryBuilder<VotingTopic, VotingTopic, QAfterSortBy> thenByIsSelectedDesc() {
+  QueryBuilder<VoteOption, VoteOption, QAfterSortBy> thenByIsSelectedDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isSelected', Sort.desc);
     });
   }
 
-  QueryBuilder<VotingTopic, VotingTopic, QAfterSortBy> thenByTopicTitle() {
+  QueryBuilder<VoteOption, VoteOption, QAfterSortBy> thenByLabel() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'topicTitle', Sort.asc);
+      return query.addSortBy(r'label', Sort.asc);
     });
   }
 
-  QueryBuilder<VotingTopic, VotingTopic, QAfterSortBy> thenByTopicTitleDesc() {
+  QueryBuilder<VoteOption, VoteOption, QAfterSortBy> thenByLabelDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'topicTitle', Sort.desc);
+      return query.addSortBy(r'label', Sort.desc);
     });
   }
 }
 
-extension VotingTopicQueryWhereDistinct
-    on QueryBuilder<VotingTopic, VotingTopic, QDistinct> {
-  QueryBuilder<VotingTopic, VotingTopic, QDistinct> distinctByCreatedDate() {
+extension VoteOptionQueryWhereDistinct
+    on QueryBuilder<VoteOption, VoteOption, QDistinct> {
+  QueryBuilder<VoteOption, VoteOption, QDistinct> distinctByCount() {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'createdDate');
+      return query.addDistinctBy(r'count');
     });
   }
 
-  QueryBuilder<VotingTopic, VotingTopic, QDistinct> distinctByEventId() {
+  QueryBuilder<VoteOption, VoteOption, QDistinct> distinctByEventId() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'eventId');
     });
   }
 
-  QueryBuilder<VotingTopic, VotingTopic, QDistinct> distinctByIsSelected() {
+  QueryBuilder<VoteOption, VoteOption, QDistinct> distinctByIsSelected() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'isSelected');
     });
   }
 
-  QueryBuilder<VotingTopic, VotingTopic, QDistinct> distinctByTopicTitle(
+  QueryBuilder<VoteOption, VoteOption, QDistinct> distinctByLabel(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'topicTitle', caseSensitive: caseSensitive);
+      return query.addDistinctBy(r'label', caseSensitive: caseSensitive);
     });
   }
 }
 
-extension VotingTopicQueryProperty
-    on QueryBuilder<VotingTopic, VotingTopic, QQueryProperty> {
-  QueryBuilder<VotingTopic, int, QQueryOperations> idProperty() {
+extension VoteOptionQueryProperty
+    on QueryBuilder<VoteOption, VoteOption, QQueryProperty> {
+  QueryBuilder<VoteOption, int, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'id');
     });
   }
 
-  QueryBuilder<VotingTopic, DateTime, QQueryOperations> createdDateProperty() {
+  QueryBuilder<VoteOption, int, QQueryOperations> countProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'createdDate');
+      return query.addPropertyName(r'count');
     });
   }
 
-  QueryBuilder<VotingTopic, int, QQueryOperations> eventIdProperty() {
+  QueryBuilder<VoteOption, int, QQueryOperations> eventIdProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'eventId');
     });
   }
 
-  QueryBuilder<VotingTopic, bool, QQueryOperations> isSelectedProperty() {
+  QueryBuilder<VoteOption, bool, QQueryOperations> isSelectedProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'isSelected');
     });
   }
 
-  QueryBuilder<VotingTopic, String, QQueryOperations> topicTitleProperty() {
+  QueryBuilder<VoteOption, String, QQueryOperations> labelProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'topicTitle');
+      return query.addPropertyName(r'label');
     });
   }
 }

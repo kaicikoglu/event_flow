@@ -66,6 +66,12 @@ class IsarService {
 
       await _isar.forumTopics.filter().eventIdEqualTo(id).deleteAll();
 
+      await _isar.votingTopics.filter().eventIdEqualTo(id).deleteAll();
+
+      await _isar.voteOptions.filter().eventIdEqualTo(id).deleteAll();
+
+      await _isar.pictures.filter().eventIdEqualTo(id).deleteAll();
+
       // Delete the event
       await _isar.events.delete(id);
     });
