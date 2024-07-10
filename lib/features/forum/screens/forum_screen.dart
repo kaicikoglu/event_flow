@@ -19,7 +19,7 @@ class ForumScreen extends ConsumerWidget {
     final forumController = ref.read(forumControllerProvider(event).notifier);
 
     void addTopic(String topicTitle) async {
-      await forumController.addTopic(topicTitle);
+      await forumController.addTopic(ref.context, topicTitle);
     }
 
     return Scaffold(

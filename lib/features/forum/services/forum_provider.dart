@@ -1,12 +1,14 @@
 import 'package:event_flow/data_models/event/event_data_model.dart';
 import 'package:event_flow/data_models/forum/forum_topic_data_model.dart';
 import 'package:event_flow/services/isar_service.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:isar/isar.dart';
 
-class ForumController extends StateNotifier<List<ForumTopic>> {
+class ForumProvider extends StateNotifier<List<ForumTopic>> {
   final Event event;
 
-  ForumController(this.event) : super([]) {
+  ForumProvider(this.event) : super([]) {
     initialize();
   }
 
@@ -20,15 +22,43 @@ class ForumController extends StateNotifier<List<ForumTopic>> {
     state = event.forumTopics.toList();
   }
 
-  Future<void> addTopic(String topicTitle) async {
+  Future<void> addTopic(BuildContext context, String topicTitle) async {
     final isar = IsarService().getIsar();
+
+    // Check if a forum topic with the same title already exists
+    final existingTopic = await isar.forumTopics
+        .filter()
+        .titleEqualTo(topicTitle)
+        .findFirst();
+
+    if (existingTopic != null) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Duplicate Topic'),
+            content: const Text('A forum topic with the same title already exists.'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+      return;
+    }
+
     await event.createForumTopic(isar, topicTitle);
     await loadTopics();
   }
 }
 
 final forumControllerProvider =
-    StateNotifierProvider.family<ForumController, List<ForumTopic>, Event>(
+    StateNotifierProvider.family<ForumProvider, List<ForumTopic>, Event>(
         (ref, event) {
-  return ForumController(event);
+  return ForumProvider(event);
 });
