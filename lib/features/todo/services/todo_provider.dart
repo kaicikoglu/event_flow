@@ -52,7 +52,7 @@ class TodoProvider extends StateNotifier<List<TodoTopic>> {
       return;
     }
 
-    await event.createForumTopic(isar, topicTitle);
+    await event.createTodoTopic(isar, topicTitle);
     await loadTopics();
   }
 }
