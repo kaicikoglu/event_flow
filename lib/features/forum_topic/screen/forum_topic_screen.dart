@@ -63,9 +63,9 @@ class _ForumTopicScreenState extends ConsumerState<ForumTopicScreen> {
       floatingActionButton: _isTileExpanded
           ? null
           : CustomFAB(
-        onPressed: () => _controller.showAddQuestionModal(
-            context, widget.forumTopicId),
-      ),
+              onPressed: () => _controller.showAddQuestionModal(
+                  context, widget.forumTopicId),
+            ),
     );
   }
 }

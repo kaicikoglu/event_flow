@@ -10,7 +10,6 @@ import '../../../data_models/event/event_data_model.dart';
 
 class ForumController {
   void dispose() {
-    // No need for controller disposal here as we don't use any controllers
   }
 
   Future<void> createAnnouncement(BuildContext context, WidgetRef ref,

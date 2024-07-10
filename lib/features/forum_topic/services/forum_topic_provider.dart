@@ -1,6 +1,7 @@
 // path: lib/features/forum_topic/services/forum_topic_provider.dart
 
 import 'package:event_flow/data_models/forum/forum_topic_data_model.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
 
@@ -37,7 +38,36 @@ class ForumTopicQuestionNotifier
     }
   }
 
-  Future<void> addQuestion(int forumTopicId, String questionText) async {
+  Future<void> addQuestion(
+      BuildContext context, int forumTopicId, String questionText) async {
+    // Check if a forum topic with the same name already exists
+    final existingQuestion = await _isar.forumTopicQuestions
+        .filter()
+        .questionEqualTo(questionText)
+        .findFirst();
+
+    if (existingQuestion != null) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Duplicate Question'),
+            content:
+                const Text('A forum topic with the same name already exists.'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+      return;
+    }
+
     final question = ForumTopicQuestion()..question = questionText;
 
     await _isar.writeTxn(() async {
@@ -49,7 +79,7 @@ class ForumTopicQuestionNotifier
       }
     });
 
-    loadQuestions(forumTopicId); // Reload questions after adding
+    loadQuestions(forumTopicId);
   }
 
   Future<void> addAnswer(int questionId, String answerText) async {

@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../services/forum_topic_provider.dart';
 
 class ForumTopicController {
@@ -14,7 +15,9 @@ class ForumTopicController {
   }
 
   void addQuestion(int forumTopicId, String questionText) {
-    ref.read(forumTopicQuestionProvider.notifier).addQuestion(forumTopicId, questionText);
+    ref
+        .read(forumTopicQuestionProvider.notifier)
+        .addQuestion(ref.context, forumTopicId, questionText);
   }
 
   void showAddQuestionModal(BuildContext context, int forumTopicId) {
@@ -25,7 +28,8 @@ class ForumTopicController {
       isScrollControlled: true,
       builder: (BuildContext context) {
         return Padding(
-          padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+          padding:
+              EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
@@ -46,7 +50,8 @@ class ForumTopicController {
                     final questionText = textController.text;
                     if (questionText.isNotEmpty) {
                       addQuestion(forumTopicId, questionText);
-                      Navigator.pop(context); // Close the modal after submitting
+                      Navigator.pop(
+                          context); // Close the modal after submitting
                     }
                   },
                   child: const Text('Submit'),
