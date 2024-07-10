@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../../../data_models/forum/forum_topic_question_data_model.dart';
 import '../services/forum_topic_provider.dart';
 import 'answer_input_widget.dart';
@@ -23,7 +24,8 @@ class QuestionTile extends ConsumerWidget {
     final questionState = ref.watch(forumTopicQuestionProvider);
 
     final updatedQuestion = questionState.when(
-      data: (questions) => questions.firstWhere((q) => q.id == question.id, orElse: () => question),
+      data: (questions) => questions.firstWhere((q) => q.id == question.id,
+          orElse: () => question),
       loading: () => question,
       error: (_, __) => question,
     );
@@ -34,10 +36,14 @@ class QuestionTile extends ConsumerWidget {
       onExpansionChanged: onExpansionChanged,
       initiallyExpanded: isExpanded,
       children: [
-        ...updatedQuestion.answers.map((answer) => ListTile(title: Text(answer.answer))).toList(),
+        ...updatedQuestion.answers
+            .map((answer) => ListTile(title: Text(answer.answer))),
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: AnswerInput(questionId: updatedQuestion.id),
+          child: AnswerInput(
+            questionId: updatedQuestion.id,
+            eventId: question.eventId,
+          ),
         ),
       ],
     );

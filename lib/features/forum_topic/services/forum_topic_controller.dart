@@ -1,5 +1,3 @@
-// path: lib/features/forum_topic/controllers/forum_topic_controller.dart
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -14,13 +12,14 @@ class ForumTopicController {
     ref.read(forumTopicQuestionProvider.notifier).loadQuestions(forumTopicId);
   }
 
-  void addQuestion(int forumTopicId, String questionText) {
+  void addQuestion(int forumTopicId, String questionText, eventId) {
     ref
         .read(forumTopicQuestionProvider.notifier)
-        .addQuestion(ref.context, forumTopicId, questionText);
+        .addQuestion(ref.context, forumTopicId, questionText, eventId);
   }
 
-  void showAddQuestionModal(BuildContext context, int forumTopicId) {
+  void showAddQuestionModal(
+      BuildContext context, int forumTopicId, int eventId) {
     final textController = TextEditingController();
 
     showModalBottomSheet(
@@ -49,7 +48,7 @@ class ForumTopicController {
                   onPressed: () {
                     final questionText = textController.text;
                     if (questionText.isNotEmpty) {
-                      addQuestion(forumTopicId, questionText);
+                      addQuestion(forumTopicId, questionText, eventId);
                       Navigator.pop(
                           context); // Close the modal after submitting
                     }

@@ -22,13 +22,20 @@ const VoteOptionSchema = CollectionSchema(
       name: r'count',
       type: IsarType.long,
     ),
+    r'eventId': PropertySchema(
+      id: 1,
+      name: r'eventId',
+      type: IsarType.long,
+    ),
     r'isSelected': PropertySchema(
       id: 1,
+      id: 2,
       name: r'isSelected',
       type: IsarType.bool,
     ),
     r'label': PropertySchema(
       id: 2,
+      id: 3,
       name: r'label',
       type: IsarType.string,
     )
@@ -71,6 +78,9 @@ void _voteOptionSerialize(
   Map<Type, List<int>> allOffsets,
 ) {
   writer.writeLong(offsets[0], object.count);
+  writer.writeLong(offsets[1], object.eventId);
+  writer.writeBool(offsets[2], object.isSelected);
+  writer.writeString(offsets[3], object.label);
   writer.writeBool(offsets[1], object.isSelected);
   writer.writeString(offsets[2], object.label);
 }
@@ -85,8 +95,13 @@ VoteOption _voteOptionDeserialize(
     count: reader.readLongOrNull(offsets[0]) ?? 0,
     label: reader.readString(offsets[2]),
   );
+  final object = VoteOption();
+  object.count = reader.readLong(offsets[0]);
+  object.eventId = reader.readLong(offsets[1]);
   object.id = id;
   object.isSelected = reader.readBool(offsets[1]);
+  object.isSelected = reader.readBool(offsets[2]);
+  object.label = reader.readString(offsets[3]);
   return object;
 }
 
@@ -98,10 +113,14 @@ P _voteOptionDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
+      return (reader.readLong(offset)) as P;
       return (reader.readLongOrNull(offset) ?? 0) as P;
     case 1:
+      return (reader.readLong(offset)) as P;
       return (reader.readBool(offset)) as P;
     case 2:
+      return (reader.readBool(offset)) as P;
+    case 3:
       return (reader.readString(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -246,6 +265,60 @@ extension VoteOptionQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
         property: r'count',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<VoteOption, VoteOption, QAfterFilterCondition> eventIdEqualTo(
+      int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'eventId',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<VoteOption, VoteOption, QAfterFilterCondition>
+      eventIdGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'eventId',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<VoteOption, VoteOption, QAfterFilterCondition> eventIdLessThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'eventId',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<VoteOption, VoteOption, QAfterFilterCondition> eventIdBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'eventId',
         lower: lower,
         includeLower: includeLower,
         upper: upper,
@@ -483,6 +556,18 @@ extension VoteOptionQuerySortBy
     });
   }
 
+  QueryBuilder<VoteOption, VoteOption, QAfterSortBy> sortByEventId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'eventId', Sort.asc);
+    });
+  }
+
+  QueryBuilder<VoteOption, VoteOption, QAfterSortBy> sortByEventIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'eventId', Sort.desc);
+    });
+  }
+
   QueryBuilder<VoteOption, VoteOption, QAfterSortBy> sortByIsSelected() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isSelected', Sort.asc);
@@ -519,6 +604,18 @@ extension VoteOptionQuerySortThenBy
   QueryBuilder<VoteOption, VoteOption, QAfterSortBy> thenByCountDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'count', Sort.desc);
+    });
+  }
+
+  QueryBuilder<VoteOption, VoteOption, QAfterSortBy> thenByEventId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'eventId', Sort.asc);
+    });
+  }
+
+  QueryBuilder<VoteOption, VoteOption, QAfterSortBy> thenByEventIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'eventId', Sort.desc);
     });
   }
 
@@ -567,6 +664,12 @@ extension VoteOptionQueryWhereDistinct
     });
   }
 
+  QueryBuilder<VoteOption, VoteOption, QDistinct> distinctByEventId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'eventId');
+    });
+  }
+
   QueryBuilder<VoteOption, VoteOption, QDistinct> distinctByIsSelected() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'isSelected');
@@ -592,6 +695,12 @@ extension VoteOptionQueryProperty
   QueryBuilder<VoteOption, int, QQueryOperations> countProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'count');
+    });
+  }
+
+  QueryBuilder<VoteOption, int, QQueryOperations> eventIdProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'eventId');
     });
   }
 

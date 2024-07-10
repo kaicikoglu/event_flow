@@ -6,9 +6,11 @@ part 'voting_topic_option_data_model.g.dart';
 @Collection()
 class VoteOption {
   Id id = Isar.autoIncrement;
+
+  late int eventId;
   late String label;
-  late int count;
+  late int count = 0;
   bool isSelected = false;
-  VoteOption({required this.label, this.count = 0});
+
   final votingTopic = IsarLink<VotingTopic>();
 }

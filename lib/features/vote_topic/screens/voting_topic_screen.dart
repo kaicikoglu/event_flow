@@ -1,17 +1,16 @@
+import 'package:event_flow/widgets/floating_action_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../vote_create_topic/widgets/add_voting_option_button.dart';
-import '../../vote_create_topic/widgets/checkbox_wide_button.dart';
+
+import '../../create_vote/widgets/add_voting_option_button.dart';
+import '../../create_vote/widgets/checkbox_wide_button.dart';
 import '../services/voting_topic_controller.dart';
 import '../services/voting_topic_provider.dart';
-
 
 class VoteTopicScreen extends ConsumerStatefulWidget {
   final int votingTopicId;
 
-  const VoteTopicScreen({
-    Key? key, required this.votingTopicId
-  }) : super(key: key);
+  const VoteTopicScreen({super.key, required this.votingTopicId});
 
   @override
   _VoteTopicScreenState createState() => _VoteTopicScreenState();
@@ -20,7 +19,6 @@ class VoteTopicScreen extends ConsumerStatefulWidget {
 class _VoteTopicScreenState extends ConsumerState<VoteTopicScreen> {
   late VotingTopicController _controller;
 
-
   @override
   void initState() {
     super.initState();
@@ -28,6 +26,7 @@ class _VoteTopicScreenState extends ConsumerState<VoteTopicScreen> {
     _controller.loadOptions(widget.votingTopicId);
   }
 
+  @override
   Widget build(BuildContext context) {
     final optionsAsyncValue = ref.watch(votingOptionsProvider);
 
@@ -51,14 +50,15 @@ class _VoteTopicScreenState extends ConsumerState<VoteTopicScreen> {
                     );
                   },
                 ),
-                loading: () => Center(child: CircularProgressIndicator()),
-                error: (error, stack) => Center(child: Text('Ein Fehler ist aufgetreten')),
+                loading: () => const Center(child: CircularProgressIndicator()),
+                error: (error, stack) =>
+                    const Center(child: Text('Ein Fehler ist aufgetreten')),
               ),
             ),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: CustomFAB(
         onPressed: () {
           showModalBottomSheet(
             context: context,
@@ -69,7 +69,6 @@ class _VoteTopicScreenState extends ConsumerState<VoteTopicScreen> {
             },
           );
         },
-        child: const Icon(Icons.add),
       ),
     );
   }

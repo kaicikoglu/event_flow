@@ -1,5 +1,3 @@
-// path: lib/features/forum_topic/services/forum_topic_provider.dart
-
 import 'package:event_flow/data_models/forum/forum_topic_data_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -39,7 +37,7 @@ class ForumTopicQuestionNotifier
   }
 
   Future<void> addQuestion(
-      BuildContext context, int forumTopicId, String questionText) async {
+      BuildContext context, int forumTopicId, String questionText, int eventId) async {
     // Check if a forum topic with the same name already exists
     final existingQuestion = await _isar.forumTopicQuestions
         .filter()
@@ -68,7 +66,9 @@ class ForumTopicQuestionNotifier
       return;
     }
 
-    final question = ForumTopicQuestion()..question = questionText;
+    final question = ForumTopicQuestion()
+      ..question = questionText
+      ..eventId = eventId;
 
     await _isar.writeTxn(() async {
       final forumTopic = await _isar.forumTopics.get(forumTopicId);
@@ -82,8 +82,10 @@ class ForumTopicQuestionNotifier
     loadQuestions(forumTopicId);
   }
 
-  Future<void> addAnswer(int questionId, String answerText) async {
-    final answer = ForumTopicAnswer()..answer = answerText;
+  Future<void> addAnswer(int questionId, String answerText, int eventId) async {
+    final answer = ForumTopicAnswer()
+      ..answer = answerText
+      ..eventId = eventId;
 
     await _isar.writeTxn(() async {
       final question = await _isar.forumTopicQuestions.get(questionId);
