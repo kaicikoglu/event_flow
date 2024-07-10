@@ -5,6 +5,7 @@ import 'package:event_flow/features/create_event/screens/create_event_screen.dar
 import 'package:event_flow/features/event/screens/event_screen.dart';
 import 'package:event_flow/features/forum/screens/forum_screen.dart';
 import 'package:event_flow/features/resources/screens/resources_screen.dart';
+import 'package:event_flow/features/todo/screens/todo_screen.dart';
 import 'package:event_flow/widgets/base_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -119,6 +120,13 @@ class AppRouter {
             builder: (context, state) {
               final event = state.extra as Event;
               return ResourcesScreen(event: event);
+            },
+          ),
+          GoRoute(
+            path: '/todo',
+            builder: (context, state) {
+              final event = state.extra as Event;
+              return ToDoScreen(event: event);
             },
           ),
         ],
