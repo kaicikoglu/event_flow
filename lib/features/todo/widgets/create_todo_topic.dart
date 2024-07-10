@@ -11,9 +11,9 @@ class CreateTodoTopic extends StatefulWidget {
 
   const CreateTodoTopic(
       {super.key,
-        required this.onTopicCreated,
-        required this.event,
-        required this.ref});
+      required this.onTopicCreated,
+      required this.event,
+      required this.ref});
 
   @override
   _CreateTodoTopic createState() => _CreateTodoTopic();
@@ -48,7 +48,10 @@ class _CreateTodoTopic extends State<CreateTodoTopic> {
                 if (topic.isNotEmpty) {
                   widget.onTopicCreated(topic);
                   await _todoController.createAnnouncement(
-                      context, widget.ref, widget.event);
+                    context,
+                    widget.ref,
+                    widget.event,
+                  );
                 }
               },
               child: const Text('Bestätigen'),

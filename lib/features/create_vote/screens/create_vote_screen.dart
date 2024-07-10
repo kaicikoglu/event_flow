@@ -3,9 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../data_models/event/event_data_model.dart';
+import '../../../data_models/vote/voting_topic_data_model.dart';
 import '../../../widgets/wide_button.dart';
+import '../../create_event/widgets/enter_text.dart';
 import '../services/vote_create_topic_controller.dart';
-import '../widgets/enter_text.dart';
+
+final createTopicControllerProvider = StateNotifierProvider.family<
+    CreateTopicController, List<VotingTopic>, Event>((ref, event) {
+  return CreateTopicController(event);
+});
 
 class CreateVoteScreen extends ConsumerStatefulWidget {
   final Event event;
@@ -17,99 +23,45 @@ class CreateVoteScreen extends ConsumerStatefulWidget {
 }
 
 class _CreateVoteScreenState extends ConsumerState<CreateVoteScreen> {
-  late final CreateTopicController _controller =
-      CreateTopicController(widget.event);
-  List<Widget> textFields = [];
-
-  double fieldWidth() {
-    double screenWidth = MediaQuery.of(context).size.width;
-    double fieldWidth = screenWidth * 0.5; // Set to 70% of screen width
-    double maxFieldWidth = 300; // Maximum width
-
-    if (fieldWidth > maxFieldWidth) {
-      fieldWidth = maxFieldWidth;
-    }
-
-    return fieldWidth;
-  }
-
-  void addTextField() {
-    setState(() {
-      textFields.add(
-        EnterText(
-          argument: 'Option:',
-          hintText: 'Enter voting option',
-          width: fieldWidth(),
-          height: 60,
-          controller: TextEditingController(),
-          validator: (value) {
-            if (value == null || value.isEmpty) {
-              return 'Please enter option name';
-            }
-            return null;
-          },
-        ),
-      );
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
+    final controllerNotifier =
+        ref.read(createTopicControllerProvider(widget.event).notifier);
+    final double fieldWidth = controllerNotifier.fieldWidth(context);
+
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Form(
-        key: _controller.formKey,
+        key: controllerNotifier.formKey,
         child: Column(
           children: [
             Expanded(
-              child: ListView(children: [
-                EnterText(
-                  argument: 'Question:',
-                  hintText: 'Enter topic name',
-                  width: fieldWidth(),
-                  height: 60,
-                  controller: _controller.topicNameController,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter topic name';
-                    }
-                    return null;
-                  },
-                ),
-                EnterText(
-                  argument: 'Option:',
-                  hintText: 'Enter voting option',
-                  width: fieldWidth(),
-                  height: 60,
-                  controller: _controller.optionNameController,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter topic name';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 16),
-                EnterText(
-                  argument: 'Option:',
-                  hintText: 'Enter voting option',
-                  width: fieldWidth(),
-                  height: 60,
-                  controller: _controller.optionNameController2,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter topic name';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 16),
-                ...textFields,
-                CustomFAB(onPressed: addTextField),
-              ]),
+              child: ListView(
+                children: [
+                  EnterText(
+                    argument: 'Question:',
+                    hintText: 'Enter topic name',
+                    width: fieldWidth,
+                    height: 60,
+                    controller: controllerNotifier.topicNameController,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter topic name';
+                      }
+                      return null;
+                    },
+                  ),
+                  ...controllerNotifier.getTextFields(context),
+                  const SizedBox(height: 16),
+                  CustomFAB(
+                      onPressed: () => setState(() {
+                            controllerNotifier.addTextField();
+                          })),
+                ],
+              ),
             ),
             CustomWideButton(
-              onPressed: () => _controller.handleSubmit(context, ref),
+              onPressed: () => controllerNotifier.handleSubmit(context, ref),
               text: 'Create Topic',
             ),
           ],
@@ -120,7 +72,7 @@ class _CreateVoteScreenState extends ConsumerState<CreateVoteScreen> {
 
   @override
   void dispose() {
-    _controller.dispose();
+    ref.read(createTopicControllerProvider(widget.event).notifier).dispose();
     super.dispose();
   }
 }

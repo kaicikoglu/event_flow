@@ -24,25 +24,24 @@ class ToDoScreen extends ConsumerWidget {
     return Scaffold(
       body: topics.isEmpty
           ? const Center(
-        child: Text(
-          'No topics yet. Be the first to create a topic!',
-          style: TextStyle(fontSize: 18, color: Colors.grey),
-        ),
-      )
+              child: Text(
+                'No topics yet. Be the first to create a topic!',
+                style: TextStyle(fontSize: 18, color: Colors.grey),
+              ),
+            )
           : ListView.builder(
-        itemCount: topics.length,
-        itemBuilder: (context, index) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0),
-            child: CheckboxWideButtonTodo(
-              label: topics[index].title,
-              isSelected: false,
-              onTap: () {
+              itemCount: topics.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: CheckboxWideButtonTodo(
+                    label: topics[index].title,
+                    isSelected: false,
+                    onTap: () {},
+                  ),
+                );
               },
             ),
-          );
-        },
-      ),
       floatingActionButton: CustomFAB(
         onPressed: () {
           showModalBottomSheet(
