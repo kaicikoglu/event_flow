@@ -48,6 +48,7 @@ class Event {
     final todoTopic = TodoTopic()
       ..title = topicTitle
       ..createdDate = DateTime.now()
+      ..eventId = id
       ..event.value = this;
 
     await isar.writeTxn(() async {
