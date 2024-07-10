@@ -84,6 +84,7 @@ class Event {
     final picture = Picture()
       ..imagePath = imagePath
       ..uploadDate = DateTime.now()
+      ..eventId = id
       ..event.value = this;
 
     await isar.writeTxn(() async {

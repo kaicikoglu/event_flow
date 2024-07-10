@@ -14,6 +14,14 @@ class HomeScreen extends ConsumerWidget {
     return Scaffold(
       body: eventListState.when(
         data: (events) {
+          if (events.isEmpty) {
+            return const Center(
+              child: Text(
+                'No events available',
+                style: TextStyle(fontSize: 18, color: Colors.grey),
+              ),
+            );
+          }
           return ListView.builder(
             itemCount: events.length,
             itemBuilder: (context, index) {
@@ -21,7 +29,9 @@ class HomeScreen extends ConsumerWidget {
               return DismissibleEventCard(
                 event: event,
                 onDismissed: () {
-                  ref.read(eventNotifierProvider.notifier).removeEvent(event.id);
+                  ref
+                      .read(eventNotifierProvider.notifier)
+                      .removeEvent(event.id);
                 },
               );
             },
