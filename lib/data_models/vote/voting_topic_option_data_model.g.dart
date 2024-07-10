@@ -28,11 +28,13 @@ const VoteOptionSchema = CollectionSchema(
       type: IsarType.long,
     ),
     r'isSelected': PropertySchema(
+      id: 1,
       id: 2,
       name: r'isSelected',
       type: IsarType.bool,
     ),
     r'label': PropertySchema(
+      id: 2,
       id: 3,
       name: r'label',
       type: IsarType.string,
@@ -79,6 +81,8 @@ void _voteOptionSerialize(
   writer.writeLong(offsets[1], object.eventId);
   writer.writeBool(offsets[2], object.isSelected);
   writer.writeString(offsets[3], object.label);
+  writer.writeBool(offsets[1], object.isSelected);
+  writer.writeString(offsets[2], object.label);
 }
 
 VoteOption _voteOptionDeserialize(
@@ -87,10 +91,15 @@ VoteOption _voteOptionDeserialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
+  final object = VoteOption(
+    count: reader.readLongOrNull(offsets[0]) ?? 0,
+    label: reader.readString(offsets[2]),
+  );
   final object = VoteOption();
   object.count = reader.readLong(offsets[0]);
   object.eventId = reader.readLong(offsets[1]);
   object.id = id;
+  object.isSelected = reader.readBool(offsets[1]);
   object.isSelected = reader.readBool(offsets[2]);
   object.label = reader.readString(offsets[3]);
   return object;
@@ -105,8 +114,10 @@ P _voteOptionDeserializeProp<P>(
   switch (propertyId) {
     case 0:
       return (reader.readLong(offset)) as P;
+      return (reader.readLongOrNull(offset) ?? 0) as P;
     case 1:
       return (reader.readLong(offset)) as P;
+      return (reader.readBool(offset)) as P;
     case 2:
       return (reader.readBool(offset)) as P;
     case 3:

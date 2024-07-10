@@ -1,12 +1,11 @@
-import 'package:event_flow/features/forum/widgets/create_forum_topic.dart';
+import 'package:event_flow/features/todo/widgets/checkbox_wide_button_todo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../data_models/event/event_data_model.dart';
 import '../../../widgets/floating_action_button.dart';
-import '../../../widgets/wide_button.dart';
 import '../services/todo_provider.dart';
+import '../widgets/create_todo_topic.dart';
 
 class ToDoScreen extends ConsumerWidget {
   final Event event;
@@ -35,10 +34,10 @@ class ToDoScreen extends ConsumerWidget {
         itemBuilder: (context, index) {
           return Padding(
             padding: const EdgeInsets.symmetric(vertical: 8.0),
-            child: CustomWideButton(
-              text: topics[index].title,
-              onPressed: () {
-                context.push('/forumTopic', extra: topics[index]);
+            child: CheckboxWideButtonTodo(
+              label: topics[index].title,
+              isSelected: false,
+              onTap: () {
               },
             ),
           );
@@ -54,7 +53,7 @@ class ToDoScreen extends ConsumerWidget {
                 padding: EdgeInsets.only(
                   bottom: MediaQuery.of(context).viewInsets.bottom,
                 ),
-                child: CreateForumTopic(
+                child: CreateTodoTopic(
                   event: event,
                   ref: ref,
                   onTopicCreated: addTopic,

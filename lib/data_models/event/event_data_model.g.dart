@@ -73,6 +73,12 @@ const EventSchema = CollectionSchema(
       target: r'VotingTopic',
       single: false,
     ),
+    r'todoTopics': LinkSchema(
+      id: -1145911923097054900,
+      name: r'todoTopics',
+      target: r'TodoTopic',
+      single: false,
+    ),
     r'pictures': LinkSchema(
       id: -8354874275892083290,
       name: r'pictures',
@@ -164,6 +170,7 @@ List<IsarLinkBase<dynamic>> _eventGetLinks(Event object) {
     object.announcements,
     object.forumTopics,
     object.votingTopics,
+    object.todoTopics,
     object.pictures
   ];
 }
@@ -176,6 +183,8 @@ void _eventAttach(IsarCollection<dynamic> col, Id id, Event object) {
       .attach(col, col.isar.collection<ForumTopic>(), r'forumTopics', id);
   object.votingTopics
       .attach(col, col.isar.collection<VotingTopic>(), r'votingTopics', id);
+  object.todoTopics
+      .attach(col, col.isar.collection<TodoTopic>(), r'todoTopics', id);
   object.pictures.attach(col, col.isar.collection<Picture>(), r'pictures', id);
 }
 
@@ -1058,6 +1067,62 @@ extension EventQueryLinks on QueryBuilder<Event, Event, QFilterCondition> {
     return QueryBuilder.apply(this, (query) {
       return query.linkLength(
           r'votingTopics', lower, includeLower, upper, includeUpper);
+    });
+  }
+
+  QueryBuilder<Event, Event, QAfterFilterCondition> todoTopics(
+      FilterQuery<TodoTopic> q) {
+    return QueryBuilder.apply(this, (query) {
+      return query.link(q, r'todoTopics');
+    });
+  }
+
+  QueryBuilder<Event, Event, QAfterFilterCondition> todoTopicsLengthEqualTo(
+      int length) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'todoTopics', length, true, length, true);
+    });
+  }
+
+  QueryBuilder<Event, Event, QAfterFilterCondition> todoTopicsIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'todoTopics', 0, true, 0, true);
+    });
+  }
+
+  QueryBuilder<Event, Event, QAfterFilterCondition> todoTopicsIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'todoTopics', 0, false, 999999, true);
+    });
+  }
+
+  QueryBuilder<Event, Event, QAfterFilterCondition> todoTopicsLengthLessThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'todoTopics', 0, true, length, include);
+    });
+  }
+
+  QueryBuilder<Event, Event, QAfterFilterCondition> todoTopicsLengthGreaterThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'todoTopics', length, include, 999999, true);
+    });
+  }
+
+  QueryBuilder<Event, Event, QAfterFilterCondition> todoTopicsLengthBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(
+          r'todoTopics', lower, includeLower, upper, includeUpper);
     });
   }
 

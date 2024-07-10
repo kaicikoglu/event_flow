@@ -42,6 +42,21 @@ class Event {
     } as Future Function());
   }
 
+
+  // Method to create and save a forum topic
+  Future<void> createTodoTopic(Isar isar, String topicTitle) async {
+    final todoTopic = TodoTopic()
+      ..title = topicTitle
+      ..createdDate = DateTime.now()
+      ..event.value = this;
+
+    await isar.writeTxn(() async {
+      await isar.todoTopics.put(todoTopic);
+      todoTopics.add(todoTopic);
+      await todoTopics.save();
+    } as Future Function());
+  }
+
   // Method to create and save a forum topic
   Future<void> createForumTopic(Isar isar, String topicTitle) async {
     final forumTopic = ForumTopic()
