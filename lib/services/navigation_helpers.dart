@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-
-import '../widgets/floating_action_button.dart';
 
 int getSelectedIndex(String location) {
   switch (location) {
@@ -28,18 +25,17 @@ Widget getTitle(String location) {
       return const Text('Einstellungen');
     case '/profile':
       return const Text('Profil');
+    case '/forum':
+      return const Text('Forum');
+    case '/vote':
+      return const Text('Vote');
+    case '/todo':
+      return const Text('ToDo');
+    case '/resources':
+      return const Text('Resources');
     default:
       return const Text('Mein EventFlow');
   }
-}
-
-Widget? getFloatingActionButton(String location, BuildContext context) {
-  if (location == '/') {
-    return CustomFAB(onPressed: () {
-      context.push('/createEvent');
-    });
-  }
-  return null;
 }
 
 bool shouldShowBackButton(String location) {

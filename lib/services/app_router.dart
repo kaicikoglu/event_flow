@@ -30,13 +30,9 @@ class AppRouter {
             selectedIndex: getSelectedIndex(state.uri.toString()),
             title: getTitle(state.uri.toString()),
             centerTitle: true,
-            // Ensure title is centered
-            floatingActionButton:
-                getFloatingActionButton(state.uri.toString(), context),
-            floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
             backButton: shouldShowBackButton(state.uri.toString())
                 ? BackButton(onPressed: () {
-                    context.pop(); // Navigate back to the previous page
+                    context.pop();
                   })
                 : null,
             child: child,
