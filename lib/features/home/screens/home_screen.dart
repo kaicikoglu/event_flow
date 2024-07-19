@@ -1,5 +1,7 @@
+import 'package:event_flow/widgets/floating_action_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../services/event_list_provider.dart';
 import '../widgets/dismissible_event_card.dart';
@@ -40,6 +42,12 @@ class HomeScreen extends ConsumerWidget {
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (error, stackTrace) => Center(child: Text('Error: $error')),
       ),
+      floatingActionButton: CustomFAB(
+        onPressed: () {
+          context.push('/createEvent');
+        },
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }
