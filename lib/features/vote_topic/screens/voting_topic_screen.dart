@@ -9,8 +9,10 @@ import '../services/voting_topic_provider.dart';
 
 class VoteTopicScreen extends ConsumerStatefulWidget {
   final int votingTopicId;
+  final BackButton? backButton;
 
-  const VoteTopicScreen({super.key, required this.votingTopicId});
+  const VoteTopicScreen(
+      {super.key, required this.votingTopicId, this.backButton});
 
   @override
   _VoteTopicScreenState createState() => _VoteTopicScreenState();
@@ -31,6 +33,11 @@ class _VoteTopicScreenState extends ConsumerState<VoteTopicScreen> {
     final optionsAsyncValue = ref.watch(votingOptionsProvider);
 
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Voting Topic'),
+        centerTitle: true,
+        leading: widget.backButton,
+      ),
       body: SafeArea(
         child: Column(
           children: [

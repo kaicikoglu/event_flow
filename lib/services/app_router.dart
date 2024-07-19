@@ -1,4 +1,3 @@
-// app_router.dart
 import 'package:event_flow/features/announcement/screens/announcements_screen.dart';
 import 'package:event_flow/features/create_announcement/screens/create_announcement_screen.dart';
 import 'package:event_flow/features/create_event/screens/create_event_screen.dart';
@@ -24,49 +23,65 @@ class AppRouter {
   late final GoRouter router = GoRouter(
     routes: [
       ShellRoute(
-        navigatorKey: GlobalKey<NavigatorState>(),
         builder: (context, state, child) {
+          final selectedIndex = getSelectedIndex(state.uri.toString());
+
           return BaseScreen(
-            selectedIndex: getSelectedIndex(state.uri.toString()),
-            title: getTitle(state.uri.toString()),
-            centerTitle: true,
-            backButton: shouldShowBackButton(state.uri.toString())
-                ? BackButton(onPressed: () {
-                    context.pop();
-                  })
-                : null,
+            selectedIndex: selectedIndex,
             child: child,
           );
         },
         routes: [
           GoRoute(
             path: '/',
-            builder: (context, state) => const HomeScreen(),
+            pageBuilder: (context, state) => NoTransitionPage(
+              key: state.pageKey,
+              child: const HomeScreen(),
+            ),
           ),
           GoRoute(
             path: '/announcements',
-            builder: (context, state) => const AnnouncementScreen(),
+            pageBuilder: (context, state) => NoTransitionPage(
+              key: state.pageKey,
+              child: const AnnouncementScreen(),
+            ),
           ),
           GoRoute(
             path: '/settings',
-            builder: (context, state) => const Center(child: Text('Settings')),
+            pageBuilder: (context, state) => NoTransitionPage(
+              key: state.pageKey,
+              child: const Center(child: Text('Settings')),
+            ),
           ),
           GoRoute(
             path: '/profile',
-            builder: (context, state) => const Center(child: Text('Profile')),
+            pageBuilder: (context, state) => NoTransitionPage(
+              key: state.pageKey,
+              child: const Center(child: Text('Profile')),
+            ),
           ),
           GoRoute(
             path: '/event',
             builder: (context, state) {
-              final eventDetails = state.extra as Event?;
-              return EventScreen(event: eventDetails);
+              final event = state.extra as Event;
+              return EventScreen(event: event);
             },
           ),
           GoRoute(
             path: '/forum',
-            builder: (context, state) {
-              final event = state.extra as Event;
-              return ForumScreen(event: event);
+            pageBuilder: (context, state) {
+              final eventDetails = state.extra as Event;
+
+              return CustomTransitionPage(
+                key: state.pageKey,
+                child: ForumScreen(event: eventDetails),
+                transitionDuration: const Duration(milliseconds: 100),
+                transitionsBuilder:
+                    (context, animation, secondaryAnimation, child) {
+                  return slideFromBottomTransition(
+                      context, animation, secondaryAnimation, child);
+                },
+              );
             },
           ),
           GoRoute(
@@ -78,9 +93,19 @@ class AppRouter {
           ),
           GoRoute(
             path: '/vote',
-            builder: (context, state) {
-              final event = state.extra as Event;
-              return VoteScreen(event: event);
+            pageBuilder: (context, state) {
+              final eventDetails = state.extra as Event;
+
+              return CustomTransitionPage(
+                key: state.pageKey,
+                child: VoteScreen(event: eventDetails),
+                transitionDuration: const Duration(milliseconds: 100),
+                transitionsBuilder:
+                    (context, animation, secondaryAnimation, child) {
+                  return slideFromBottomTransition(
+                      context, animation, secondaryAnimation, child);
+                },
+              );
             },
           ),
           GoRoute(
@@ -113,16 +138,36 @@ class AppRouter {
           ),
           GoRoute(
             path: '/resources',
-            builder: (context, state) {
-              final event = state.extra as Event;
-              return ResourcesScreen(event: event);
+            pageBuilder: (context, state) {
+              final eventDetails = state.extra as Event;
+
+              return CustomTransitionPage(
+                key: state.pageKey,
+                child: ResourcesScreen(event: eventDetails),
+                transitionDuration: const Duration(milliseconds: 100),
+                transitionsBuilder:
+                    (context, animation, secondaryAnimation, child) {
+                  return slideFromBottomTransition(
+                      context, animation, secondaryAnimation, child);
+                },
+              );
             },
           ),
           GoRoute(
             path: '/todo',
-            builder: (context, state) {
-              final event = state.extra as Event;
-              return ToDoScreen(event: event);
+            pageBuilder: (context, state) {
+              final eventDetails = state.extra as Event;
+
+              return CustomTransitionPage(
+                key: state.pageKey,
+                child: ToDoScreen(event: eventDetails),
+                transitionDuration: const Duration(milliseconds: 100),
+                transitionsBuilder:
+                    (context, animation, secondaryAnimation, child) {
+                  return slideFromBottomTransition(
+                      context, animation, secondaryAnimation, child);
+                },
+              );
             },
           ),
         ],

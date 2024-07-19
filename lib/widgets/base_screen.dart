@@ -7,20 +7,12 @@ class BaseScreen extends StatelessWidget {
   final Widget child;
   final int selectedIndex;
   final Widget? title;
-  final bool centerTitle;
-  final Widget? floatingActionButton;
-  final FloatingActionButtonLocation? floatingActionButtonLocation;
-  final BackButton? backButton;
 
   const BaseScreen({
     super.key,
     required this.child,
     required this.selectedIndex,
     this.title,
-    this.centerTitle = false,
-    this.floatingActionButton,
-    this.floatingActionButtonLocation,
-    this.backButton,
   });
 
   void _onItemTapped(BuildContext context, int index) {
@@ -51,11 +43,6 @@ class BaseScreen extends StatelessWidget {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        leading: backButton,
-        title: title,
-        centerTitle: centerTitle, // Center the title
-      ),
       body: Center(
         child: Container(
           width: contentWidth,
@@ -63,8 +50,6 @@ class BaseScreen extends StatelessWidget {
           child: child,
         ),
       ),
-      floatingActionButton: floatingActionButton,
-      floatingActionButtonLocation: floatingActionButtonLocation,
       bottomNavigationBar: CustomBottomNavBar(
         selectedIndex: selectedIndex,
         onItemTapped: (index) => _onItemTapped(context, index),

@@ -9,14 +9,20 @@ import '../services/vote_overview_provider.dart';
 
 class VoteScreen extends ConsumerWidget {
   final Event event;
+  final BackButton? backButton;
 
-  const VoteScreen({super.key, required this.event});
+  const VoteScreen({super.key, required this.event, this.backButton});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final topics = ref.watch(voteOverviewControllerProvider(event));
 
     return Scaffold(
+      appBar: AppBar(
+        title: Text('${event.title}\'s Votes'),
+        centerTitle: true,
+        leading: backButton,
+      ),
       body: topics.isEmpty
           ? const Center(
               child: Text(

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 
 int getSelectedIndex(String location) {
   switch (location) {
@@ -15,32 +15,23 @@ int getSelectedIndex(String location) {
   }
 }
 
-Widget getTitle(String location) {
-  switch (location) {
-    case '/':
-      return const Text('Mein EventFlow');
-    case '/announcements':
-      return const Text('Ankündigungen');
-    case '/settings':
-      return const Text('Einstellungen');
-    case '/profile':
-      return const Text('Profil');
-    case '/forum':
-      return const Text('Forum');
-    case '/vote':
-      return const Text('Vote');
-    case '/todo':
-      return const Text('ToDo');
-    case '/resources':
-      return const Text('Resources');
-    default:
-      return const Text('Mein EventFlow');
-  }
-}
+Widget slideFromBottomTransition(
+    BuildContext context,
+    Animation<double> animation,
+    Animation<double> secondaryAnimation,
+    Widget child) {
+  const begin = Offset(0.0, 1.0);
+  const end = Offset(0.0, 0.0);
+  const curve = Curves.easeInOut;
 
-bool shouldShowBackButton(String location) {
-  return location != '/' &&
-      location != '/announcements' &&
-      location != '/settings' &&
-      location != '/profile';
+  final tween = Tween(begin: begin, end: end);
+  final curvedAnimation = CurvedAnimation(
+    parent: animation,
+    curve: curve,
+  );
+
+  return SlideTransition(
+    position: tween.animate(curvedAnimation),
+    child: child,
+  );
 }

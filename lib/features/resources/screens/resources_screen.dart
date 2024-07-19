@@ -9,8 +9,9 @@ import '../widgets/picture_grid_widget.dart';
 
 class ResourcesScreen extends ConsumerStatefulWidget {
   final Event event;
+  final BackButton? backButton;
 
-  const ResourcesScreen({super.key, required this.event});
+  const ResourcesScreen({super.key, required this.event, this.backButton});
 
   @override
   _ResourcesScreen createState() => _ResourcesScreen();
@@ -41,6 +42,11 @@ class _ResourcesScreen extends ConsumerState<ResourcesScreen> {
     final controller = ref.read(resourcesControllerProvider);
 
     return Scaffold(
+      appBar: AppBar(
+        leading: widget.backButton,
+        title: Text('${widget.event.title}\'s Resources'),
+        centerTitle: true,
+      ),
       body: Column(
         children: [
           Expanded(
