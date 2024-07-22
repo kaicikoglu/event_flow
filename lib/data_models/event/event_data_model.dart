@@ -98,9 +98,25 @@ class Event {
     await isar.writeTxn(() async {
       await isar.votingTopics.put(votingTopic);
       await isar.voteOptions.putAll(voteOptions);
-      votingTopics.add(votingTopic);
-      await votingTopics.save();
-      print("Voting topic created  in event_data_model.dart4");
+      // votingTopics.add(votingTopic);
+      // voteOptions.addAll(voteOptions);
+      // Überprüfen, ob das VotingTopic und die VoteOptions korrekt gespeichert wurden
+      var savedVotingTopic = await isar.votingTopics.get(votingTopic.id);
+      if (savedVotingTopic != null) {
+        print("VotingTopic wurde erfolgreich gespeichert: ${savedVotingTopic.title}");
+        // Laden der Optionen des gespeicherten Topics
+        await savedVotingTopic.options.load();
+        if (savedVotingTopic.options.isNotEmpty) {
+          print("Folgende VoteOptions wurden gespeichert:");
+          for (var option in savedVotingTopic.options) {
+            print("Option: ${option.label}, Count: ${option.count}");
+          }
+        } else {
+          print("Keine VoteOptions wurden gespeichert.");
+        }
+      } else {
+        print("Fehler: VotingTopic wurde nicht gespeichert.");
+      }
       print("---------------------------------------------------------------------------------------------------------------------------------------------------------------------");
 
     } as Future Function());

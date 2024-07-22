@@ -1,6 +1,5 @@
 import 'package:event_flow/data_models/vote/voting_topic_data_model.dart';
 import 'package:event_flow/data_models/vote/voting_topic_option_data_model.dart';
-import 'package:event_flow/services/isar_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
 
@@ -41,9 +40,10 @@ class VotingTopicNotifier extends StateNotifier<AsyncValue<List<VoteOption>>> {
       if (votingTopic != null) {
 
         await votingTopic.options.load();
+        var list = votingTopic.options.toList();
         state = AsyncValue.data(votingTopic.options.toList());
 
-        if (votingTopic.options.isEmpty) {
+        if (list.isEmpty) {
           print('Keine VoteOptions vorhanden');
         } else {
           print('VoteOptions vorhanden');
@@ -51,7 +51,7 @@ class VotingTopicNotifier extends StateNotifier<AsyncValue<List<VoteOption>>> {
 
         // Zusätzliche Debug-Ausgaben
         print("Fertig Optionen laden:");
-        for (var option in votingTopic.options) {
+        for (var option in list) {
           print('Option: ${option.label}, ID: ${option.id}');
         }
       } else {

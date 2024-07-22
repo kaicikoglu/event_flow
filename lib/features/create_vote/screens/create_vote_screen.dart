@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../data_models/event/event_data_model.dart';
-import '../../../data_models/vote/voting_topic_data_model.dart';
 import '../../../widgets/wide_button.dart';
 import '../../create_event/widgets/enter_text.dart';
 import '../services/vote_create_topic_controller.dart';
