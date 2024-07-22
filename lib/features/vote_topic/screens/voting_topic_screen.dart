@@ -31,6 +31,8 @@ class _VoteTopicScreenState extends ConsumerState<VoteTopicScreen> {
   @override
   Widget build(BuildContext context) {
     final optionsAsyncValue = ref.watch(votingOptionsProvider);
+    print("topic id:");
+    print(widget.votingTopic.id);
 
     return Scaffold(
       body: SafeArea(

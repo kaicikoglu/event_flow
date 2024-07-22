@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-
+import '../../../data_models/vote/voting_topic_data_model.dart';
 import '../../../data_models/event/event_data_model.dart';
 import '../../../widgets/floating_action_button.dart';
 import '../../../widgets/wide_button.dart';
@@ -52,3 +52,4 @@ class VoteScreen extends ConsumerWidget {
     );
   }
 }
+

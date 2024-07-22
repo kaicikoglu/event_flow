@@ -10,6 +10,7 @@ class VoteOption {
   late int votingTopicId;
   late String label;
   late int count = 0;
+  late int topicID;
   bool isSelected = false;
 
   final votingTopic = IsarLink<VotingTopic>();

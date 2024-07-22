@@ -21,7 +21,6 @@ class VotingTopicNotifier extends StateNotifier<AsyncValue<List<VoteOption>>> {
   Future<void> loadOptions(int votingTopicId) async {
     try {
       final votingTopics = await _isar.votingTopics.where().findAll();
-
       print("type of votingTopicid: ${votingTopicId.runtimeType}");
 
       VotingTopic? votingTopic;
@@ -38,10 +37,17 @@ class VotingTopicNotifier extends StateNotifier<AsyncValue<List<VoteOption>>> {
         }
       }
       if (votingTopic != null) {
+        final votingOptions = await _isar.voteOptions.where().findAll();
+        List<VoteOption> topicVoteOptions = [];
 
-        await votingTopic.options.load();
-        var list = votingTopic.options.toList();
-        state = AsyncValue.data(votingTopic.options.toList());
+        for (var option in votingOptions) {
+          if (option.votingTopicId == votingTopic.id) {
+            topicVoteOptions.add(option);
+          }
+        }
+
+        var list = topicVoteOptions.toList();
+        state = AsyncValue.data(topicVoteOptions.toList());
 
         if (list.isEmpty) {
           print('Keine VoteOptions vorhanden');

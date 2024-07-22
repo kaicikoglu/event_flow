@@ -102,23 +102,24 @@ class CreateTopicController extends StateNotifier<List<VotingTopic>> {
     final isar = IsarService().getIsar();
 
     if (formKey.currentState!.validate()) {
-      List<VoteOption> options = [];
+      List<String> optionNames = [];
       String topicName = topicNameController.text;
 
-      options.add(VoteOption()..label = optionNameController.text);
-      options.add(VoteOption()..label = optionNameController2.text);
+      optionNames.add(optionNameController.text);
+      optionNames.add(optionNameController2.text);
 
       for (var controller in additionalControllers) {
-        options.add(VoteOption()..label = controller.text);
+        optionNames.add(controller.text);
       }
-      for (var o in options) {
-        print("label: "+o.label);
+      for (var o in optionNames) {
+        print("label: "+o);
       }
 
       print("Voting topic created  in vote_create_topic_controller.dart0");
       print("---------------------------------------------------------------------------------------------------------------------------------------------------------------------");
 
-      await event.createVotingTopic(isar, topicName, options, event);
+      final createTopic = await event.createVotingTopic(isar, topicName, event);
+      final voteOption = await event.addVoteOptions(isar, createTopic, optionNames, event);
       await loadTopics();
       print("Voting topic created  in vote_create_topic_controller.dart1");
       print("---------------------------------------------------------------------------------------------------------------------------------------------------------------------");
@@ -126,7 +127,7 @@ class CreateTopicController extends StateNotifier<List<VotingTopic>> {
           .read(voteOverviewControllerProvider(event).notifier)
           .addTopic(VotingTopic()
         ..title = topicName
-        ..options.addAll(options)
+        ..options.addAll(voteOption)
         ..event.value = event);
 
       print("Voting topic created  in vote_create_topic_controller.dart2");
