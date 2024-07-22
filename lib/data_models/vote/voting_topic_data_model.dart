@@ -10,7 +10,7 @@ class VotingTopic {
   Id id = Isar.autoIncrement;
 
   late int eventId;
-  late String topicTitle;
+  late String title;
   late DateTime createdDate;
 
   final event = IsarLink<Event>();

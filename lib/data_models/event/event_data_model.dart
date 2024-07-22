@@ -75,26 +75,36 @@ class Event {
 
   // Method to create and save a voting topic
   Future<void> createVotingTopic(
-      Isar isar, String votingTitle, List<VoteOption> options) async {
+      Isar isar, String votingTitle, List<VoteOption> options,Event event) async {
+
     final votingTopic = VotingTopic()
-      ..topicTitle = votingTitle
+      ..eventId = event.id
+      ..title = votingTitle
       ..createdDate = DateTime.now()
-      ..eventId = id;
+      ..event.value = event;
+
+    List<VoteOption> voteOptions = [];
+
+    for (var option in options) {
+      final voteOption = VoteOption()
+        ..votingTopicId = votingTopic.id
+        ..label = option.label
+        ..count = 0
+        ..votingTopic.value = votingTopic;
+      voteOptions.add(voteOption);
+    }
+    votingTopic.options.addAll(voteOptions);
 
     await isar.writeTxn(() async {
-      for (var option in options) {
-        final voteOption = VoteOption()
-          ..eventId = id
-          ..label = option.label
-          ..count = option.count
-          ..votingTopic.value = votingTopic;
-        await isar.voteOptions.put(voteOption);
-        votingTopic.options.add(voteOption);
-      }
       await isar.votingTopics.put(votingTopic);
+      await isar.voteOptions.putAll(voteOptions);
       votingTopics.add(votingTopic);
       await votingTopics.save();
+      print("Voting topic created  in event_data_model.dart4");
+      print("---------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+
     } as Future Function());
+    print("Data saved successfully.");
   }
 
   // Method to create and save a picture

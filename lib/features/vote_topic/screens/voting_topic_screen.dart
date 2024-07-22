@@ -1,3 +1,4 @@
+import 'package:event_flow/data_models/vote/voting_topic_data_model.dart';
 import 'package:event_flow/widgets/floating_action_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -8,9 +9,9 @@ import '../services/voting_topic_controller.dart';
 import '../services/voting_topic_provider.dart';
 
 class VoteTopicScreen extends ConsumerStatefulWidget {
-  final int votingTopicId;
+  final VotingTopic votingTopic;
 
-  const VoteTopicScreen({super.key, required this.votingTopicId});
+  const VoteTopicScreen({super.key, required this.votingTopic});
 
   @override
   _VoteTopicScreenState createState() => _VoteTopicScreenState();
@@ -23,7 +24,8 @@ class _VoteTopicScreenState extends ConsumerState<VoteTopicScreen> {
   void initState() {
     super.initState();
     _controller = VotingTopicController(ref);
-    _controller.loadOptions(widget.votingTopicId);
+    print("VotingTopicScreen: ${widget.votingTopic.id}");
+    _controller.loadOptions(widget.votingTopic.id);
   }
 
   @override

@@ -15,6 +15,11 @@ class VoteScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final topics = ref.watch(voteOverviewControllerProvider(event));
+    for (var topic in topics) {
+      print("Topic title: "+topic.title);
+      print("Topic id: "+topic.id.toString());
+    }
+
 
     return Scaffold(
       body: topics.isEmpty
@@ -30,8 +35,10 @@ class VoteScreen extends ConsumerWidget {
                 return Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: CustomWideButton(
-                    text: topics[index].topicTitle,
+                    text: topics[index].title,
                     onPressed: () {
+                      print("Topic title: "+topics[index].title);
+                      print("Topic id: "+topics[index].id.toString());
                       context.push('/votingTopic', extra: topics[index]);
                     },
                   ),

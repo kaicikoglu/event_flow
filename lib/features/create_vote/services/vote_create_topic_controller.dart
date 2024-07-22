@@ -99,6 +99,8 @@ class CreateTopicController extends StateNotifier<List<VotingTopic>> {
   }
 
   Future<void> handleSubmit(BuildContext context, WidgetRef ref) async {
+    final isar = IsarService().getIsar();
+
     if (formKey.currentState!.validate()) {
       List<VoteOption> options = [];
       String topicName = topicNameController.text;
@@ -109,19 +111,30 @@ class CreateTopicController extends StateNotifier<List<VotingTopic>> {
       for (var controller in additionalControllers) {
         options.add(VoteOption()..label = controller.text);
       }
+      for (var o in options) {
+        print("label: "+o.label);
+      }
 
-      final isar = IsarService().getIsar();
-      await event.createVotingTopic(isar, topicName, options);
+      print("Voting topic created  in vote_create_topic_controller.dart0");
+      print("---------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+
+      await event.createVotingTopic(isar, topicName, options, event);
       await loadTopics();
-
+      print("Voting topic created  in vote_create_topic_controller.dart1");
+      print("---------------------------------------------------------------------------------------------------------------------------------------------------------------------");
       ref
           .read(voteOverviewControllerProvider(event).notifier)
           .addTopic(VotingTopic()
-        ..topicTitle = topicName
+        ..title = topicName
         ..options.addAll(options)
         ..event.value = event);
 
+      print("Voting topic created  in vote_create_topic_controller.dart2");
+      print("---------------------------------------------------------------------------------------------------------------------------------------------------------------------");
       if (context.mounted) {
+        print("Voting topic created  in vote_create_topic_controller.dart3");
+        print("---------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+
         context.pop();
       }
     }

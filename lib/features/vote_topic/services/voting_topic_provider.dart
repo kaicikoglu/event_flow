@@ -7,27 +7,55 @@ import 'package:isar/isar.dart';
 import '../../../main.dart';
 
 final votingOptionsProvider = StateNotifierProvider<
-    VotingTopicProvider, AsyncValue<List<VoteOption>>>((ref) {
+    VotingTopicNotifier, AsyncValue<List<VoteOption>>>((ref) {
   final isarService = ref.watch(isarServiceProvider);
-  return VotingTopicProvider(IsarService(),isarService.getIsar());
+  return VotingTopicNotifier(isarService.getIsar());
 });
 
 
-class VotingTopicProvider extends StateNotifier<AsyncValue<List<VoteOption>>> {
-  final IsarService isarService;
+class VotingTopicNotifier extends StateNotifier<AsyncValue<List<VoteOption>>> {
+  // final IsarService isarService;
   final Isar _isar;
 
-
-  VotingTopicProvider(this.isarService,this._isar) : super(const AsyncValue.loading());
+  VotingTopicNotifier(this._isar) : super(const AsyncValue.loading());
 
   Future<void> loadOptions(int votingTopicId) async {
     try {
-      final votingTopic = await _isar.votingTopics.get(votingTopicId);
+      final votingTopics = await _isar.votingTopics.where().findAll();
+
+      print("type of votingTopicid: ${votingTopicId.runtimeType}");
+
+      VotingTopic? votingTopic;
+      for (var topic in votingTopics) {
+        print("type of saved votingTopicid: ${topic.id.runtimeType}");
+        print("gesuchte ID:"+ votingTopicId.toString());
+        print('Topic: ${topic.title}, ID: ${topic.id}');
+
+        if (topic.id == votingTopicId) {
+          votingTopic = topic;
+          print('Topic: ${topic.title}, ID: ${topic.id}');
+          print("Topic gefunden");
+          break;
+        }
+      }
       if (votingTopic != null) {
 
         await votingTopic.options.load();
         state = AsyncValue.data(votingTopic.options.toList());
+
+        if (votingTopic.options.isEmpty) {
+          print('Keine VoteOptions vorhanden');
+        } else {
+          print('VoteOptions vorhanden');
+        }
+
+        // Zusätzliche Debug-Ausgaben
+        print("Fertig Optionen laden:");
+        for (var option in votingTopic.options) {
+          print('Option: ${option.label}, ID: ${option.id}');
+        }
       } else {
+        print('Keine topic vorhanden');
         state = const AsyncValue.data([]);
       }
     } catch (e) {

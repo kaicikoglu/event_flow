@@ -8,11 +8,6 @@ import '../../../widgets/wide_button.dart';
 import '../../create_event/widgets/enter_text.dart';
 import '../services/vote_create_topic_controller.dart';
 
-final createTopicControllerProvider = StateNotifierProvider.family<
-    CreateTopicController, List<VotingTopic>, Event>((ref, event) {
-  return CreateTopicController(event);
-});
-
 class CreateVoteScreen extends ConsumerStatefulWidget {
   final Event event;
 
@@ -23,16 +18,27 @@ class CreateVoteScreen extends ConsumerStatefulWidget {
 }
 
 class _CreateVoteScreenState extends ConsumerState<CreateVoteScreen> {
+  late CreateTopicController _controller;
+  @override
+  void initState() {
+    super.initState();
+    _controller = CreateTopicController(widget.event);
+  }
+
   @override
   Widget build(BuildContext context) {
-    final controllerNotifier =
-        ref.read(createTopicControllerProvider(widget.event).notifier);
-    final double fieldWidth = controllerNotifier.fieldWidth(context);
+    double screenWidth = MediaQuery.of(context).size.width;
+    double fieldWidth = screenWidth * 0.5; // Set to 70% of screen width
+    double maxFieldWidth = 300; // Maximum width
+
+    if (fieldWidth > maxFieldWidth) {
+      fieldWidth = maxFieldWidth;
+    }
 
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Form(
-        key: controllerNotifier.formKey,
+        key: _controller.formKey,
         child: Column(
           children: [
             Expanded(
@@ -43,7 +49,7 @@ class _CreateVoteScreenState extends ConsumerState<CreateVoteScreen> {
                     hintText: 'Enter topic name',
                     width: fieldWidth,
                     height: 60,
-                    controller: controllerNotifier.topicNameController,
+                    controller: _controller.topicNameController,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Please enter topic name';
@@ -51,17 +57,17 @@ class _CreateVoteScreenState extends ConsumerState<CreateVoteScreen> {
                       return null;
                     },
                   ),
-                  ...controllerNotifier.getTextFields(context),
+                  ..._controller.getTextFields(context),
                   const SizedBox(height: 16),
                   CustomFAB(
                       onPressed: () => setState(() {
-                            controllerNotifier.addTextField();
+                            _controller.addTextField();
                           })),
                 ],
               ),
             ),
             CustomWideButton(
-              onPressed: () => controllerNotifier.handleSubmit(context, ref),
+              onPressed: () => _controller.handleSubmit(context, ref),
               text: 'Create Topic',
             ),
           ],
@@ -72,7 +78,13 @@ class _CreateVoteScreenState extends ConsumerState<CreateVoteScreen> {
 
   @override
   void dispose() {
-    ref.read(createTopicControllerProvider(widget.event).notifier).dispose();
+    _controller.dispose();
     super.dispose();
   }
 }
+
+
+// final createTopicControllerProvider = StateNotifierProvider.family<
+//     CreateTopicController, List<VotingTopic>, Event>((ref, event) {
+//   return CreateTopicController(event);
+// });

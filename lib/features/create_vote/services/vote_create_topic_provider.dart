@@ -21,18 +21,18 @@ class VoteCreateTopicProvider
     }
   }
 
-  Future<void> addVotingTopic(VotingTopic votingTopic) async {
-    await isarService.saveVotingTopic(votingTopic);
-    loadVotingTopics();
-  }
+  // Future<void> addVotingTopic(VotingTopic votingTopic) async {
+  //   await isarService.saveVotingTopic(votingTopic);
+  //   loadVotingTopics();
+  // }
 
-  Future<void> removeVotingTopic(int id) async {
-    await isarService.deleteVotingTopic(id);
-    loadVotingTopics();
-  }
+  // Future<void> removeVotingTopic(int id) async {
+  //   await isarService.deleteVotingTopic(id);
+  //   loadVotingTopics();
+  // }
 
-  Future<void> updateVotingTopic(VotingTopic votingTopic) async {
-    await isarService.saveVotingTopic(votingTopic);
-    loadVotingTopics();
-  }
+  // Future<void> updateVotingTopic(VotingTopic votingTopic) async {
+  //   await isarService.saveVotingTopic(votingTopic);
+  //   loadVotingTopics();
+  // }
 }

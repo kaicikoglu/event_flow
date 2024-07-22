@@ -24,16 +24,28 @@ class ForumTopicQuestionNotifier
       final forumTopic = await _isar.forumTopics.get(forumTopicId);
       if (forumTopic != null) {
         final questions = await forumTopic.questions.filter().findAll();
+        print("title: ${forumTopic.title}");
+        print("---------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+
+        print('Questions: $questions');
+        print("---------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+
+
         for (var question in questions) {
           await question.answers.load();
         }
-        state = AsyncValue.data(questions);
+
       } else {
         state = const AsyncValue.data([]);
+        print(AsyncValue.data([]));
       }
     } catch (e) {
       state = AsyncValue.error(e, StackTrace.current);
     }
+
+    print('ready:');
+    print("---------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+
   }
 
   Future<void> addQuestion(

@@ -7,7 +7,7 @@ part 'voting_topic_option_data_model.g.dart';
 class VoteOption {
   Id id = Isar.autoIncrement;
 
-  late int eventId;
+  late int votingTopicId;
   late String label;
   late int count = 0;
   bool isSelected = false;

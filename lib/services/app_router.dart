@@ -73,6 +73,7 @@ class AppRouter {
             path: '/forumTopic',
             builder: (context, state) {
               final forumTopic = state.extra as ForumTopic;
+              print(forumTopic.title);
               return ForumTopicScreen(forumTopic: forumTopic);
             },
           ),
@@ -94,7 +95,14 @@ class AppRouter {
             path: '/votingTopic',
             builder: (context, state) {
               final votingTopic = state.extra as VotingTopic;
-              return VoteTopicScreen(votingTopicId: votingTopic.id);
+              print("Name voting Topic "+ votingTopic.title);
+              print("Id voting Topic "+ votingTopic.id.toString());
+              print("---------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+
+
+              return VoteTopicScreen(votingTopic: votingTopic);
+              // return VoteTopicScreen(votingTopicId: votingTopic.id);
+
             },
           ),
           GoRoute(

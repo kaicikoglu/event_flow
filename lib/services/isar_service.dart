@@ -70,7 +70,7 @@ class IsarService {
 
       await _isar.votingTopics.filter().eventIdEqualTo(id).deleteAll();
 
-      await _isar.voteOptions.filter().eventIdEqualTo(id).deleteAll();
+      // await _isar.voteOptions.filter().eventIdEqualTo(id).deleteAll();
 
       await _isar.pictures.filter().eventIdEqualTo(id).deleteAll();
 
