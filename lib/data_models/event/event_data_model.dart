@@ -73,60 +73,62 @@ class Event {
   }
 
   Future<VotingTopic> createVotingTopic(
-      Isar isar, String votingTitle, Event event) async {
+      Isar isar, String votingTitle) async {
     final votingTopic = VotingTopic()
-      ..eventId = event.id
+      ..eventId = id
       ..title = votingTitle
       ..createdDate = DateTime.now()
-      ..event.value = event;
+      ..event.value = this;
+
 
     await isar.writeTxn(() async {
       await isar.votingTopics.put(votingTopic);
-    });
+      votingTopics.add(votingTopic);
+      await votingTopics.save();
+    } as Future Function());
 
     print("VotingTopic wurde erfolgreich gespeichert: ${votingTopic.title}");
     return votingTopic;
   }
 
-  Future<List<VoteOption>> addVoteOptions(Isar isar, VotingTopic topic,
-      List<String> optionLabels, Event event) async {
-    List<VoteOption> voteOptions = [];
-
-    for (var label in optionLabels) {
-      final voteOption = VoteOption()
-        ..label = label
-        ..count = 0
-        ..topicID = topic.id
-        ..votingTopicId = topic.id;
-
-      voteOptions.add(voteOption);
-    }
-
-    await isar.writeTxn(() async {
-      await isar.voteOptions.putAll(voteOptions);
-      topic.options.addAll(voteOptions);
-      await topic.options.save();
-    });
-
-    // Optionale Überprüfung, ob die VoteOptions erfolgreich gespeichert wurden
-    var savedVotingTopic = await isar.votingTopics.get(topic.id);
-    if (savedVotingTopic != null) {
-      await savedVotingTopic.options.load();
-      if (savedVotingTopic.options.isNotEmpty) {
-        print("Folgende VoteOptions wurden gespeichert:");
-        for (var option in savedVotingTopic.options) {
-          print("Option: ${option.label}, Count: ${option.count}");
-        }
-        return savedVotingTopic.options
-            .toList(); // Zurückgeben der gespeicherten Liste
-      } else {
-        print("Keine VoteOptions wurden gespeichert.");
-      }
-    } else {
-      print("Fehler: VotingTopic wurde nicht gespeichert.");
-    }
-    return []; // Leere Liste zurückgeben, wenn keine Optionen gespeichert wurden oder ein Fehler aufgetreten ist
-  }
+  // Future<List<VoteOption>> addVoteOptions(Isar isar, VotingTopic topic,
+  //     List<String> optionLabels, Event event) async {
+  //   List<VoteOption> voteOptions = [];
+  //
+  //   for (var label in optionLabels) {
+  //     final voteOption = VoteOption()
+  //       ..label = label
+  //       ..count = 0
+  //       ..votingTopicId = topic.id;
+  //
+  //     voteOptions.add(voteOption);
+  //   }
+  //
+  //   await isar.writeTxn(() async {
+  //     await isar.voteOptions.putAll(voteOptions);
+  //     topic.options.addAll(voteOptions);
+  //     await topic.options.save();
+  //   });
+  //
+  //   // Optionale Überprüfung, ob die VoteOptions erfolgreich gespeichert wurden
+  //   var savedVotingTopic = await isar.votingTopics.get(topic.id);
+  //   if (savedVotingTopic != null) {
+  //     await savedVotingTopic.options.load();
+  //     if (savedVotingTopic.options.isNotEmpty) {
+  //       print("Folgende VoteOptions wurden gespeichert:");
+  //       for (var option in savedVotingTopic.options) {
+  //         print("Option: ${option.label}, Count: ${option.count}");
+  //       }
+  //       return savedVotingTopic.options
+  //           .toList(); // Zurückgeben der gespeicherten Liste
+  //     } else {
+  //       print("Keine VoteOptions wurden gespeichert.");
+  //     }
+  //   } else {
+  //     print("Fehler: VotingTopic wurde nicht gespeichert.");
+  //   }
+  //   return []; // Leere Liste zurückgeben, wenn keine Optionen gespeichert wurden oder ein Fehler aufgetreten ist
+  // }
 
   // Method to create and save a voting topic
   // Future<void> createVotingandoptionsTopic(

@@ -24,12 +24,6 @@ class ForumTopicQuestionNotifier
       final forumTopic = await _isar.forumTopics.get(forumTopicId);
       if (forumTopic != null) {
         final questions = await forumTopic.questions.filter().findAll();
-        print("title: ${forumTopic.title}");
-        print("---------------------------------------------------------------------------------------------------------------------------------------------------------------------");
-
-        print('Questions: $questions');
-        print("---------------------------------------------------------------------------------------------------------------------------------------------------------------------");
-
 
         for (var question in questions) {
           await question.answers.load();
@@ -43,14 +37,11 @@ class ForumTopicQuestionNotifier
       state = AsyncValue.error(e, StackTrace.current);
     }
 
-    print('ready:');
-    print("---------------------------------------------------------------------------------------------------------------------------------------------------------------------");
 
   }
 
   Future<void> addQuestion(
       BuildContext context, int forumTopicId, String questionText, int eventId) async {
-    // Check if a forum topic with the same name already exists
     final existingQuestion = await _isar.forumTopicQuestions
         .filter()
         .questionEqualTo(questionText)

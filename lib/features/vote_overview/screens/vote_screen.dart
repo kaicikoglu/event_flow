@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import '../../../data_models/vote/voting_topic_data_model.dart';
 import '../../../data_models/event/event_data_model.dart';
 import '../../../widgets/floating_action_button.dart';
 import '../../../widgets/wide_button.dart';
+import '../widgets/create_voting_topic.dart';
 import '../services/vote_overview_provider.dart';
 
 class VoteScreen extends ConsumerWidget {
@@ -14,12 +14,15 @@ class VoteScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final topics = ref.watch(voteOverviewControllerProvider(event));
-    for (var topic in topics) {
-      print("Topic title: "+topic.title);
-      print("Topic id: "+topic.id.toString());
+    final topics = ref.watch(voteOverviewProvider(event));
+    final topicController = ref.read(voteOverviewProvider(event).notifier);
+    // for (var topic in topics) {
+    //   print("Topic title: "+topic.title);
+    //   print("Topic id: "+topic.id.toString());
+    // }
+    void addTopic(String topicTitle) async {
+      await topicController.addTopic(ref.context, topicTitle);
     }
-
 
     return Scaffold(
       body: topics.isEmpty
@@ -37,7 +40,7 @@ class VoteScreen extends ConsumerWidget {
                   child: CustomWideButton(
                     text: topics[index].title,
                     onPressed: () {
-                      print("Topic title: "+topics[index].title);
+                      print("Topic title: " + topics[index].title);
                       print("Topic id: "+topics[index].id.toString());
                       context.push('/votingTopic', extra: topics[index]);
                     },
@@ -45,11 +48,26 @@ class VoteScreen extends ConsumerWidget {
                 );
               },
             ),
-      floatingActionButton: CustomFAB(onPressed: () {
-        context.push('/createVotingTopic', extra: event);
-      }),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      floatingActionButton: CustomFAB(
+        onPressed: () {
+          showModalBottomSheet(
+            context: context,
+            isScrollControlled: true,
+            builder: (context) {
+              return Padding(
+                padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).viewInsets.bottom,
+                ),
+                child: CreateVotingTopic(
+                  event: event,
+                  ref: ref,
+                  onTopicCreated: addTopic,
+                ),
+              );
+            },
+          );
+        },
+      ),
     );
   }
 }
-

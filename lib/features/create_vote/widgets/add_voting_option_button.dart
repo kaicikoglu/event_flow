@@ -1,9 +1,11 @@
+import 'package:event_flow/data_models/vote/voting_topic_data_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/src/consumer.dart';
 
 class AddVotingOption extends StatefulWidget {
   final Function(String) onOptionCreated;
 
-  const AddVotingOption({super.key, required this.onOptionCreated});
+  const AddVotingOption({super.key, required this.onOptionCreated, required VotingTopic votingTopic, required WidgetRef ref});
 
   @override
   _AddVotingOption createState() => _AddVotingOption();

@@ -1,16 +1,18 @@
 import 'package:event_flow/data_models/vote/voting_topic_data_model.dart';
 import 'package:event_flow/data_models/vote/voting_topic_option_data_model.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
 
 import '../../../main.dart';
 
-final votingOptionsProvider = StateNotifierProvider<
-    VotingTopicNotifier, AsyncValue<List<VoteOption>>>((ref) {
+final votingOptionsProvider =
+    StateNotifierProvider<VotingTopicNotifier, AsyncValue<List<VoteOption>>>(
+        (ref) {
   final isarService = ref.watch(isarServiceProvider);
   return VotingTopicNotifier(isarService.getIsar());
 });
-
 
 class VotingTopicNotifier extends StateNotifier<AsyncValue<List<VoteOption>>> {
   // final IsarService isarService;
@@ -20,126 +22,50 @@ class VotingTopicNotifier extends StateNotifier<AsyncValue<List<VoteOption>>> {
 
   Future<void> loadOptions(int votingTopicId) async {
     try {
-      final votingTopics = await _isar.votingTopics.where().findAll();
-      print("type of votingTopicid: ${votingTopicId.runtimeType}");
-
-      VotingTopic? votingTopic;
-      for (var topic in votingTopics) {
-        print("type of saved votingTopicid: ${topic.id.runtimeType}");
-        print("gesuchte ID:"+ votingTopicId.toString());
-        print('Topic: ${topic.title}, ID: ${topic.id}');
-
-        if (topic.id == votingTopicId) {
-          votingTopic = topic;
-          print('Topic: ${topic.title}, ID: ${topic.id}');
-          print("Topic gefunden");
-          break;
-        }
-      }
+      final votingTopic = await _isar.votingTopics.get(votingTopicId);
       if (votingTopic != null) {
-        final votingOptions = await _isar.voteOptions.where().findAll();
-        List<VoteOption> topicVoteOptions = [];
-
-        for (var option in votingOptions) {
-          if (option.votingTopicId == votingTopic.id) {
-            topicVoteOptions.add(option);
-          }
-        }
-
-        var list = topicVoteOptions.toList();
-        state = AsyncValue.data(topicVoteOptions.toList());
-
-        if (list.isEmpty) {
-          print('Keine VoteOptions vorhanden');
-        } else {
-          print('VoteOptions vorhanden');
-        }
-
-        // Zusätzliche Debug-Ausgaben
-        print("Fertig Optionen laden:");
-        for (var option in list) {
-          print('Option: ${option.label}, ID: ${option.id}');
-        }
+        final votingOptions = await votingTopic.options.filter().findAll();
+        state = AsyncValue.data(votingOptions.toList());
       } else {
-        print('Keine topic vorhanden');
         state = const AsyncValue.data([]);
       }
     } catch (e) {
       state = AsyncValue.error(e, StackTrace.current);
-      print('Fehler beim Laden der VoteOptions: $e');
     }
   }
 
-  Future<List<VoteOption>> getOptionsForVotingTopic(int votingTopicId) async {
-    try {
+  Future<void> addOption(BuildContext context, int votingTopicId,
+      String optionLabel, int eventId) async {
+    final voteOption = VoteOption()
+      ..label = optionLabel
+      ..count = 0
+      ..votingTopicId = votingTopicId
+      ..eventId = eventId;
+    await _isar.writeTxn(() async {
       final votingTopic = await _isar.votingTopics.get(votingTopicId);
       if (votingTopic != null) {
-        // Lädt alle VoteOptions, die zu diesem VotingTopic gehören
-        await votingTopic.options.load();
-        // Konvertiert das Iterable in eine Liste
-        return votingTopic.options.toList();
-      } else {
-        return [];
+        await _isar.voteOptions.put(voteOption);
+        votingTopic.options.add(voteOption);
+        await votingTopic.options.save();
       }
-    } catch (e) {
-      // Fehlerbehandlung oder Logging könnte hier erfolgen
-      return [];
-    }
+    });
+    loadOptions(votingTopicId);
+  }
+
+  Future<void> toggleOption(VoteOption voteOption) async {
+    await _isar.writeTxn(() async {
+
+
+      if (voteOption.isSelected) {
+        voteOption.count--;
+      } else {
+        voteOption.count++;
+      }
+      voteOption.isSelected = !voteOption.isSelected;
+
+      await _isar.voteOptions.put(voteOption);
+    });
+    loadOptions(voteOption.votingTopicId);
   }
 }
 
-
-
-
-
-
-// class VotingTopicNotifier extends StateNotifier<AsyncValue<List<VotingTopic>>> {
-//   final Isar _isar;
-//
-//   VotingTopicNotifier(this._isar) : super(const AsyncValue.loading());
-//
-//   Future<void> loadTopics(int votingTopicId) async {
-//     try {
-//       final votingTopics = await _isar.votingTopics.get(votingTopicId);
-//       if (votingTopics != null) {
-//         state = AsyncValue.data([votingTopics]);
-//       } else {
-//         state = const AsyncValue.data([]);
-//       }
-//     } catch (e) {
-//       state = AsyncValue.error(e, StackTrace.current);
-//     }
-//   }
-//   Future<VotingTopic?> getCurrentTopic(int votingTopicId) async {
-//     try {
-//       final votingTopic = await _isar.votingTopics.get(votingTopicId);
-//       return votingTopic;
-//     } catch (e) {
-//       // Fehlerbehandlung oder Logging könnte hier erfolgen
-//       return null;
-//     }
-//   }
-//   Future<List<VoteOption>> getOptionsForVotingTopic(int votingTopicId) async {
-//     try {
-//       final votingTopic = await _isar.votingTopics.get(votingTopicId);
-//       if (votingTopic != null) {
-//         // Lädt alle VoteOptions, die zu diesem VotingTopic gehören
-//         await votingTopic.options.load();
-//         // Konvertiert das Iterable in eine Liste
-//         return votingTopic.options.toList();
-//       } else {
-//         return [];
-//       }
-//     } catch (e) {
-//       // Fehlerbehandlung oder Logging könnte hier erfolgen
-//       return [];
-//     }
-//   }
-// }
-
-// final votingTopicProvider =
-// StateNotifierProvider<VotingTopicNotifier, AsyncValue<List<VotingTopic>>>(
-//         (ref) {
-//       final isarService = ref.watch(isarServiceProvider);
-//       return VotingTopicNotifier(isarService.getIsar());
-//     });
