@@ -8,11 +8,9 @@ part 'forum_topic_data_model.g.dart';
 @Collection()
 class ForumTopic {
   Id id = Isar.autoIncrement; // Auto increment primary key
-
   late int eventId; // Reference to the event
   late String title;
   late DateTime createdDate;
-
   final event = IsarLink<Event>(); // Link to the parent Event
   final questions =
       IsarLinks<ForumTopicQuestion>(); // Link to ForumTopicQuestion

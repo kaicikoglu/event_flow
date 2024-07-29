@@ -24,21 +24,23 @@ class ForumTopicQuestionNotifier
       final forumTopic = await _isar.forumTopics.get(forumTopicId);
       if (forumTopic != null) {
         final questions = await forumTopic.questions.filter().findAll();
+
         for (var question in questions) {
           await question.answers.load();
         }
-        state = AsyncValue.data(questions);
+
       } else {
         state = const AsyncValue.data([]);
       }
     } catch (e) {
       state = AsyncValue.error(e, StackTrace.current);
     }
+
+
   }
 
   Future<void> addQuestion(
       BuildContext context, int forumTopicId, String questionText, int eventId) async {
-    // Check if a forum topic with the same name already exists
     final existingQuestion = await _isar.forumTopicQuestions
         .filter()
         .questionEqualTo(questionText)
