@@ -9,16 +9,16 @@ import '../widgets/checkbox_wide_button.dart';
 import '../services/voting_topic_controller.dart';
 import '../services/voting_topic_provider.dart';
 
-class VoteTopicScreen extends ConsumerStatefulWidget {
+class VotingTopicScreen extends ConsumerStatefulWidget {
   final VotingTopic votingTopic;
 
-  const VoteTopicScreen({super.key, required this.votingTopic});
+  const VotingTopicScreen({super.key, required this.votingTopic});
 
   @override
-  _VoteTopicScreenState createState() => _VoteTopicScreenState();
+  _VotingTopicScreenState createState() => _VotingTopicScreenState();
 }
 
-class _VoteTopicScreenState extends ConsumerState<VoteTopicScreen> {
+class _VotingTopicScreenState extends ConsumerState<VotingTopicScreen> {
   late VotingTopicController _controller;
 
   @override
@@ -35,7 +35,8 @@ class _VoteTopicScreenState extends ConsumerState<VoteTopicScreen> {
       await _controller.addOption(topicTitle, widget.votingTopic);
     }
 
-    void handleTap(VoteOption voteOption,AsyncValue<List<VoteOption>> options) async {
+    void handleTap(
+        VoteOption voteOption, AsyncValue<List<VoteOption>> options) async {
       List<VoteOption> optionsList = [];
 
       optionsAsyncValue.when(
@@ -49,7 +50,7 @@ class _VoteTopicScreenState extends ConsumerState<VoteTopicScreen> {
           print("Error loading options: $error");
         },
       );
-        await _controller.toggleOption(optionsList,voteOption);
+      await _controller.toggleOption(optionsList, voteOption);
     }
 
     return Scaffold(
@@ -60,7 +61,8 @@ class _VoteTopicScreenState extends ConsumerState<VoteTopicScreen> {
               padding: const EdgeInsets.all(16.0),
               child: Text(
                 widget.votingTopic.title,
-                textAlign: TextAlign.center,// Anzeige des Titels des Abstimmungsthemas
+                textAlign: TextAlign.center,
+                // Anzeige des Titels des Abstimmungsthemas
                 style: TextStyle(
                   fontSize: 24.0,
                   fontWeight: FontWeight.bold,
@@ -69,21 +71,34 @@ class _VoteTopicScreenState extends ConsumerState<VoteTopicScreen> {
             ),
             Expanded(
               child: optionsAsyncValue.when(
-                data: (options) => ListView.builder(
-                  itemCount: options.length,
-                  itemBuilder: (context, index) {
-                    final option = options[index];
-                    return CheckboxWideButton(
-                      label: option.label,
-                      count: option.count,
-                      isSelected: option.isSelected,
-                      onTap: () => handleTap(option,optionsAsyncValue),
-                      borderColor: option.isSelected
-                          ? Colors.green
-                          : Colors.transparent, // Conditional border color
+                data: (options) {
+                  if (options.isEmpty) {
+                    return Center(
+                      child: Text(
+                        'Keine Optionen verfügbar',
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          color: Colors.grey,
+                        ),
+                      ),
                     );
-                  },
-                ),
+                  }
+                  return ListView.builder(
+                    itemCount: options.length,
+                    itemBuilder: (context, index) {
+                      final option = options[index];
+                      return CheckboxWideButton(
+                        label: option.label,
+                        count: option.count,
+                        isSelected: option.isSelected,
+                        onTap: () => handleTap(option, optionsAsyncValue),
+                        borderColor: option.isSelected
+                            ? Colors.green
+                            : Colors.transparent, // Conditional border color
+                      );
+                    },
+                  );
+                },
                 loading: () => const Center(child: CircularProgressIndicator()),
                 error: (error, stack) =>
                     const Center(child: Text('Ein Fehler ist aufgetreten')),

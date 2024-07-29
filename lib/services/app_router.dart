@@ -99,7 +99,7 @@ class AppRouter {
               print("---------------------------------------------------------------------------------------------------------------------------------------------------------------------");
 
 
-              return VoteTopicScreen(votingTopic: votingTopic);
+              return VotingTopicScreen(votingTopic: votingTopic);
               // return VoteTopicScreen(votingTopicId: votingTopic.id);
 
             },

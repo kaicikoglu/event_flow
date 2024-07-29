@@ -31,7 +31,6 @@ class ForumTopicQuestionNotifier
 
       } else {
         state = const AsyncValue.data([]);
-        print(AsyncValue.data([]));
       }
     } catch (e) {
       state = AsyncValue.error(e, StackTrace.current);

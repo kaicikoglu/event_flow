@@ -36,8 +36,6 @@ class VoteScreen extends ConsumerWidget {
                   child: CustomWideButton(
                     text: topics[index].title,
                     onPressed: () {
-                      print("Topic title: " + topics[index].title);
-                      print("Topic id: "+topics[index].id.toString());
                       context.push('/votingTopic', extra: topics[index]);
                     },
                   ),
