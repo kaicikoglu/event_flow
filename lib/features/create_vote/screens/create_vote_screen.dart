@@ -15,8 +15,9 @@ final createTopicControllerProvider = StateNotifierProvider.family<
 
 class CreateVoteScreen extends ConsumerStatefulWidget {
   final Event event;
+  final BackButton? backButton;
 
-  const CreateVoteScreen({super.key, required this.event});
+  const CreateVoteScreen({super.key, required this.event, this.backButton});
 
   @override
   _CreateVoteScreenState createState() => _CreateVoteScreenState();
@@ -29,45 +30,52 @@ class _CreateVoteScreenState extends ConsumerState<CreateVoteScreen> {
         ref.read(createTopicControllerProvider(widget.event).notifier);
     final double fieldWidth = controllerNotifier.fieldWidth(context);
 
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Form(
-        key: controllerNotifier.formKey,
-        child: Column(
-          children: [
-            Expanded(
-              child: ListView(
-                children: [
-                  EnterText(
-                    argument: 'Question:',
-                    hintText: 'Enter topic name',
-                    width: fieldWidth,
-                    height: 60,
-                    controller: controllerNotifier.topicNameController,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter topic name';
-                      }
-                      return null;
-                    },
-                  ),
-                  ...controllerNotifier.getTextFields(context),
-                  const SizedBox(height: 16),
-                  CustomFAB(
-                      onPressed: () => setState(() {
-                            controllerNotifier.addTextField();
-                          })),
-                ],
-              ),
-            ),
-            CustomWideButton(
-              onPressed: () => controllerNotifier.handleSubmit(context, ref),
-              text: 'Create Topic',
-            ),
-          ],
+    return Scaffold(
+        appBar: AppBar(
+          leading: widget.backButton,
+          title: Text('Create Vote for ${widget.event.title}'),
+          centerTitle: true,
         ),
-      ),
-    );
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Form(
+            key: controllerNotifier.formKey,
+            child: Column(
+              children: [
+                Expanded(
+                  child: ListView(
+                    children: [
+                      EnterText(
+                        argument: 'Question:',
+                        hintText: 'Enter topic name',
+                        width: fieldWidth,
+                        height: 60,
+                        controller: controllerNotifier.topicNameController,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter topic name';
+                          }
+                          return null;
+                        },
+                      ),
+                      ...controllerNotifier.getTextFields(context),
+                      const SizedBox(height: 16),
+                      CustomFAB(
+                          onPressed: () => setState(() {
+                                controllerNotifier.addTextField();
+                              })),
+                    ],
+                  ),
+                ),
+                CustomWideButton(
+                  onPressed: () =>
+                      controllerNotifier.handleSubmit(context, ref),
+                  text: 'Create Topic',
+                ),
+              ],
+            ),
+          ),
+        ));
   }
 
   @override

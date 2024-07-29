@@ -11,8 +11,9 @@ import '../widgets/enter_time.dart';
 
 class CreateEventScreen extends ConsumerStatefulWidget {
   final Event? event;
+  final BackButton? backButton;
 
-  const CreateEventScreen({super.key, this.event});
+  const CreateEventScreen({super.key, this.event, this.backButton});
 
   @override
   _CreateEventScreenState createState() => _CreateEventScreenState();
@@ -38,6 +39,11 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
     }
 
     return Scaffold(
+      appBar: AppBar(
+        leading: widget.backButton,
+        title: Text(widget.event != null ? 'Edit Event' : 'Create Event'),
+        centerTitle: true,
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Form(

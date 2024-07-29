@@ -10,8 +10,9 @@ import '../services/forum_provider.dart';
 
 class ForumScreen extends ConsumerWidget {
   final Event event;
+  final BackButton? backButton;
 
-  const ForumScreen({super.key, required this.event});
+  const ForumScreen({super.key, required this.event, this.backButton});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -23,6 +24,11 @@ class ForumScreen extends ConsumerWidget {
     }
 
     return Scaffold(
+      appBar: AppBar(
+        leading: backButton,
+        title: Text('${event.title}\'s Forum '),
+        centerTitle: true,
+      ),
       body: topics.isEmpty
           ? const Center(
               child: Text(

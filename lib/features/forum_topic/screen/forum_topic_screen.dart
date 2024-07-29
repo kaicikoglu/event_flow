@@ -9,8 +9,10 @@ import '../widgets/question_list_widget.dart';
 
 class ForumTopicScreen extends ConsumerStatefulWidget {
   final ForumTopic forumTopic;
+  final BackButton? backButton;
 
-  const ForumTopicScreen({super.key, required this.forumTopic});
+  const ForumTopicScreen(
+      {super.key, required this.forumTopic, this.backButton});
 
   @override
   _ForumTopicScreenState createState() => _ForumTopicScreenState();
@@ -38,6 +40,11 @@ class _ForumTopicScreenState extends ConsumerState<ForumTopicScreen> {
     final questionsAsyncValue = ref.watch(forumTopicQuestionProvider);
 
     return Scaffold(
+      appBar: AppBar(
+        leading: widget.backButton,
+        title: Text(widget.forumTopic.title),
+        centerTitle: true,
+      ),
       body: SafeArea(
         child: Column(
           children: [

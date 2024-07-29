@@ -9,8 +9,9 @@ import '../widgets/create_todo_topic.dart';
 
 class ToDoScreen extends ConsumerWidget {
   final Event event;
+  final BackButton? backButton;
 
-  const ToDoScreen({super.key, required this.event});
+  const ToDoScreen({super.key, required this.event, this.backButton});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -22,30 +23,37 @@ class ToDoScreen extends ConsumerWidget {
     }
 
     return Scaffold(
+      appBar: AppBar(
+        leading: backButton,
+        title: Text('${event.title}\'s To-Do List'),
+        centerTitle: true,
+      ),
       body: topics.isEmpty
           ? const Center(
-        child: Text(
-          'No topics yet. Be the first to create a topic!',
-          style: TextStyle(fontSize: 18, color: Colors.grey),
-        ),
-      )
+              child: Text(
+                'No topics yet. Be the first to create a topic!',
+                style: TextStyle(fontSize: 18, color: Colors.grey),
+              ),
+            )
           : ListView.builder(
-        itemCount: topics.length,
-        itemBuilder: (context, index) {
-          final topic = topics[index];
-          final isSelected = ref.watch(todoControllerProvider(event).notifier).isSelected(topic.id);
-          return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0),
-            child: CheckboxWideButtonTodo(
-              label: topic.title,
-              isSelected: isSelected,
-              onTap: () {
-                todoController.toggleSelection(topic.id);
+              itemCount: topics.length,
+              itemBuilder: (context, index) {
+                final topic = topics[index];
+                final isSelected = ref
+                    .watch(todoControllerProvider(event).notifier)
+                    .isSelected(topic.id);
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: CheckboxWideButtonTodo(
+                    label: topic.title,
+                    isSelected: isSelected,
+                    onTap: () {
+                      todoController.toggleSelection(topic.id);
+                    },
+                  ),
+                );
               },
             ),
-          );
-        },
-      ),
       floatingActionButton: CustomFAB(
         onPressed: () {
           showModalBottomSheet(
