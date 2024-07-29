@@ -8,10 +8,10 @@ class AddVotingOption extends StatefulWidget {
   const AddVotingOption({super.key, required this.onOptionCreated, required VotingTopic votingTopic, required WidgetRef ref});
 
   @override
-  _AddVotingOption createState() => _AddVotingOption();
+  _AddVotingOptionState createState() => _AddVotingOptionState();
 }
 
-class _AddVotingOption extends State<AddVotingOption> {
+class _AddVotingOptionState extends State<AddVotingOption> {
   final TextEditingController _controller = TextEditingController();
 
   @override

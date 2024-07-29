@@ -17,14 +17,13 @@ class VotingTopicController {
     ref
         .read(votingOptionsProvider.notifier)
         .addOption(ref.context, topic.id, optionLabel, topic.eventId);
-
   }
-  Future<void> toggleOption(List<VoteOption> options, VoteOption voteOption) async{
+
+  Future<void> toggleOption(
+      List<VoteOption> options, VoteOption voteOption) async {
     int count = options.where((element) => element.isSelected).length;
-    if (count == 0||count == 1 && voteOption.isSelected){
-      ref
-          .read(votingOptionsProvider.notifier)
-          .toggleOption(voteOption);
+    if (count == 0 || count == 1 && voteOption.isSelected) {
+      ref.read(votingOptionsProvider.notifier).toggleOption(voteOption);
     }
   }
 }

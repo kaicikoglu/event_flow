@@ -1,5 +1,6 @@
 import 'package:event_flow/data_models/vote/voting_topic_data_model.dart';
 import 'package:event_flow/widgets/floating_action_button.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -44,10 +45,14 @@ class _VotingTopicScreenState extends ConsumerState<VotingTopicScreen> {
           optionsList = options;
         },
         loading: () {
-          print("Loading options...");
+          if (kDebugMode) {
+            print("Loading options...");
+          }
         },
         error: (error, stack) {
-          print("Error loading options: $error");
+          if (kDebugMode) {
+            print("Error loading options: $error");
+          }
         },
       );
       await _controller.toggleOption(optionsList, voteOption);
@@ -63,7 +68,7 @@ class _VotingTopicScreenState extends ConsumerState<VotingTopicScreen> {
                 widget.votingTopic.title,
                 textAlign: TextAlign.center,
                 // Anzeige des Titels des Abstimmungsthemas
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 24.0,
                   fontWeight: FontWeight.bold,
                 ),
@@ -73,7 +78,7 @@ class _VotingTopicScreenState extends ConsumerState<VotingTopicScreen> {
               child: optionsAsyncValue.when(
                 data: (options) {
                   if (options.isEmpty) {
-                    return Center(
+                    return const Center(
                       child: Text(
                         'Keine Optionen verfügbar',
                         style: TextStyle(
