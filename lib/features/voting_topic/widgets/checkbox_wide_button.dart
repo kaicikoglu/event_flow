@@ -5,6 +5,7 @@ class CheckboxWideButton extends StatelessWidget {
   final int count;
   final bool isSelected;
   final VoidCallback onTap;
+  final Color borderColor;
 
   const CheckboxWideButton({
     super.key,
@@ -12,6 +13,7 @@ class CheckboxWideButton extends StatelessWidget {
     required this.count,
     required this.isSelected,
     required this.onTap,
+    this.borderColor = Colors.transparent,
   });
 
   @override
