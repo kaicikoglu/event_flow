@@ -1,4 +1,4 @@
-import 'package:event_flow/features/vote_topic/services/voting_topic_provider.dart';
+import 'package:event_flow/features/voting_topic/services/voting_topic_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../data_models/vote/voting_topic_data_model.dart';
@@ -26,15 +26,5 @@ class VotingTopicController {
           .read(votingOptionsProvider.notifier)
           .toggleOption(voteOption);
     }
-
-
-    // else{
-    //   ref
-    //       .read(votingOptionsProvider.notifier);
-    // }
-    // else if (count > 1){
-
   }
-
-
 }

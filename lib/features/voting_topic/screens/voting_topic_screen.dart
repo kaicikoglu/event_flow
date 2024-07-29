@@ -43,14 +43,13 @@ class _VoteTopicScreenState extends ConsumerState<VoteTopicScreen> {
           optionsList = options;
         },
         loading: () {
-          // Behandeln des Ladens, z.B. durch Anzeigen eines Ladeindikators
+          print("Loading options...");
         },
         error: (error, stack) {
-          // Fehlerbehandlung, z.B. durch Anzeigen einer Fehlermeldung
+          print("Error loading options: $error");
         },
       );
         await _controller.toggleOption(optionsList,voteOption);
-        // ref.refresh(votingOptionsProvider(widget.votingTopic.id)); // Refre
     }
 
     return Scaffold(

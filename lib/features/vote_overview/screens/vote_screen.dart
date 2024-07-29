@@ -16,10 +16,6 @@ class VoteScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final topics = ref.watch(voteOverviewProvider(event));
     final topicController = ref.read(voteOverviewProvider(event).notifier);
-    // for (var topic in topics) {
-    //   print("Topic title: "+topic.title);
-    //   print("Topic id: "+topic.id.toString());
-    // }
     void addTopic(String topicTitle) async {
       await topicController.addTopic(ref.context, topicTitle);
     }

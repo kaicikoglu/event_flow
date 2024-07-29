@@ -6,7 +6,6 @@
 //
 // import '../../../data_models/vote/voting_topic_data_model.dart';
 // import '../../../data_models/vote/voting_topic_option_data_model.dart';
-// import '../widgets/enter_text.dart';
 //
 // class CreateTopicController extends StateNotifier<List<VotingTopic>> {
 //   final Event event;
