@@ -75,7 +75,7 @@ class AppRouter {
               return CustomTransitionPage(
                 key: state.pageKey,
                 child: ForumScreen(event: eventDetails),
-                transitionDuration: const Duration(milliseconds: 100),
+                transitionDuration: const Duration(milliseconds: 250),
                 transitionsBuilder:
                     (context, animation, secondaryAnimation, child) {
                   return slideFromBottomTransition(
@@ -99,7 +99,7 @@ class AppRouter {
               return CustomTransitionPage(
                 key: state.pageKey,
                 child: VoteScreen(event: eventDetails),
-                transitionDuration: const Duration(milliseconds: 100),
+                transitionDuration: const Duration(milliseconds: 250),
                 transitionsBuilder:
                     (context, animation, secondaryAnimation, child) {
                   return slideFromBottomTransition(
@@ -144,7 +144,7 @@ class AppRouter {
               return CustomTransitionPage(
                 key: state.pageKey,
                 child: ResourcesScreen(event: eventDetails),
-                transitionDuration: const Duration(milliseconds: 100),
+                transitionDuration: const Duration(milliseconds: 250),
                 transitionsBuilder:
                     (context, animation, secondaryAnimation, child) {
                   return slideFromBottomTransition(
@@ -161,7 +161,7 @@ class AppRouter {
               return CustomTransitionPage(
                 key: state.pageKey,
                 child: ToDoScreen(event: eventDetails),
-                transitionDuration: const Duration(milliseconds: 100),
+                transitionDuration: const Duration(milliseconds: 250),
                 transitionsBuilder:
                     (context, animation, secondaryAnimation, child) {
                   return slideFromBottomTransition(

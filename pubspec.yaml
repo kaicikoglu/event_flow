@@ -37,6 +37,12 @@ dev_dependencies:
 
   analyzer: ^5.13.0
 
-flutter:
+  flutter_launcher_icons: ^0.13.1
 
+flutter:
   uses-material-design: true
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/icon/event_flow.png"
