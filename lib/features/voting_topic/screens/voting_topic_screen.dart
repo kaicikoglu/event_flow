@@ -1,6 +1,5 @@
 import 'package:event_flow/data_models/vote/voting_topic_data_model.dart';
 import 'package:event_flow/widgets/floating_action_button.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -36,26 +35,8 @@ class _VotingTopicScreenState extends ConsumerState<VotingTopicScreen> {
       await _controller.addOption(topicTitle, widget.votingTopic);
     }
 
-    void handleTap(
-        VoteOption voteOption, AsyncValue<List<VoteOption>> options) async {
-      List<VoteOption> optionsList = [];
-
-      optionsAsyncValue.when(
-        data: (options) {
-          optionsList = options;
-        },
-        loading: () {
-          if (kDebugMode) {
-            print("Loading options...");
-          }
-        },
-        error: (error, stack) {
-          if (kDebugMode) {
-            print("Error loading options: $error");
-          }
-        },
-      );
-      await _controller.toggleOption(optionsList, voteOption);
+    void handleTap(VoteOption voteOption) async {
+      await _controller.toggleOption(voteOption);
     }
 
     return Scaffold(
@@ -96,7 +77,7 @@ class _VotingTopicScreenState extends ConsumerState<VotingTopicScreen> {
                         label: option.label,
                         count: option.count,
                         isSelected: option.isSelected,
-                        onTap: () => handleTap(option, optionsAsyncValue),
+                        onTap: () => handleTap(option),
                         borderColor: option.isSelected
                             ? Colors.green
                             : Colors.transparent, // Conditional border color
