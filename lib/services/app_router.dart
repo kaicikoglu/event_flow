@@ -87,7 +87,6 @@ class AppRouter {
             path: '/forumTopic',
             builder: (context, state) {
               final forumTopic = state.extra as ForumTopic;
-              print(forumTopic.title);
               return ForumTopicScreen(forumTopic: forumTopic);
             },
           ),

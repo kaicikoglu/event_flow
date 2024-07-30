@@ -11,8 +11,9 @@ import '../widgets/checkbox_wide_button.dart';
 
 class VotingTopicScreen extends ConsumerStatefulWidget {
   final VotingTopic votingTopic;
+  final BackButton? backButton;
 
-  const VotingTopicScreen({super.key, required this.votingTopic});
+  const VotingTopicScreen({super.key, required this.votingTopic, this.backButton});
 
   @override
   _VotingTopicScreenState createState() => _VotingTopicScreenState();
@@ -40,21 +41,14 @@ class _VotingTopicScreenState extends ConsumerState<VotingTopicScreen> {
     }
 
     return Scaffold(
+      appBar: AppBar(
+        leading: widget.backButton,
+        title: Text(widget.votingTopic.title),
+        centerTitle: true,
+      ),
       body: SafeArea(
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Text(
-                widget.votingTopic.title,
-                textAlign: TextAlign.center,
-                // Anzeige des Titels des Abstimmungsthemas
-                style: const TextStyle(
-                  fontSize: 24.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
             Expanded(
               child: optionsAsyncValue.when(
                 data: (options) {
