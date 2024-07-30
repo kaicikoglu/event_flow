@@ -19,7 +19,6 @@ class EventScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         leading: backButton,
@@ -46,19 +45,19 @@ class EventScreen extends StatelessWidget {
                       children: [
                         Center(
                             child: InfoBox(
-                              icon1: Icons.calendar_today,
-                              text1: event.date.toIso8601String().split('T').first,
-                              icon2: Icons.access_time,
-                              text2: event.time,
-                            )),
+                          icon1: Icons.calendar_today,
+                          text1: event.date.toIso8601String().split('T').first,
+                          icon2: Icons.access_time,
+                          text2: event.time,
+                        )),
                         const SizedBox(height: 8),
                         Center(
                             child: InfoBox(
-                              icon1: Icons.location_on,
-                              text1: event.location,
-                              icon2: Icons.person,
-                              text2: event.participants,
-                            )),
+                          icon1: Icons.location_on,
+                          text1: event.location,
+                          icon2: Icons.person,
+                          text2: event.participants,
+                        )),
                       ],
                     ),
                   ),
@@ -66,7 +65,11 @@ class EventScreen extends StatelessWidget {
             const SizedBox(height: 16),
             CustomWideButton(
               text: 'Teilnehmerliste bearbeiten',
-              onPressed: () {},
+              onPressed: () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Teilnehmerliste bald verfügbar')),
+                );
+              },
             ),
             const SizedBox(height: 8),
             CustomWideButton(
@@ -83,29 +86,25 @@ class EventScreen extends StatelessWidget {
                     text: "Forum",
                     onPressed: () {
                       context.push('/forum', extra: event);
-                    }
-                ),
+                    }),
                 ThemeButton(
                     icon: Icons.how_to_vote,
                     text: "Vote-Area",
                     onPressed: () {
                       context.push('/vote', extra: event);
-                    }
-                ),
+                    }),
                 ThemeButton(
                     icon: Icons.cloud,
                     text: "Ressourcen",
                     onPressed: () {
                       context.push('/resources', extra: event);
-                    }
-                ),
+                    }),
                 ThemeButton(
                     icon: Icons.check_box,
                     text: "To-Dos",
                     onPressed: () {
                       context.push('/todo', extra: event);
-                    }
-                ),
+                    }),
               ],
             ),
           ],

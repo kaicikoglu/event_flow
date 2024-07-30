@@ -26,10 +26,8 @@ class ForumProvider extends StateNotifier<List<ForumTopic>> {
     final isar = IsarService().getIsar();
 
     // Check if a forum topic with the same title already exists
-    final existingTopic = await isar.forumTopics
-        .filter()
-        .titleEqualTo(topicTitle)
-        .findFirst();
+    final existingTopic =
+        await isar.forumTopics.filter().titleEqualTo(topicTitle).findFirst();
 
     if (existingTopic != null) {
       showDialog(
@@ -37,7 +35,8 @@ class ForumProvider extends StateNotifier<List<ForumTopic>> {
         builder: (BuildContext context) {
           return AlertDialog(
             title: const Text('Duplicate Topic'),
-            content: const Text('A forum topic with the same title already exists.'),
+            content:
+                const Text('A forum topic with the same title already exists.'),
             actions: <Widget>[
               TextButton(
                 onPressed: () {

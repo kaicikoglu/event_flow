@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../data_models/vote/voting_topic_option_data_model.dart';
-import '../widgets/add_voting_option_button.dart';
-import '../widgets/checkbox_wide_button.dart';
 import '../services/voting_topic_controller.dart';
 import '../services/voting_topic_provider.dart';
+import '../widgets/add_voting_option_button.dart';
+import '../widgets/checkbox_wide_button.dart';
 
 class VotingTopicScreen extends ConsumerStatefulWidget {
   final VotingTopic votingTopic;

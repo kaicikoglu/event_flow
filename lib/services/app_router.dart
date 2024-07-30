@@ -49,14 +49,14 @@ class AppRouter {
             path: '/settings',
             pageBuilder: (context, state) => NoTransitionPage(
               key: state.pageKey,
-              child: const Center(child: Text('Settings')),
+              child: const Center(child: Text('Einstellungen kommen bald!')),
             ),
           ),
           GoRoute(
             path: '/profile',
             pageBuilder: (context, state) => NoTransitionPage(
               key: state.pageKey,
-              child: const Center(child: Text('Profile')),
+              child: const Center(child: Text('Profil kommt bald!')),
             ),
           ),
           GoRoute(
@@ -108,25 +108,11 @@ class AppRouter {
               );
             },
           ),
-          // GoRoute(
-          //   path: '/createVotingTopic',
-          //   builder: (context, state) {
-          //     final event = state.extra as Event;
-          //     return CreateVoteScreen(event: event);
-          //   },
-          // ),
           GoRoute(
             path: '/votingTopic',
             builder: (context, state) {
               final votingTopic = state.extra as VotingTopic;
-              print("Name voting Topic "+ votingTopic.title);
-              print("Id voting Topic "+ votingTopic.id.toString());
-              print("---------------------------------------------------------------------------------------------------------------------------------------------------------------------");
-
-
               return VotingTopicScreen(votingTopic: votingTopic);
-              // return VoteTopicScreen(votingTopicId: votingTopic.id);
-
             },
           ),
           GoRoute(

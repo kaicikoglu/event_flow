@@ -22,7 +22,7 @@ void main() async {
 }
 
 final isarServiceProvider = Provider<IsarService>((ref) {
-  throw UnimplementedError();
+  return IsarService();
 });
 
 class MyApp extends ConsumerWidget {

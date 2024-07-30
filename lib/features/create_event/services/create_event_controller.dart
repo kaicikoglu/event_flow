@@ -60,7 +60,8 @@ class CreateEventController {
     }
   }
 
-  Future<void> handleSubmit(BuildContext context, WidgetRef ref, Event? updateEvent) async {
+  Future<void> handleSubmit(
+      BuildContext context, WidgetRef ref, Event? updateEvent) async {
     if (formKey.currentState!.validate()) {
       String eventName = eventNameController.text;
       String startDate = startDateController.text;
@@ -84,7 +85,7 @@ class CreateEventController {
         await eventNotifier.addEvent(event);
       }
 
-      if(updateEvent != null) {
+      if (updateEvent != null) {
         context.pop();
       }
 

@@ -29,19 +29,16 @@ class ForumTopicQuestionNotifier
           await question.answers.load();
         }
         state = AsyncValue.data(questions);
-
       } else {
         state = const AsyncValue.data([]);
       }
     } catch (e) {
       state = AsyncValue.error(e, StackTrace.current);
     }
-
-
   }
 
-  Future<void> addQuestion(
-      BuildContext context, int forumTopicId, String questionText, int eventId) async {
+  Future<void> addQuestion(BuildContext context, int forumTopicId,
+      String questionText, int eventId) async {
     final existingQuestion = await _isar.forumTopicQuestions
         .filter()
         .questionEqualTo(questionText)

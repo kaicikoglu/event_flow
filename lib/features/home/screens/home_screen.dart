@@ -14,10 +14,10 @@ class HomeScreen extends ConsumerWidget {
     final eventListState = ref.watch(eventNotifierProvider);
 
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Events'),
-          centerTitle: true, // Center the title
-        ),
+      appBar: AppBar(
+        title: const Text('Events'),
+        centerTitle: true, // Center the title
+      ),
       body: eventListState.when(
         data: (events) {
           if (events.isEmpty) {

@@ -14,7 +14,4 @@ class VoteOption {
   bool isSelected = false;
 
   final votingTopic = IsarLink<VotingTopic>();
-
-
-
 }

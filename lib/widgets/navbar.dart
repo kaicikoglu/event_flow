@@ -26,15 +26,15 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.chat_bubble_outline),
-          label: 'Announcements',
+          label: 'Ankündigungen',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.settings),
-          label: 'Settings',
+          label: 'Einstellungen',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.person_outline),
-          label: 'Profile',
+          label: 'Profil',
         ),
       ],
       currentIndex: widget.selectedIndex,
