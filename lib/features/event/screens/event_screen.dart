@@ -65,7 +65,11 @@ class EventScreen extends StatelessWidget {
             const SizedBox(height: 16),
             CustomWideButton(
               text: 'Teilnehmerliste bearbeiten',
-              onPressed: () {},
+              onPressed: () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Teilnehmerliste bald verfügbar')),
+                );
+              },
             ),
             const SizedBox(height: 8),
             CustomWideButton(

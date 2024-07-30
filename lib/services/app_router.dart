@@ -49,14 +49,14 @@ class AppRouter {
             path: '/settings',
             pageBuilder: (context, state) => NoTransitionPage(
               key: state.pageKey,
-              child: const Center(child: Text('Settings')),
+              child: const Center(child: Text('Einstellungen kommen bald!')),
             ),
           ),
           GoRoute(
             path: '/profile',
             pageBuilder: (context, state) => NoTransitionPage(
               key: state.pageKey,
-              child: const Center(child: Text('Profile')),
+              child: const Center(child: Text('Profil kommt bald!')),
             ),
           ),
           GoRoute(
