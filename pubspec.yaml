@@ -24,11 +24,12 @@ dependencies:
 
   intl: ^0.19.0
 
-  image_picker: ^0.8.7
+  image_picker: ^1.1.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+#  maestro_test: any
 
   flutter_lints: ^4.0.0
 
@@ -39,6 +40,9 @@ dev_dependencies:
 
   flutter_launcher_icons: ^0.13.1
 
+#  maestro: ^1.0.0
+
+
 flutter:
   uses-material-design: true
 
@@ -46,3 +50,4 @@ flutter_launcher_icons:
   android: true
   ios: true
   image_path: "assets/icon/event_flow.png"
+

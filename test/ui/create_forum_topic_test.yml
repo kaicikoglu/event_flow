@@ -1,0 +1,12 @@
+appId: com.example.event_flow
+---
+
+- launchApp
+- tapOn: "Test Event"
+- tapOn: "Forum"
+- tapOn: "+"
+- inputText:
+    text: "This is a test topic"
+    placeholder: "Geben Sie hier Ihr Thema ein"
+- tapOn: "Bestätigen"
+- assertText: "This is a test topic"

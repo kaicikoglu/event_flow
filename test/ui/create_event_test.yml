@@ -1,0 +1,26 @@
+appId: com.example.event_flow
+---
+
+
+appId: com.example.yourapp
+---
+
+- launchApp
+- tapOn: "+"
+- inputText:
+      text: "Test Event"
+      placeholder: "Enter event name"
+- inputText:
+      text: "12:00"
+      placeholder: "Select Time"
+- inputText:
+      text: "2024-08-01"
+      placeholder: "Select Date"
+- inputText:
+      text: "Test Location"
+      placeholder: "Enter location"
+- tapOn: "Create Event"
+- assertText: "Test Event"
+- assertText: "2024-08-01"
+- assertText: "12:00"
+- assertText: "Test Location"
