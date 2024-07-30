@@ -53,7 +53,7 @@ class _ForumTopicScreenState extends ConsumerState<ForumTopicScreen> {
                 data: (questions) {
                   if (questions.isEmpty) {
                     return const Center(
-                      child: Text('No questions yet!'),
+                      child: Text('Keine Fragen vorhanden!'),
                     );
                   }
                   return QuestionList(

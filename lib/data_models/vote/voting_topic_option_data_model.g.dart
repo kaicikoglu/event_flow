@@ -36,6 +36,11 @@ const VoteOptionSchema = CollectionSchema(
       id: 3,
       name: r'label',
       type: IsarType.string,
+    ),
+    r'votingTopicId': PropertySchema(
+      id: 4,
+      name: r'votingTopicId',
+      type: IsarType.long,
     )
   },
   estimateSize: _voteOptionEstimateSize,
@@ -79,6 +84,7 @@ void _voteOptionSerialize(
   writer.writeLong(offsets[1], object.eventId);
   writer.writeBool(offsets[2], object.isSelected);
   writer.writeString(offsets[3], object.label);
+  writer.writeLong(offsets[4], object.votingTopicId);
 }
 
 VoteOption _voteOptionDeserialize(
@@ -93,6 +99,7 @@ VoteOption _voteOptionDeserialize(
   object.id = id;
   object.isSelected = reader.readBool(offsets[2]);
   object.label = reader.readString(offsets[3]);
+  object.votingTopicId = reader.readLong(offsets[4]);
   return object;
 }
 
@@ -111,6 +118,8 @@ P _voteOptionDeserializeProp<P>(
       return (reader.readBool(offset)) as P;
     case 3:
       return (reader.readString(offset)) as P;
+    case 4:
+      return (reader.readLong(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
@@ -509,6 +518,62 @@ extension VoteOptionQueryFilter
       ));
     });
   }
+
+  QueryBuilder<VoteOption, VoteOption, QAfterFilterCondition>
+      votingTopicIdEqualTo(int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'votingTopicId',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<VoteOption, VoteOption, QAfterFilterCondition>
+      votingTopicIdGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'votingTopicId',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<VoteOption, VoteOption, QAfterFilterCondition>
+      votingTopicIdLessThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'votingTopicId',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<VoteOption, VoteOption, QAfterFilterCondition>
+      votingTopicIdBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'votingTopicId',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
 }
 
 extension VoteOptionQueryObject
@@ -580,6 +645,18 @@ extension VoteOptionQuerySortBy
       return query.addSortBy(r'label', Sort.desc);
     });
   }
+
+  QueryBuilder<VoteOption, VoteOption, QAfterSortBy> sortByVotingTopicId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'votingTopicId', Sort.asc);
+    });
+  }
+
+  QueryBuilder<VoteOption, VoteOption, QAfterSortBy> sortByVotingTopicIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'votingTopicId', Sort.desc);
+    });
+  }
 }
 
 extension VoteOptionQuerySortThenBy
@@ -643,6 +720,18 @@ extension VoteOptionQuerySortThenBy
       return query.addSortBy(r'label', Sort.desc);
     });
   }
+
+  QueryBuilder<VoteOption, VoteOption, QAfterSortBy> thenByVotingTopicId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'votingTopicId', Sort.asc);
+    });
+  }
+
+  QueryBuilder<VoteOption, VoteOption, QAfterSortBy> thenByVotingTopicIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'votingTopicId', Sort.desc);
+    });
+  }
 }
 
 extension VoteOptionQueryWhereDistinct
@@ -669,6 +758,12 @@ extension VoteOptionQueryWhereDistinct
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'label', caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<VoteOption, VoteOption, QDistinct> distinctByVotingTopicId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'votingTopicId');
     });
   }
 }
@@ -702,6 +797,12 @@ extension VoteOptionQueryProperty
   QueryBuilder<VoteOption, String, QQueryOperations> labelProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'label');
+    });
+  }
+
+  QueryBuilder<VoteOption, int, QQueryOperations> votingTopicIdProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'votingTopicId');
     });
   }
 }

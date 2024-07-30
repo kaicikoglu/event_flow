@@ -35,22 +35,8 @@ class _VotingTopicScreenState extends ConsumerState<VotingTopicScreen> {
       await _controller.addOption(topicTitle, widget.votingTopic);
     }
 
-    void handleTap(
-        VoteOption voteOption, AsyncValue<List<VoteOption>> options) async {
-      List<VoteOption> optionsList = [];
-
-      optionsAsyncValue.when(
-        data: (options) {
-          optionsList = options;
-        },
-        loading: () {
-          print("Loading options...");
-        },
-        error: (error, stack) {
-          print("Error loading options: $error");
-        },
-      );
-      await _controller.toggleOption(optionsList, voteOption);
+    void handleTap(VoteOption voteOption) async {
+      await _controller.toggleOption(voteOption);
     }
 
     return Scaffold(
@@ -63,7 +49,7 @@ class _VotingTopicScreenState extends ConsumerState<VotingTopicScreen> {
                 widget.votingTopic.title,
                 textAlign: TextAlign.center,
                 // Anzeige des Titels des Abstimmungsthemas
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 24.0,
                   fontWeight: FontWeight.bold,
                 ),
@@ -73,7 +59,7 @@ class _VotingTopicScreenState extends ConsumerState<VotingTopicScreen> {
               child: optionsAsyncValue.when(
                 data: (options) {
                   if (options.isEmpty) {
-                    return Center(
+                    return const Center(
                       child: Text(
                         'Keine Optionen verfügbar',
                         style: TextStyle(
@@ -91,7 +77,7 @@ class _VotingTopicScreenState extends ConsumerState<VotingTopicScreen> {
                         label: option.label,
                         count: option.count,
                         isSelected: option.isSelected,
-                        onTap: () => handleTap(option, optionsAsyncValue),
+                        onTap: () => handleTap(option),
                         borderColor: option.isSelected
                             ? Colors.green
                             : Colors.transparent, // Conditional border color

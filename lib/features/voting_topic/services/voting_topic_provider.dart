@@ -1,7 +1,6 @@
 import 'package:event_flow/data_models/vote/voting_topic_data_model.dart';
 import 'package:event_flow/data_models/vote/voting_topic_option_data_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
 
@@ -15,7 +14,6 @@ final votingOptionsProvider =
 });
 
 class VotingTopicNotifier extends StateNotifier<AsyncValue<List<VoteOption>>> {
-  // final IsarService isarService;
   final Isar _isar;
 
   VotingTopicNotifier(this._isar) : super(const AsyncValue.loading());
@@ -54,8 +52,6 @@ class VotingTopicNotifier extends StateNotifier<AsyncValue<List<VoteOption>>> {
 
   Future<void> toggleOption(VoteOption voteOption) async {
     await _isar.writeTxn(() async {
-
-
       if (voteOption.isSelected) {
         voteOption.count--;
       } else {
@@ -68,4 +64,3 @@ class VotingTopicNotifier extends StateNotifier<AsyncValue<List<VoteOption>>> {
     loadOptions(voteOption.votingTopicId);
   }
 }
-

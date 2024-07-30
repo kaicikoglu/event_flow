@@ -28,6 +28,7 @@ class ForumTopicQuestionNotifier
         for (var question in questions) {
           await question.answers.load();
         }
+        state = AsyncValue.data(questions);
 
       } else {
         state = const AsyncValue.data([]);
