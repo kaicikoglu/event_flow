@@ -5,7 +5,11 @@ import 'package:flutter_riverpod/src/consumer.dart';
 class AddVotingOption extends StatefulWidget {
   final Function(String) onOptionCreated;
 
-  const AddVotingOption({super.key, required this.onOptionCreated, required VotingTopic votingTopic, required WidgetRef ref});
+  const AddVotingOption(
+      {super.key,
+      required this.onOptionCreated,
+      required VotingTopic votingTopic,
+      required WidgetRef ref});
 
   @override
   _AddVotingOptionState createState() => _AddVotingOptionState();

@@ -12,5 +12,4 @@ class TodoTopic {
   late DateTime createdDate;
 
   final event = IsarLink<Event>(); // Link to the parent Event
-
 }

@@ -19,7 +19,7 @@ class VoteOverviewController {
       ref
           .read(announcementProvider.notifier)
           .markEventWithNewAnnouncement(event.id);
-      if(!context.mounted) return;
+      if (!context.mounted) return;
       context.pop();
     } else {
       ScaffoldMessenger.of(context).showSnackBar(

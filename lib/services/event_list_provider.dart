@@ -6,7 +6,8 @@ import '../services/isar_service.dart';
 
 class EventListProvider extends StateNotifier<AsyncValue<List<Event>>> {
   final IsarService isarService;
-  final Set<int> _eventsWithNewAnnouncements = {}; // Track events with new announcements
+  final Set<int> _eventsWithNewAnnouncements =
+      {}; // Track events with new announcements
 
   EventListProvider(this.isarService) : super(const AsyncValue.loading()) {
     loadEvents();
@@ -41,7 +42,7 @@ class EventListProvider extends StateNotifier<AsyncValue<List<Event>>> {
       final events = await isarService.getAllEvents();
       final filteredEvents = events
           .where((event) =>
-          event.title.toLowerCase().contains(query.toLowerCase()))
+              event.title.toLowerCase().contains(query.toLowerCase()))
           .toList();
       state = AsyncValue.data(filteredEvents);
     } catch (e, st) {
@@ -66,7 +67,7 @@ class EventListProvider extends StateNotifier<AsyncValue<List<Event>>> {
 }
 
 final eventNotifierProvider =
-StateNotifierProvider<EventListProvider, AsyncValue<List<Event>>>((ref) {
+    StateNotifierProvider<EventListProvider, AsyncValue<List<Event>>>((ref) {
   final isarService = ref.watch(isarServiceProvider);
   return EventListProvider(isarService);
 });

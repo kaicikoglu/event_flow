@@ -9,17 +9,17 @@ import 'package:isar/isar.dart';
 import '../../../data_models/event/event_data_model.dart';
 
 class ForumController {
-  void dispose() {
-  }
+  void dispose() {}
 
-  Future<void> createAnnouncement(BuildContext context, WidgetRef ref,
-      Event event) async {
+  Future<void> createAnnouncement(
+      BuildContext context, WidgetRef ref, Event event) async {
     const String announcementText = "Neuer Forum Eintrag erstellt!";
     final isar = Isar.getInstance();
 
     if (isar != null) {
       await event.createAnnouncement(isar, announcementText);
-      ref.read(announcementProvider.notifier)
+      ref
+          .read(announcementProvider.notifier)
           .markEventWithNewAnnouncement(event.id);
 
       context.pop();

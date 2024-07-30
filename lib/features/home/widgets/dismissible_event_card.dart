@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../../../data_models/event/event_data_model.dart';
 import '../services/home_content_controller.dart';
 import 'event_card.dart';

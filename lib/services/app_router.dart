@@ -108,25 +108,11 @@ class AppRouter {
               );
             },
           ),
-          // GoRoute(
-          //   path: '/createVotingTopic',
-          //   builder: (context, state) {
-          //     final event = state.extra as Event;
-          //     return CreateVoteScreen(event: event);
-          //   },
-          // ),
           GoRoute(
             path: '/votingTopic',
             builder: (context, state) {
               final votingTopic = state.extra as VotingTopic;
-              print("Name voting Topic "+ votingTopic.title);
-              print("Id voting Topic "+ votingTopic.id.toString());
-              print("---------------------------------------------------------------------------------------------------------------------------------------------------------------------");
-
-
               return VotingTopicScreen(votingTopic: votingTopic);
-              // return VoteTopicScreen(votingTopicId: votingTopic.id);
-
             },
           ),
           GoRoute(

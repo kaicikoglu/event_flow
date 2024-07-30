@@ -5,7 +5,6 @@ import '../announcement/announcement_data_model.dart';
 import '../forum/forum_topic_data_model.dart';
 import '../pictures/picture_data_model.dart';
 import '../todo/todo_data_model.dart';
-import '../vote/voting_topic_option_data_model.dart';
 
 part 'event_data_model.g.dart';
 
@@ -72,14 +71,12 @@ class Event {
     } as Future Function());
   }
 
-  Future<VotingTopic> createVotingTopic(
-      Isar isar, String votingTitle) async {
+  Future<VotingTopic> createVotingTopic(Isar isar, String votingTitle) async {
     final votingTopic = VotingTopic()
       ..eventId = id
       ..title = votingTitle
       ..createdDate = DateTime.now()
       ..event.value = this;
-
 
     await isar.writeTxn(() async {
       await isar.votingTopics.put(votingTopic);
@@ -87,98 +84,8 @@ class Event {
       await votingTopics.save();
     } as Future Function());
 
-    print("VotingTopic wurde erfolgreich gespeichert: ${votingTopic.title}");
     return votingTopic;
   }
-
-  // Future<List<VoteOption>> addVoteOptions(Isar isar, VotingTopic topic,
-  //     List<String> optionLabels, Event event) async {
-  //   List<VoteOption> voteOptions = [];
-  //
-  //   for (var label in optionLabels) {
-  //     final voteOption = VoteOption()
-  //       ..label = label
-  //       ..count = 0
-  //       ..votingTopicId = topic.id;
-  //
-  //     voteOptions.add(voteOption);
-  //   }
-  //
-  //   await isar.writeTxn(() async {
-  //     await isar.voteOptions.putAll(voteOptions);
-  //     topic.options.addAll(voteOptions);
-  //     await topic.options.save();
-  //   });
-  //
-  //   // Optionale Überprüfung, ob die VoteOptions erfolgreich gespeichert wurden
-  //   var savedVotingTopic = await isar.votingTopics.get(topic.id);
-  //   if (savedVotingTopic != null) {
-  //     await savedVotingTopic.options.load();
-  //     if (savedVotingTopic.options.isNotEmpty) {
-  //       print("Folgende VoteOptions wurden gespeichert:");
-  //       for (var option in savedVotingTopic.options) {
-  //         print("Option: ${option.label}, Count: ${option.count}");
-  //       }
-  //       return savedVotingTopic.options
-  //           .toList(); // Zurückgeben der gespeicherten Liste
-  //     } else {
-  //       print("Keine VoteOptions wurden gespeichert.");
-  //     }
-  //   } else {
-  //     print("Fehler: VotingTopic wurde nicht gespeichert.");
-  //   }
-  //   return []; // Leere Liste zurückgeben, wenn keine Optionen gespeichert wurden oder ein Fehler aufgetreten ist
-  // }
-
-  // Method to create and save a voting topic
-  // Future<void> createVotingandoptionsTopic(
-  //     Isar isar, String votingTitle, List<VoteOption> options,Event event) async {
-  //
-  //   final votingTopic = VotingTopic()
-  //     ..eventId = event.id
-  //     ..title = votingTitle
-  //     ..createdDate = DateTime.now()
-  //     ..event.value = event;
-  //
-  //   List<VoteOption> voteOptions = [];
-  //
-  //   for (var option in options) {
-  //     final voteOption = VoteOption()
-  //       ..votingTopicId = votingTopic.id
-  //       ..label = option.label
-  //       ..count = 0
-  //       ..votingTopic.value = votingTopic;
-  //     voteOptions.add(voteOption);
-  //   }
-  //   votingTopic.options.addAll(voteOptions);
-  //
-  //   await isar.writeTxn(() async {
-  //     await isar.votingTopics.put(votingTopic);
-  //     await isar.voteOptions.putAll(voteOptions);
-  //     // votingTopics.add(votingTopic);
-  //     // voteOptions.addAll(voteOptions);
-  //     // Überprüfen, ob das VotingTopic und die VoteOptions korrekt gespeichert wurden
-  //     var savedVotingTopic = await isar.votingTopics.get(votingTopic.id);
-  //     if (savedVotingTopic != null) {
-  //       print("VotingTopic wurde erfolgreich gespeichert: ${savedVotingTopic.title}");
-  //       // Laden der Optionen des gespeicherten Topics
-  //       await savedVotingTopic.options.load();
-  //       if (savedVotingTopic.options.isNotEmpty) {
-  //         print("Folgende VoteOptions wurden gespeichert:");
-  //         for (var option in savedVotingTopic.options) {
-  //           print("Option: ${option.label}, Count: ${option.count}");
-  //         }
-  //       } else {
-  //         print("Keine VoteOptions wurden gespeichert.");
-  //       }
-  //     } else {
-  //       print("Fehler: VotingTopic wurde nicht gespeichert.");
-  //     }
-  //     print("---------------------------------------------------------------------------------------------------------------------------------------------------------------------");
-  //
-  //   } as Future Function());
-  //   print("Data saved successfully.");
-  // }
 
   // Method to create and save a picture
   Future<void> createPicture(Isar isar, String imagePath) async {
