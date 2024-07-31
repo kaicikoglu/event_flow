@@ -49,9 +49,9 @@ class ForumTopicQuestionNotifier
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: const Text('Duplicate Question'),
+            title: const Text('Frage vorhanden'),
             content:
-                const Text('A forum topic with the same name already exists.'),
+                const Text('Ein Forum mit diesem Thema ist schon vorhanden.'),
             actions: <Widget>[
               TextButton(
                 onPressed: () {
