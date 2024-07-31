@@ -1,5 +1,3 @@
-// path: lib/widgets/enter_date.dart
-
 import 'package:flutter/material.dart';
 
 import '../services/create_event_controller.dart';

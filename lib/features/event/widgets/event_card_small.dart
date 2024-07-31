@@ -1,5 +1,3 @@
-// path: lib/features/home/widgets/event_card_small.dart
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -14,8 +12,6 @@ class EventCardSmall extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final hasNewAnnouncement =
-    ref.watch(eventNotifierProvider.notifier).hasNewAnnouncement(event.id);
     ref.watch(eventNotifierProvider.notifier).checkAnnouncement(event);
     return GestureDetector(
       onTap: () {
@@ -25,13 +21,6 @@ class EventCardSmall extends ConsumerWidget {
         margin: const EdgeInsets.only(bottom: 16),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15.0),
-          side: BorderSide(
-            color: hasNewAnnouncement
-                ? Colors.red
-                : const Color.fromRGBO(73, 81, 86,
-                100), // Set the border color based on the condition
-            width: 1.0,
-          ),
         ),
         child: Padding(
           padding: const EdgeInsets.all(16.0),

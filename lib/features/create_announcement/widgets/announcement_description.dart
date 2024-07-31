@@ -1,5 +1,3 @@
-// path: lib/widgets/announcement_description_field.dart
-
 import 'package:flutter/material.dart';
 
 import '../services/create_announcement_controller.dart';
