@@ -42,7 +42,18 @@ class _ForumTopicScreenState extends ConsumerState<ForumTopicScreen> {
     return Scaffold(
       appBar: AppBar(
         leading: widget.backButton,
-        title: Text(widget.forumTopic.title),
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              widget.forumTopic.title,
+              style: const TextStyle(fontSize: 20),
+              textAlign: TextAlign.center,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ],
+        ),
         centerTitle: true,
       ),
       body: SafeArea(

@@ -37,7 +37,7 @@ class _AddVotingOptionState extends State<AddVotingOption> {
           ElevatedButton(
             onPressed: () async{
               final String option = _controller.text;
-              if (option.length > 41) {
+              if (option.length > 40) {
                 return showDialog(
                   context: context,
                   builder: (context) {

@@ -11,7 +11,7 @@ class TodoController {
 
   Future<void> createAnnouncement(
       BuildContext context, WidgetRef ref, Event event) async {
-    const String announcementText = "Neues To-Do erstellt!";
+    const String announcementText = "Neues ToDo erstellt!";
     final isar = Isar.getInstance();
 
     if (isar != null) {

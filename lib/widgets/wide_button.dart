@@ -17,14 +17,18 @@ class CustomWideButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
-          padding: const EdgeInsets.symmetric(vertical: 16.0),
+          padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(15.0),
               side: const BorderSide(
                   color: Color.fromRGBO(73, 81, 86, 100), width: 1.0)),
-          alignment: Alignment.bottomCenter,
+          // alignment: Alignment.bottomCenter,
         ),
-        child: Text(text),
+        child: Text( text,
+          textAlign: TextAlign.center, // Text zentriert ausrichten
+          style: const TextStyle(
+            fontSize: 16, // Textgröße anpassen
+          ),),
       ),
     );
   }

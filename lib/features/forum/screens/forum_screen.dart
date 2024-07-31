@@ -39,7 +39,7 @@ class ForumScreen extends ConsumerWidget {
       body: topics.isEmpty
           ? const Center(
               child: Text(
-                'No topics yet. Be the first to create a topic!',
+                'Es ist noch kein Thema vorhanden. Erstellen Sie das erste Thema!',
                 style: TextStyle(fontSize: 18, color: Colors.grey),
               ),
             )
