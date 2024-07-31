@@ -1,5 +1,3 @@
-// path: lib/services/isar_service.dart
-
 import 'dart:io';
 
 import 'package:event_flow/data_models/announcement/announcement_data_model.dart';

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import 'navbar.dart'; // Ensure the path is correct
+import 'navbar.dart';
 
 class BaseScreen extends StatelessWidget {
   final Widget child;

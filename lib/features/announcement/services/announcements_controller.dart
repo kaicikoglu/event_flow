@@ -1,5 +1,3 @@
-// path: lib/controllers/announcement_controller.dart
-
 import 'package:isar/isar.dart';
 
 import '../../../data_models/announcement/announcement_data_model.dart';

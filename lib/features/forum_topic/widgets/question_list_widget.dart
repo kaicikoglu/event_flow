@@ -1,5 +1,3 @@
-// path: lib/features/forum_topic/screen/question_list.dart
-
 import 'package:event_flow/features/forum_topic/widgets/question_tile_widget.dart';
 import 'package:flutter/material.dart';
 

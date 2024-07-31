@@ -1,5 +1,3 @@
-// path: lib/features/home/widgets/event_card.dart
-
 import 'package:event_flow/services/event_list_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

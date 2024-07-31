@@ -1,5 +1,3 @@
-// path: lib/widgets/event_title.dart
-
 import 'package:flutter/material.dart';
 
 import '../../../data_models/event/event_data_model.dart';

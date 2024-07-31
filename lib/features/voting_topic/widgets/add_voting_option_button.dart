@@ -1,6 +1,6 @@
 import 'package:event_flow/data_models/vote/voting_topic_data_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/src/consumer.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class AddVotingOption extends StatefulWidget {
   final Function(String) onOptionCreated;
@@ -35,7 +35,7 @@ class _AddVotingOptionState extends State<AddVotingOption> {
           ),
           const SizedBox(height: 16.0),
           ElevatedButton(
-            onPressed: () async{
+            onPressed: () async {
               final String option = _controller.text;
               if (option.length > 40) {
                 return showDialog(
@@ -43,7 +43,8 @@ class _AddVotingOptionState extends State<AddVotingOption> {
                   builder: (context) {
                     return AlertDialog(
                       title: const Text('Fehler'),
-                      content: const Text('Die Eingabe darf maximal 40 Zeichen lang sein!'),
+                      content: const Text(
+                          'Die Eingabe darf maximal 40 Zeichen lang sein!'),
                       actions: <Widget>[
                         TextButton(
                           onPressed: () {
