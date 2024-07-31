@@ -6,7 +6,7 @@ class EnterLocation extends StatefulWidget {
   final double width;
   final double height;
   final TextEditingController controller;
-  final String? Function(String?)? validator;
+  final String? Function(String?) validator;
   final String? updateLocation;
 
   const EnterLocation({
@@ -16,7 +16,7 @@ class EnterLocation extends StatefulWidget {
     required this.width,
     required this.height,
     required this.controller,
-    this.validator,
+    required this.validator,
     this.updateLocation,
   });
 
@@ -45,21 +45,19 @@ class _EnterLocationState extends State<EnterLocation> {
         SizedBox(
           width: widget.width,
           height: widget.height,
-          child: Form(
-            child: TextFormField(
-              controller: widget.controller,
-              validator: widget.validator,
-              decoration: InputDecoration(
-                hintText: widget.hintText,
-                hintStyle: const TextStyle(
+          child: TextFormField(
+            controller: widget.controller,
+            validator: widget.validator,
+            decoration: InputDecoration(
+              hintText: widget.hintText,
+              hintStyle: const TextStyle(
+                color: Color.fromRGBO(73, 81, 86, 100),
+              ),
+              border: const OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                borderSide: BorderSide(
                   color: Color.fromRGBO(73, 81, 86, 100),
-                ),
-                border: const OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                  borderSide: BorderSide(
-                    color: Color.fromRGBO(73, 81, 86, 100),
-                    width: 1.0,
-                  ),
+                  width: 1.0,
                 ),
               ),
             ),

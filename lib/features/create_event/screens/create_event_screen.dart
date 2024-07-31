@@ -104,6 +104,8 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Bitte location eingeben';
+                  } else if (value.length > 40) {
+                    return 'Event name ist zu lange';
                   }
                   return null;
                 },
