@@ -39,26 +39,24 @@ class EnterTime extends StatelessWidget {
           child: TextFormField(
             controller: controller,
             readOnly: true,
-            decoration: InputDecoration(
-              hintText: 'Select Time',
-              hintStyle: const TextStyle(
+            decoration: const InputDecoration(
+              hintText: 'Uhrzeit auswählen',
+              hintStyle: TextStyle(
                 color: Color.fromRGBO(73, 81, 86, 100),
               ),
-              border: const OutlineInputBorder(
+              border: OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(15.0)),
                 borderSide: BorderSide(
                   color: Color.fromRGBO(73, 81, 86, 100),
                   width: 1.0,
                 ),
               ),
-              suffixIcon: IconButton(
-                icon: const Icon(Icons.access_time),
-                onPressed: () {
-                  eventController.selectTime(context);
-                },
-              ),
+              suffixIcon: Icon(Icons.access_time),
             ),
             validator: validator,
+            onTap: () {
+              eventController.selectTime(context);
+            },
           ),
         ),
       ],

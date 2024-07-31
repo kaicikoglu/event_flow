@@ -39,26 +39,24 @@ class EnterDate extends StatelessWidget {
           child: TextFormField(
             controller: controller,
             readOnly: true,
-            decoration: InputDecoration(
-              hintText: 'Select Date',
-              hintStyle: const TextStyle(
+            decoration: const InputDecoration(
+              hintText: 'Datum auswählen',
+              hintStyle: TextStyle(
                 color: Color.fromRGBO(73, 81, 86, 100),
               ),
-              border: const OutlineInputBorder(
+              border: OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(15.0)),
                 borderSide: BorderSide(
                   color: Color.fromRGBO(73, 81, 86, 100),
                   width: 1.0,
                 ),
               ),
-              suffixIcon: IconButton(
-                icon: const Icon(Icons.calendar_today),
-                onPressed: () {
-                  eventController.selectDate(context);
-                },
-              ),
+              suffixIcon: Icon(Icons.calendar_today),
             ),
             validator: validator,
+            onTap: () {
+              eventController.selectDate(context);
+            },
           ),
         ),
       ],
