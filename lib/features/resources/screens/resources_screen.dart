@@ -49,7 +49,7 @@ class _ResourcesScreen extends ConsumerState<ResourcesScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Text(widget.event.title),
-            const Text('Forum'),
+            const Text('Resources'),
           ],
         ),
         centerTitle: true,
