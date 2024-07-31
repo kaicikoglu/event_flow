@@ -34,9 +34,9 @@ class TodoProvider extends StateNotifier<List<TodoTopic>> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: const Text('Duplicate Topic'),
+            title: const Text('ToDo existiert bereits'),
             content:
-                const Text('A forum topic with the same title already exists.'),
+                const Text('Dieses ToDo existiert bereits.'),
             actions: <Widget>[
               TextButton(
                 onPressed: () {

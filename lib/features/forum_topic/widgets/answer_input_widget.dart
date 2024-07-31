@@ -20,7 +20,7 @@ class AnswerInput extends ConsumerWidget {
           child: TextField(
             controller: textEditingController,
             decoration: InputDecoration(
-              hintText: 'Enter your answer',
+              hintText: 'Antwort eingeben',
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8.0),
               ),
@@ -47,7 +47,7 @@ class AnswerInput extends ConsumerWidget {
                   .clear(); // Clear the text field after sending
             }
           },
-          child: const Text('Submit'),
+          child: const Text('Abschicken'),
         ),
       ],
     );

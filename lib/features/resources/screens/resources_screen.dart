@@ -44,7 +44,14 @@ class _ResourcesScreen extends ConsumerState<ResourcesScreen> {
     return Scaffold(
       appBar: AppBar(
         leading: widget.backButton,
-        title: Text('${widget.event.title}\'s Resources'),
+        title: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Text(widget.event.title),
+            const Text('Forum'),
+          ],
+        ),
         centerTitle: true,
       ),
       body: Column(

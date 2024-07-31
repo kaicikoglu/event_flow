@@ -24,14 +24,21 @@ class VoteScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('${event.title}\'s Votes'),
-        centerTitle: true,
         leading: backButton,
+        title: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Text(event.title),
+            const Text('Votes'),
+          ],
+        ),
+        centerTitle: true,
       ),
       body: topics.isEmpty
           ? const Center(
               child: Text(
-                'No topics yet. Be the first to create a topic!',
+                'Keine Abstimmungen vorhanden, füge eine hinzu!',
                 style: TextStyle(fontSize: 18, color: Colors.grey),
               ),
             )

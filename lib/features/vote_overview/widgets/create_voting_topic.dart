@@ -46,7 +46,26 @@ class _CreateVotingTopic extends State<CreateVotingTopic> {
             ElevatedButton(
               onPressed: () async {
                 final String topic = _controller.text;
-                if (topic.isNotEmpty) {
+                if (topic.length > 40) {
+                  return showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: const Text('Fehler'),
+                        content: const Text(
+                            'Die Eingabe darf maximal 40 Zeichen lang sein!'),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text('OK'),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                } else if (topic.isNotEmpty) {
                   widget.onTopicCreated(topic);
                   await _voteOverviewController.createAnnouncement(
                       context, widget.ref, widget.event);
