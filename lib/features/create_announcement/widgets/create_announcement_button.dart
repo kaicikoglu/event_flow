@@ -22,7 +22,7 @@ class CreateAnnouncementButton extends ConsumerWidget {
       onPressed: () {
         controller.createAnnouncement(context, ref, event, formKey);
       },
-      child: const Text('Create Announcement'),
+      child: const Text('Announcement erstellen'),
     );
   }
 }

@@ -21,6 +21,10 @@ class EventCardSmall extends ConsumerWidget {
         margin: const EdgeInsets.only(bottom: 16),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15.0),
+          side: const BorderSide(
+            color: Color.fromRGBO(73, 81, 86, 100),
+            width: 1.0,
+          ),
         ),
         child: Padding(
           padding: const EdgeInsets.all(16.0),

@@ -35,7 +35,7 @@ class QuestionTile extends ConsumerWidget {
       initiallyExpanded: isExpanded,
       children: [
         ...updatedQuestion.answers
-            .map((answer) => ListTile(title: Text(answer.answer))),
+            .map((answer) => ListTile(title: Text('\t \t${answer.answer}'))),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: AnswerInput(

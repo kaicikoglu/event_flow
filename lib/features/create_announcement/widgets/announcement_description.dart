@@ -11,10 +11,10 @@ class AnnouncementDescription extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controller.descriptionController,
-      decoration: const InputDecoration(labelText: 'Description'),
+      decoration: const InputDecoration(labelText: 'Beschreibung'),
       validator: (value) {
         if (value == null || value.isEmpty) {
-          return 'Please enter a description';
+          return 'Füge eine Beschreibung hinzu';
         }
         return null;
       },

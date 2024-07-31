@@ -32,7 +32,7 @@ class _CreateAnnouncementState extends State<CreateAnnouncementScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Create Announcement'),
+        title: const Text('Announcement erstellen'),
         leading: widget.backButton,
         centerTitle: true, // Center the title
       ),
