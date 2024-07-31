@@ -79,15 +79,20 @@ The "Create event" screen is also available in a slightly modified version in wh
 
 <img src="./grafik_screens/editUpdate_event.jpg" alt="CreateEventScreen" width ="200">
 
+#### Create Announcement Screen
+Here you can create announcements that will be visible to everyone on their personal announcement screens.
+
+<img src="./grafik_screens/announcements_erstellen.jpg" width ="200" alt="">
+
 ### Announcement Screen
 This screen shows all announcements, such as changes to the event time or new polls that require participation.
 
-<img src="./grafik_screens/announcements_mit3.jpg" width ="200">
+<img src="./grafik_screens/announcements_mit3.jpg" width ="200" alt="">
 
 ### Event Screen
 This is the home screen for an individual event. You can see the event details and navigate to different sections.
 
-<img src="./grafik_screens/eventScreen.jpg" width ="200">
+<img src="./grafik_screens/eventScreen.jpg" width ="200" alt="">
 
 
 The following screens are the sections of an event:
@@ -95,36 +100,35 @@ The following screens are the sections of an event:
 #### Forum Screen
 In the Forum Screen, you can select an existing topic to enter the forum and communicate or create a new topic.
 
-<img src="./grafik_screens/forum_leer.jpg" width ="200">
-<img src="./grafik_screens/forum_frageerstellen.jpg" width ="200">
-<img src="./grafik_screens/forum_mit1.jpg" width ="200">
+<img src="./grafik_screens/forum_leer.jpg" width ="200" alt="">
+<img src="./grafik_screens/forum_frageerstellen.jpg" width ="200" alt="">
+<img src="./grafik_screens/forum_mit1.jpg" width ="200" alt="">
 <br>
-<img src="./grafik_screens/forumthema_eintraghinzufügen.jpg" width ="200">
+<img src="./grafik_screens/forumthema_eintraghinzufügen.jpg" width ="200" alt="">
 
 
 
 #### Vote-Area Screen
 This screen displays all polls. You can select a poll to enter the voting screen and participate in the poll. You can also click the plus button to create a new poll with a question and answer options.
-<img src="./grafik_screens/votes_leer.jpg" width ="200">
-<img src="./grafik_screens/votes_mit1.jpg" width ="200">
+
+<img src="./grafik_screens/votes_leer.jpg" width ="200" alt="">
+<img src="./grafik_screens/votes_mit1.jpg" width ="200" alt="">
 
 <br>
 
-<img src="./grafik_screens/VoteOption_add.jpg" width ="200">
-<img src="./grafik_screens/votingTopic_abgestimmt.jpg" width ="200">
+<img src="./grafik_screens/VoteOption_add.jpg" width ="200" alt="">
+<img src="./grafik_screens/votingTopic_abgestimmt.jpg" width ="200" alt="">
 
 #### Resources Screen
 Here you can upload files.
 
-<img src="./grafik_screens/resources_leer.jpg" width ="200">
-<img src="./grafik_screens/delete_picture.jpg" width ="200">
+<img src="./grafik_screens/resources_leer.jpg" width ="200" alt="">
+<img src="./grafik_screens/delete_picture.jpg" width ="200" alt="">
 
 #### Todo Screen
 This screen displays the existing todos, which you can check off or create new todos.
 
-<img src="./grafik_screens/todo_createToDo_ausgefüllt.jpg" width ="200">
+<img src="./grafik_screens/todo_createToDo_ausgefüllt.jpg" width ="200" alt="">
+<img src="./grafik_screens/Todo_mit3.jpg" width ="200" alt="">
 
-
-#### Create Announcement Screen
-Here you can create announcements that will be visible to everyone on their personal announcement screens.
 
