@@ -51,7 +51,7 @@ class _CreateTodoTopic extends State<CreateTodoTopic> {
                     builder: (context) {
                       return AlertDialog(
                         title: const Text('Fehler'),
-                        content: const Text('Der Titel darf maximal 40 Zeichen lang sein.'),
+                        content: const Text('Der Aufgabe darf maximal 40 Zeichen lang sein!'),
                         actions: <Widget>[
                           TextButton(
                             onPressed: () {
