@@ -67,7 +67,6 @@ Below is a brief introduction to the screens of the app:
 ### Homescreen
 The Homescreen displays all events, whether in the future or the past. There is also a button to create a new event.
 
-[//]: # (![Homescreen]&#40;./grafik_screens/events_leer.jpg&#41;)
 <img src="./grafik_screens/events_leer.jpg" alt="HomeScreen without events" width ="200">
 <img src="./grafik_screens/Homescreen_mitEvent.jpg" alt="HomeScreen with events" width ="200">
 
@@ -99,18 +98,32 @@ In the Forum Screen, you can select an existing topic to enter the forum and com
 <img src="./grafik_screens/forum_leer.jpg" width ="200">
 <img src="./grafik_screens/forum_frageerstellen.jpg" width ="200">
 <img src="./grafik_screens/forum_mit1.jpg" width ="200">
+<br>
 <img src="./grafik_screens/forumthema_eintraghinzufügen.jpg" width ="200">
 
 
 
 #### Vote-Area Screen
 This screen displays all polls. You can select a poll to enter the voting screen and participate in the poll. You can also click the plus button to create a new poll with a question and answer options.
+<img src="./grafik_screens/votes_leer.jpg" width ="200">
+<img src="./grafik_screens/votes_mit1.jpg" width ="200">
+
+<br>
+
+<img src="./grafik_screens/VoteOption_add.jpg" width ="200">
+<img src="./grafik_screens/votingTopic_abgestimmt.jpg" width ="200">
 
 #### Resources Screen
 Here you can upload files.
 
+<img src="./grafik_screens/resources_leer.jpg" width ="200">
+<img src="./grafik_screens/delete_picture.jpg" width ="200">
+
 #### Todo Screen
 This screen displays the existing todos, which you can check off or create new todos.
+
+<img src="./grafik_screens/todo_createToDo_ausgefüllt.jpg" width ="200">
+
 
 #### Create Announcement Screen
 Here you can create announcements that will be visible to everyone on their personal announcement screens.
