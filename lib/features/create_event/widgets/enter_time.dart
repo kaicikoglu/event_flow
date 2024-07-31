@@ -38,7 +38,7 @@ class EnterTime extends StatelessWidget {
             controller: controller,
             readOnly: true,
             decoration: InputDecoration(
-              hintText: 'Select Time',
+              hintText: 'Uhrzeit wählen',
               hintStyle: const TextStyle(
                 color: Color.fromRGBO(73, 81, 86, 100),
               ),
@@ -57,6 +57,9 @@ class EnterTime extends StatelessWidget {
               ),
             ),
             validator: validator,
+            onTap: () {
+              eventController.selectTime(context);
+            },
           ),
         ),
       ],
