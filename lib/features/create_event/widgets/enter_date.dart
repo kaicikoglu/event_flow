@@ -38,7 +38,7 @@ class EnterDate extends StatelessWidget {
             controller: controller,
             readOnly: true,
             decoration: InputDecoration(
-              hintText: 'Select Date',
+              hintText: 'Datum wählen',
               hintStyle: const TextStyle(
                 color: Color.fromRGBO(73, 81, 86, 100),
               ),
@@ -57,6 +57,9 @@ class EnterDate extends StatelessWidget {
               ),
             ),
             validator: validator,
+            onTap: () {
+              eventController.selectDate(context);
+            },
           ),
         ),
       ],

@@ -31,7 +31,7 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    double fieldWidth = screenWidth * 0.5; // Set to 70% of screen width
+    double fieldWidth = screenWidth * 0.5; // Set to 50% of screen width
     double maxFieldWidth = 300; // Maximum width
 
     if (fieldWidth > maxFieldWidth) {
@@ -41,7 +41,8 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
     return Scaffold(
       appBar: AppBar(
         leading: widget.backButton,
-        title: Text(widget.event != null ? 'Edit Event' : 'Create Event'),
+        title:
+            Text(widget.event != null ? 'Event bearbeiten' : 'Event erstellen'),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -68,7 +69,7 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
               ),
               const SizedBox(height: 16),
               EnterTime(
-                argument: 'Time:',
+                argument: 'Uhrzeit:',
                 width: fieldWidth,
                 height: 60,
                 controller: _controller.timeController,
@@ -82,7 +83,7 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
               ),
               const SizedBox(height: 16),
               EnterDate(
-                argument: 'Date:',
+                argument: 'Datum:',
                 width: fieldWidth,
                 height: 60,
                 controller: _controller.startDateController,
@@ -96,16 +97,16 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
               ),
               const SizedBox(height: 16),
               EnterLocation(
-                argument: 'Location:',
-                hintText: 'Enter location',
+                argument: 'Ort:',
+                hintText: 'Ort eingeben',
                 width: fieldWidth,
                 height: 60,
                 controller: _controller.locationController,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Bitte location eingeben';
+                    return 'Bitte ort eingeben';
                   } else if (value.length > 40) {
-                    return 'Event name ist zu lange';
+                    return 'Ort name ist zu lange';
                   }
                   return null;
                 },
@@ -113,7 +114,9 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
               ),
               const SizedBox(height: 16),
               CustomWideButton(
-                text: widget.event != null ? 'Update Event' : 'Create Event',
+                text: widget.event != null
+                    ? 'Event bearbeiten'
+                    : 'Event erstellen',
                 onPressed: () =>
                     _controller.handleSubmit(context, ref, widget.event),
               ),
