@@ -37,7 +37,7 @@ class ForumTopicController {
                 TextField(
                   controller: textController,
                   decoration: InputDecoration(
-                    hintText: 'Enter your question',
+                    hintText: 'Gib deine Frage ein',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.0),
                     ),
@@ -53,7 +53,7 @@ class ForumTopicController {
                           context); // Close the modal after submitting
                     }
                   },
-                  child: const Text('Submit'),
+                  child: const Text('Abschicken'),
                 ),
               ],
             ),

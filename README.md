@@ -131,4 +131,18 @@ This screen displays the existing todos, which you can check off or create new t
 <img src="./grafik_screens/todo_createToDo_ausgefüllt.jpg" width ="200" alt="">
 <img src="./grafik_screens/Todo_mit3.jpg" width ="200" alt="">
 
+## Architecture
+The provided feature architecture diagram represents a flow of data interactions within a system using Riverpod. The architecture consists of several components:
+
+- Controller: Interacts directly with the "Forum Topic" component.
+- Forum Topic: Acts as the central component and communicates with the "provider."
+- Provider: Mediates interactions between the "Forum Topic" and the "Isar service."
+- Isar Service: Interfaces with the Isar database (IsarDb) for data storage and retrieval.
+
+Data flows from the controller to the forum topic, through the provider to the Isar service, 
+and finally to the Isar database. The provider and forum topic also maintain a two-way communication, ensuring updated data is reflected back to the forum topic.
+
+<img src="./grafik_screens/forum_arch.png" width ="400" alt="">
+
+
 
