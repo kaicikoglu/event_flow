@@ -67,19 +67,41 @@ Below is a brief introduction to the screens of the app:
 ### Homescreen
 The Homescreen displays all events, whether in the future or the past. There is also a button to create a new event.
 
+[//]: # (![Homescreen]&#40;./grafik_screens/events_leer.jpg&#41;)
+<img src="./grafik_screens/events_leer.jpg" alt="HomeScreen without events" width ="200">
+<img src="./grafik_screens/Homescreen_mitEvent.jpg" alt="HomeScreen with events" width ="200">
+
 ### Create Event Screen
-Here you can create a new event.
+The "Create Event" screen allows users to set up a new event by providing necessary details. Users can specify the event name, time, date, and location using the provided input fields. 
+To create an event, users must fill in all these details accurately. Once all the information is entered, users can click the "Create Event" button to finalize and save their event.
+The "Create event" screen is also available in a slightly modified version in which the events already created can be edited. The screen is then called "Edit Event"
+
+<img src="./grafik_screens/createEvent_ausgefüllt.jpg" alt="CreateEventScreen" width ="200">
+
+<img src="./grafik_screens/editUpdate_event.jpg" alt="CreateEventScreen" width ="200">
 
 ### Announcement Screen
 This screen shows all announcements, such as changes to the event time or new polls that require participation.
 
+<img src="./grafik_screens/announcements_mit3.jpg" width ="200">
+
 ### Event Screen
 This is the home screen for an individual event. You can see the event details and navigate to different sections.
+
+<img src="./grafik_screens/eventScreen.jpg" width ="200">
+
 
 The following screens are the sections of an event:
 
 #### Forum Screen
 In the Forum Screen, you can select an existing topic to enter the forum and communicate or create a new topic.
+
+<img src="./grafik_screens/forum_leer.jpg" width ="200">
+<img src="./grafik_screens/forum_frageerstellen.jpg" width ="200">
+<img src="./grafik_screens/forum_mit1.jpg" width ="200">
+<img src="./grafik_screens/forumthema_eintraghinzufügen.jpg" width ="200">
+
+
 
 #### Vote-Area Screen
 This screen displays all polls. You can select a poll to enter the voting screen and participate in the poll. You can also click the plus button to create a new poll with a question and answer options.
