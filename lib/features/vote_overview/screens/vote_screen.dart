@@ -38,7 +38,7 @@ class VoteScreen extends ConsumerWidget {
       body: topics.isEmpty
           ? const Center(
               child: Text(
-                'No topics yet. Be the first to create a topic!',
+                'Keine Abstimmungen vorhanden, füge eine hinzu!',
                 style: TextStyle(fontSize: 18, color: Colors.grey),
               ),
             )

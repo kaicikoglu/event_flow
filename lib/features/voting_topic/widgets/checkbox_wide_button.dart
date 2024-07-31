@@ -37,7 +37,16 @@ class CheckboxWideButton extends StatelessWidget {
                   color: isSelected ? Colors.green : Colors.grey,
                 ),
                 const SizedBox(width: 8),
-                Text(label, style: const TextStyle(fontSize: 18)),
+                ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 240),
+                  child: Text(
+                    label,
+                    style: const TextStyle(fontSize: 18),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.center,
+                  ),
+                ),
               ],
             ),
             Text(count.toString(), style: const TextStyle(fontSize: 18)),

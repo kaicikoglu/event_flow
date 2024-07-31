@@ -45,7 +45,7 @@ class _CreateTodoTopic extends State<CreateTodoTopic> {
             ElevatedButton(
               onPressed: () async {
                 final String topic = _controller.text;
-                if (topic.length > 40){
+                if (topic.length > 41){
                   return showDialog(
                     context: context,
                     builder: (context) {

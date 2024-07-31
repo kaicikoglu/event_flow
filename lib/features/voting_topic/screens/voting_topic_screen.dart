@@ -43,7 +43,18 @@ class _VotingTopicScreenState extends ConsumerState<VotingTopicScreen> {
     return Scaffold(
       appBar: AppBar(
         leading: widget.backButton,
-        title: Text(widget.votingTopic.title),
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              widget.votingTopic.title,
+              style: const TextStyle(fontSize: 20),
+              textAlign: TextAlign.center,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ],
+        ),
         centerTitle: true,
       ),
       body: SafeArea(
@@ -81,7 +92,7 @@ class _VotingTopicScreenState extends ConsumerState<VotingTopicScreen> {
                 },
                 loading: () => const Center(child: CircularProgressIndicator()),
                 error: (error, stack) =>
-                    const Center(child: Text('Ein Fehler ist aufgetreten')),
+                const Center(child: Text('Ein Fehler ist aufgetreten')),
               ),
             ),
           ],

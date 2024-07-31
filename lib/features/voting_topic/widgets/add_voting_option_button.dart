@@ -35,14 +35,33 @@ class _AddVotingOptionState extends State<AddVotingOption> {
           ),
           const SizedBox(height: 16.0),
           ElevatedButton(
-            onPressed: () {
+            onPressed: () async{
               final String option = _controller.text;
+              if (option.length > 41) {
+                return showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      title: const Text('Fehler'),
+                      content: const Text('Die Eingabe darf maximal 40 Zeichen lang sein!'),
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: const Text('OK'),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              }
               if (option.isNotEmpty) {
                 widget.onOptionCreated(option);
                 Navigator.pop(context);
               }
             },
-            child: const Text('Bestätigen'),
+            child: const Text('Antwortmöglichkeit erstellen'),
           ),
         ],
       ),
