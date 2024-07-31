@@ -52,13 +52,15 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
             children: [
               EnterText(
                 argument: 'Event Name:',
-                hintText: 'Enter event name',
+                hintText: 'Event name eingeben',
                 width: fieldWidth,
                 height: 60,
                 controller: _controller.eventNameController,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter event name';
+                    return 'Bitte event name eingeben';
+                  } else if (value.length > 20) {
+                    return 'Event name ist zu lange';
                   }
                   return null;
                 },
@@ -72,7 +74,7 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
                 controller: _controller.timeController,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter time';
+                    return 'Bitte eine Uhrzeit eingeben';
                   }
                   return null;
                 },
@@ -86,7 +88,7 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
                 controller: _controller.startDateController,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter date';
+                    return 'Bitte Datum eingeben';
                   }
                   return null;
                 },
@@ -101,7 +103,7 @@ class _CreateEventScreenState extends ConsumerState<CreateEventScreen> {
                 controller: _controller.locationController,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter location';
+                    return 'Bitte location eingeben';
                   }
                   return null;
                 },

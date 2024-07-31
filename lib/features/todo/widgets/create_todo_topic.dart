@@ -34,17 +34,36 @@ class _CreateTodoTopic extends State<CreateTodoTopic> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Text('Thema erstellen', style: TextStyle(fontSize: 20.0)),
+            const Text('Aufgabe erstellen', style: TextStyle(fontSize: 20.0)),
             TextField(
               controller: _controller,
               decoration: const InputDecoration(
-                hintText: "Geben Sie hier Ihr Thema ein",
+                hintText: "Geben Sie hier die Aufgabe ein",
               ),
             ),
             const SizedBox(height: 16.0),
             ElevatedButton(
               onPressed: () async {
                 final String topic = _controller.text;
+                if (topic.length > 40){
+                  return showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: const Text('Fehler'),
+                        content: const Text('Der Titel darf maximal 40 Zeichen lang sein.'),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text('OK'),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                }
                 if (topic.isNotEmpty) {
                   widget.onTopicCreated(topic);
                   await _todoController.createAnnouncement(

@@ -25,13 +25,20 @@ class ToDoScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         leading: backButton,
-        title: Text('${event.title}\'s To-Do List'),
+        title: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Text(event.title),
+            const Text('ToDo List'),
+          ],
+        ),
         centerTitle: true,
       ),
       body: topics.isEmpty
           ? const Center(
               child: Text(
-                'No topics yet. Be the first to create a topic!',
+                'Keine Aufgaben vorhanden. Klicken Sie auf das Plus, um eine Aufgabe hinzuzufügen.',
                 style: TextStyle(fontSize: 18, color: Colors.grey),
               ),
             )

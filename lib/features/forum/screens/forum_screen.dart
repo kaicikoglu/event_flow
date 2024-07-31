@@ -26,7 +26,14 @@ class ForumScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         leading: backButton,
-        title: Text('${event.title}\'s Forum '),
+        title: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Text(event.title),
+            const Text('Forum'),
+          ],
+        ),
         centerTitle: true,
       ),
       body: topics.isEmpty
